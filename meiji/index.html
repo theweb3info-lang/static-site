@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>明治维新人物志 | Meiji Restoration Figures</title>
+<style>
+:root {
+  --bg: #faf8f5;
+  --text: #333;
+  --accent: #8B0000;
+  --card-bg: #fff;
+  --border: #e8e0d8;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #1a1a1a; --text: #e0d8d0; --accent: #c0392b; --card-bg: #252525; --border: #3a3a3a; }
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif; background: var(--bg); color: var(--text); }
+.header { text-align: center; padding: 60px 20px 30px; }
+.header h1 { font-size: 2.2em; color: var(--accent); margin-bottom: 8px; }
+.header p { font-size: 1.1em; opacity: 0.7; }
+.lang-toggle { text-align: center; margin: 20px 0; }
+.lang-toggle a { display: inline-block; padding: 8px 24px; margin: 0 8px; border: 2px solid var(--accent); color: var(--accent); text-decoration: none; border-radius: 4px; font-weight: bold; }
+.lang-toggle a.active { background: var(--accent); color: #fff; }
+.tier { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+.tier h2 { font-size: 1.3em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 12px; margin-bottom: 16px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px; transition: transform 0.2s; }
+.card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.card .name { font-size: 1.2em; font-weight: bold; margin-bottom: 4px; }
+.card .desc { font-size: 0.9em; opacity: 0.7; margin-bottom: 12px; }
+.card .links a { display: inline-block; margin-right: 12px; font-size: 0.85em; color: var(--accent); text-decoration: none; }
+.card .links a:hover { text-decoration: underline; }
+.card .status { font-size: 0.8em; margin-top: 8px; padding: 3px 8px; border-radius: 3px; display: inline-block; }
+.card .status.done { background: #d4edda; color: #155724; }
+.card .status.pending { background: #fff3cd; color: #856404; }
+.nav-links { text-align: center; margin: 40px 0; }
+.nav-links a { color: var(--accent); margin: 0 16px; text-decoration: none; }
+.footer { text-align: center; padding: 40px 20px; opacity: 0.5; font-size: 0.85em; }
+
+/* Figures page link */
+.figures-link { text-align: center; margin: 20px 0; }
+.figures-link a { color: var(--accent); font-size: 1em; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🇯🇵 明治维新人物志</h1>
+  <p>Meiji Restoration Figures — 54 Stories That Changed Japan</p>
+</div>
+
+<div class="figures-link">
+  <a href="../meiji-figures.html">📊 人物关系图 & 年表 →</a>
+</div>
+
+<div class="lang-toggle">
+  <a href="#" class="active">中文</a>
+  <a href="#">English</a>
+</div>
+
+<div class="tier">
+  <h2>⭐ 第一梯队：超级巨星</h2>
+  <div class="cards" id="tier1"></div>
+</div>
+
+<div class="tier">
+  <h2>🔥 第二梯队：核心人物</h2>
+  <div class="cards" id="tier2"></div>
+</div>
+
+<div class="tier">
+  <h2>⚔️ 第三梯队：重要角色</h2>
+  <div class="cards" id="tier3"></div>
+</div>
+
+<div class="tier">
+  <h2>📜 第四梯队：不可或缺</h2>
+  <div class="cards" id="tier4"></div>
+</div>
+
+<div class="tier">
+  <h2>🔍 第五梯队：补完</h2>
+  <div class="cards" id="tier5"></div>
+</div>
+
+<div class="footer">
+  明治维新人物志 · Powered by AI Content Pipeline
+</div>
+
+<script>
+const figures = [
+  // Tier 1
+  {tier:1, num:"01", zh:"坂本龙马", en:"sakamoto-ryoma", enName:"Sakamoto Ryoma", desc:"大政奉还推手", status:"done"},
+  {tier:1, num:"02", zh:"西乡隆盛", en:"saigo-takamori", enName:"Saigō Takamori", desc:"最后的武士", status:"pending"},
+  {tier:1, num:"03", zh:"德川庆喜", en:"tokugawa-yoshinobu", enName:"Tokugawa Yoshinobu", desc:"末代将军", status:"pending"},
+  {tier:1, num:"04", zh:"伊藤博文", en:"ito-hirobumi", enName:"Itō Hirobumi", desc:"第一任首相", status:"pending"},
+  {tier:1, num:"05", zh:"福泽谕吉", en:"fukuzawa-yukichi", enName:"Fukuzawa Yukichi", desc:"脱亚入欧", status:"pending"},
+  {tier:1, num:"06", zh:"近藤勇·土方岁三", en:"shinsengumi", enName:"Kondō Isami & Hijikata Toshizō", desc:"新选组", status:"pending"},
+  {tier:1, num:"07", zh:"大久保利通", en:"okubo-toshimichi", enName:"Ōkubo Toshimichi", desc:"冷酷的建国者", status:"pending"},
+  {tier:1, num:"08", zh:"吉田松阴", en:"yoshida-shoin", enName:"Yoshida Shōin", desc:"松下村塾", status:"pending"},
+  {tier:1, num:"09", zh:"天璋院", en:"tenshoin", enName:"Tenshōin (Atsuhime)", desc:"将军正室", status:"pending"},
+  {tier:1, num:"10", zh:"木户孝允", en:"kido-takayoshi", enName:"Kido Takayoshi", desc:"维新三杰之文", status:"pending"},
+  // Tier 2
+  {tier:2, num:"11", zh:"胜海舟", en:"katsu-kaishu", enName:"Katsu Kaishū", desc:"幕府中的明白人", status:"pending"},
+  {tier:2, num:"12", zh:"高杉晋作", en:"takasugi-shinsaku", enName:"Takasugi Shinsaku", desc:"奇兵队创建者", status:"pending"},
+  {tier:2, num:"13", zh:"井伊直弼", en:"ii-naosuke", enName:"Ii Naosuke", desc:"安政大狱", status:"pending"},
+  {tier:2, num:"14", zh:"涩泽荣一", en:"shibusawa-eiichi", enName:"Shibusawa Eiichi", desc:"日本资本主义之父", status:"pending"},
+  {tier:2, num:"15", zh:"夏目漱石", en:"natsume-soseki", enName:"Natsume Sōseki", desc:"明治文学巨匠", status:"pending"},
+  {tier:2, num:"16", zh:"东乡平八郎", en:"togo-heihachiro", enName:"Tōgō Heihachirō", desc:"日俄海战", status:"pending"},
+  {tier:2, num:"17", zh:"乃木希典", en:"nogi-maresuke", enName:"Nogi Maresuke", desc:"军神与殉死", status:"pending"},
+  {tier:2, num:"18", zh:"岩仓具视", en:"iwakura-tomomi", enName:"Iwakura Tomomi", desc:"岩仓使节团", status:"pending"},
+  {tier:2, num:"19", zh:"山县有朋", en:"yamagata-aritomo", enName:"Yamagata Aritomo", desc:"军国主义奠基人", status:"pending"},
+  {tier:2, num:"20", zh:"西乡从道", en:"saigo-tsugumichi", enName:"Saigō Tsugumichi", desc:"西乡之弟，海军大臣", status:"pending"},
+  // Tier 3
+  {tier:3, num:"21", zh:"大村益次郎", en:"omura-masujiro", enName:"Ōmura Masujirō", desc:"近代军制之父", status:"pending"},
+  {tier:3, num:"22", zh:"岛津齐彬", en:"shimazu-nariakira", enName:"Shimazu Nariakira", desc:"开明藩主", status:"pending"},
+  {tier:3, num:"23", zh:"新岛八重", en:"niijima-yae", enName:"Niijima Yae", desc:"会津女战士", status:"pending"},
+  {tier:3, num:"24", zh:"榎本武扬", en:"enomoto-takeaki", enName:"Enomoto Takeaki", desc:"虾夷共和国", status:"pending"},
+  {tier:3, num:"25", zh:"板垣退助", en:"itagaki-taisuke", enName:"Itagaki Taisuke", desc:"自由民权运动", status:"pending"},
+  {tier:3, num:"26", zh:"大隈重信", en:"okuma-shigenobu", enName:"Ōkuma Shigenobu", desc:"早稻田创建者", status:"pending"},
+  {tier:3, num:"27", zh:"中冈慎太郎", en:"nakaoka-shintaro", enName:"Nakaoka Shintarō", desc:"龙马搭档", status:"pending"},
+  {tier:3, num:"28", zh:"山内容堂", en:"yamauchi-yodo", enName:"Yamauchi Yōdō", desc:"土佐藩主", status:"pending"},
+  {tier:3, num:"29", zh:"大山岩", en:"oyama-iwao", enName:"Ōyama Iwao", desc:"日俄陆军总司令", status:"pending"},
+  {tier:3, num:"30", zh:"黑田清隆", en:"kuroda-kiyotaka", enName:"Kuroda Kiyotaka", desc:"第2任首相", status:"pending"},
+  // Tier 4
+  {tier:4, num:"31", zh:"松平容保", en:"matsudaira-katamori", enName:"Matsudaira Katamori", desc:"会津藩主", status:"pending"},
+  {tier:4, num:"32", zh:"岛津久光", en:"shimazu-hisamitsu", enName:"Shimazu Hisamitsu", desc:"萨摩实权者", status:"pending"},
+  {tier:4, num:"33", zh:"武市半平太", en:"takechi-hanpeita", enName:"Takechi Hanpeita", desc:"土佐勤王党", status:"pending"},
+  {tier:4, num:"34", zh:"久坂玄瑞", en:"kusaka-genzui", enName:"Kusaka Genzui", desc:"激进派先锋", status:"pending"},
+  {tier:4, num:"35", zh:"江藤新平", en:"eto-shinpei", enName:"Etō Shinpei", desc:"佐贺之乱", status:"pending"},
+  {tier:4, num:"36", zh:"陆奥宗光", en:"mutsu-munemitsu", enName:"Mutsu Munemitsu", desc:"废除不平等条约", status:"pending"},
+  {tier:4, num:"37", zh:"岩崎弥太郎", en:"iwasaki-yataro", enName:"Iwasaki Yatarō", desc:"三菱财阀", status:"pending"},
+  {tier:4, num:"38", zh:"后藤象二郎", en:"goto-shojiro", enName:"Gotō Shōjirō", desc:"大政奉还推动者", status:"pending"},
+  {tier:4, num:"39", zh:"津田梅子", en:"tsuda-umeko", enName:"Tsuda Umeko", desc:"女子教育先驱", status:"pending"},
+  {tier:4, num:"40", zh:"与谢野晶子", en:"yosano-akiko", enName:"Yosano Akiko", desc:"反战诗人", status:"pending"},
+  // Tier 5
+  {tier:5, num:"41", zh:"佐久间象山", en:"sakuma-shozan", enName:"Sakuma Shōzan", desc:"开国论先驱", status:"pending"},
+  {tier:5, num:"42", zh:"德川齐昭", en:"tokugawa-nariaki", enName:"Tokugawa Nariaki", desc:"水户学源头", status:"pending"},
+  {tier:5, num:"43", zh:"毛利敬亲", en:"mori-takachika", enName:"Mōri Takachika", desc:"长州藩主", status:"pending"},
+  {tier:5, num:"44", zh:"中浜万次郎", en:"nakahama-manjiro", enName:"Nakahama Manjirō", desc:"漂流美国的渔夫", status:"pending"},
+  {tier:5, num:"45", zh:"三条实美", en:"sanjo-sanetomi", enName:"Sanjō Sanetomi", desc:"太政大臣", status:"pending"},
+  {tier:5, num:"46", zh:"锅岛直正", en:"nabeshima-naomasa", enName:"Nabeshima Naomasa", desc:"佐贺技术先驱", status:"pending"},
+  {tier:5, num:"47", zh:"小村寿太郎", en:"komura-jutaro", enName:"Komura Jutarō", desc:"日英同盟", status:"pending"},
+  {tier:5, num:"48", zh:"森有礼", en:"mori-arinori", enName:"Mori Arinori", desc:"首任文部大臣", status:"pending"},
+  {tier:5, num:"49", zh:"中江兆民", en:"nakae-chomin", enName:"Nakae Chōmin", desc:"东洋卢梭", status:"pending"},
+  {tier:5, num:"50", zh:"新渡户稻造", en:"nitobe-inazo", enName:"Nitobe Inazō", desc:"《武士道》", status:"pending"},
+  {tier:5, num:"51", zh:"中村正直", en:"nakamura-masanao", enName:"Nakamura Masanao", desc:"翻译《自助论》", status:"pending"},
+  {tier:5, num:"52", zh:"小栗忠顺", en:"oguri-tadamasa", enName:"Oguri Tadamasa", desc:"幕府财政改革家", status:"pending"},
+  {tier:5, num:"53", zh:"小松带刀", en:"komatsu-tatewaki", enName:"Komatsu Tatewaki", desc:"萨摩家老", status:"pending"},
+  {tier:5, num:"54", zh:"马修·佩里", en:"matthew-perry", enName:"Matthew C. Perry", desc:"黑船来航", status:"pending"},
+];
+
+function renderCards() {
+  for (let t = 1; t <= 5; t++) {
+    const container = document.getElementById('tier' + t);
+    const items = figures.filter(f => f.tier === t);
+    container.innerHTML = items.map(f => {
+      const zhLink = f.status === 'done' ? `<a href="zh/${f.num}-${f.zh}.html">📖 中文</a>` : '';
+      const enLink = f.status === 'done' ? `<a href="en/${f.num}-${f.en}.html">📖 English</a>` : '';
+      const zhAudio = f.status === 'done' ? `<a href="audio/zh/${f.num}-${f.zh}.mp3">🎧 中文音频</a>` : '';
+      const enAudio = f.status === 'done' ? `<a href="audio/en/${f.num}-${f.en}.mp3">🎧 EN Audio</a>` : '';
+      const statusBadge = f.status === 'done' 
+        ? '<span class="status done">✅ 已完成</span>' 
+        : '<span class="status pending">⏳ 待生成</span>';
+      return `<div class="card">
+        <div class="name">${f.num}. ${f.zh}</div>
+        <div class="desc">${f.enName} — ${f.desc}</div>
+        <div class="links">${zhLink}${enLink}${zhAudio}${enAudio}</div>
+        ${statusBadge}
+      </div>`;
+    }).join('');
+  }
+}
+renderCards();
+</script>
+</body>
+</html>
