@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>明治维新人物志</title>
+<script src="https://unpkg.com/vis-network@9.1.6/standalone/umd/vis-network.min.js"></script>
+<style>
+:root {
+  --bg: #faf8f5;
+  --bg2: #f0ebe4;
+  --bg3: #e8e0d4;
+  --text: #2c2420;
+  --text2: #5a4e44;
+  --accent: #8b2500;
+  --accent2: #c4956a;
+  --border: #d4c8b8;
+  --shadow: rgba(44,36,32,0.08);
+  --card: #fff;
+}
+[data-theme="dark"] {
+  --bg: #1a1614;
+  --bg2: #2a2420;
+  --bg3: #3a322c;
+  --text: #e8e0d4;
+  --text2: #b8a898;
+  --accent: #e07050;
+  --accent2: #c4956a;
+  --border: #4a3e34;
+  --shadow: rgba(0,0,0,0.3);
+  --card: #2a2420;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: "Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif; background:var(--bg); color:var(--text); line-height:1.6; transition: all .3s; }
+.container { max-width:1400px; margin:0 auto; padding:20px; }
+header { text-align:center; padding:40px 20px 30px; position:relative; }
+header h1 { font-size:2.4em; font-weight:300; letter-spacing:.15em; color:var(--accent); }
+header h1 span { font-size:.5em; display:block; color:var(--text2); letter-spacing:.3em; margin-top:4px; }
+.theme-toggle { position:absolute; top:20px; right:20px; background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:6px 14px; cursor:pointer; font-size:1.1em; color:var(--text); }
+nav { display:flex; justify-content:center; gap:12px; margin-bottom:30px; flex-wrap:wrap; }
+nav button { background:var(--bg2); border:1px solid var(--border); border-radius:6px; padding:8px 20px; cursor:pointer; font-size:.95em; color:var(--text); transition:all .2s; }
+nav button.active, nav button:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+.section { display:none; }
+.section.active { display:block; }
+/* Timeline bar */
+.timeline-wrap { overflow-x:auto; background:var(--card); border:1px solid var(--border); border-radius:8px; padding:20px; margin-bottom:30px; box-shadow:0 2px 8px var(--shadow); }
+.timeline-svg { min-width:1200px; }
+/* Table */
+.table-controls { display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap; align-items:center; }
+.table-controls input, .table-controls select { background:var(--card); border:1px solid var(--border); border-radius:6px; padding:6px 12px; color:var(--text); font-size:.9em; }
+.table-controls input { flex:1; min-width:200px; }
+table { width:100%; border-collapse:collapse; background:var(--card); border-radius:8px; overflow:hidden; box-shadow:0 2px 8px var(--shadow); font-size:.88em; }
+th { background:var(--bg2); padding:10px 8px; text-align:left; cursor:pointer; white-space:nowrap; user-select:none; border-bottom:2px solid var(--border); }
+th:hover { background:var(--bg3); }
+th .sort-arrow { font-size:.7em; margin-left:4px; }
+td { padding:8px; border-bottom:1px solid var(--border); vertical-align:top; }
+tr:hover td { background:var(--bg2); }
+.faction-tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:.8em; color:#fff; white-space:nowrap; }
+/* Network */
+#network { width:100%; height:700px; background:var(--card); border:1px solid var(--border); border-radius:8px; box-shadow:0 2px 8px var(--shadow); }
+.legend { display:flex; flex-wrap:wrap; gap:8px; margin:15px 0; justify-content:center; }
+.legend-item { display:flex; align-items:center; gap:5px; font-size:.85em; }
+.legend-dot { width:14px; height:14px; border-radius:50%; }
+.edge-legend { display:flex; flex-wrap:wrap; gap:12px; margin:10px 0; justify-content:center; font-size:.83em; }
+.edge-legend span { display:flex; align-items:center; gap:4px; }
+.edge-line { width:24px; height:3px; display:inline-block; }
+@media(max-width:768px) {
+  header h1 { font-size:1.6em; }
+  .container { padding:10px; }
+  table { font-size:.78em; }
+  #network { height:500px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>明治维新人物志<span>幕末・維新 三十九人の群像</span></h1>
+  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+</header>
+<div class="container">
+<nav>
+  <button class="active" onclick="showSection('timeline',this)">📅 生卒年表</button>
+  <button onclick="showSection('table',this)">📋 人物年表</button>
+  <button onclick="showSection('graph',this)">🕸 人物关系图</button>
+</nav>
+
+<div id="sec-timeline" class="section active">
+<h2 style="text-align:center;margin-bottom:15px;color:var(--accent)">人物生卒时间线 (1800-1942)</h2>
+<div class="timeline-wrap"><div id="timeline-container"></div></div>
+</div>
+
+<div id="sec-table" class="section">
+<h2 style="text-align:center;margin-bottom:15px;color:var(--accent)">人物年表</h2>
+<div class="table-controls">
+  <input type="text" id="searchBox" placeholder="🔍 搜索人物、事件..." oninput="filterTable()">
+  <select id="factionFilter" onchange="filterTable()">
+    <option value="">全部阵营</option>
+    <option value="幕府方">幕府方</option>
+    <option value="萨摩藩">萨摩藩</option>
+    <option value="长州藩">长州藩</option>
+    <option value="倒幕派/志士">倒幕派/志士</option>
+    <option value="明治政府">明治政府</option>
+    <option value="思想家/文化">思想家/文化</option>
+    <option value="军事">军事</option>
+    <option value="女性">女性</option>
+  </select>
+</div>
+<div style="overflow-x:auto">
+<table id="mainTable">
+<thead><tr>
+  <th onclick="sortTable(0)" data-col="0">序号<span class="sort-arrow"></span></th>
+  <th onclick="sortTable(1)" data-col="1">人物<span class="sort-arrow"></span></th>
+  <th onclick="sortTable(2)" data-col="2">日文名<span class="sort-arrow"></span></th>
+  <th onclick="sortTable(3)" data-col="3">生卒年<span class="sort-arrow"></span></th>
+  <th onclick="sortTable(4)" data-col="4">阵营/派别<span class="sort-arrow"></span></th>
+  <th>主要身份/角色</th>
+  <th>关键事件</th>
+  <th>相关人物</th>
+  <th>NHK大河剧</th>
+</tr></thead>
+<tbody id="tableBody"></tbody>
+</table>
+</div>
+</div>
+
+<div id="sec-graph" class="section">
+<h2 style="text-align:center;margin-bottom:10px;color:var(--accent)">人物关系图</h2>
+<div class="legend" id="nodeLegend"></div>
+<div class="edge-legend" id="edgeLegend"></div>
+<div id="network"></div>
+</div>
+</div>
+
+<script>
+const FCOLORS = {
+  '幕府方':'#3a6ea5','萨摩藩':'#d4781f','长州藩':'#2e7d32','倒幕派/志士':'#c62828',
+  '明治政府':'#6a1b9a','思想家/文化':'#00796b','军事':'#8b1a1a','女性':'#c2185b'
+};
+
+const DATA = [
+  {id:1,cn:'德川齐昭',jp:'徳川斉昭',b:1800,d:1860,faction:'幕府方',role:'水户藩第9代藩主',event:'尊王攘夷思想源头，安政大狱',related:'德川庆喜(子)、井伊直弼(政敌)',drama:'徳川慶喜 (1998)'},
+  {id:2,cn:'吉田松阴',jp:'吉田松陰',b:1830,d:1859,faction:'长州藩',role:'思想家，松下村塾创办者',event:'密航未遂、安政大狱被处刑',related:'高杉晋作、久坂玄瑞、伊藤博文、山县有朋(弟子)',drama:'花燃ゆ (2015)'},
+  {id:3,cn:'佐久间象山',jp:'佐久間象山',b:1811,d:1864,faction:'思想家/文化',role:'兵学家，开国论先驱',event:'提倡和魂洋才，被暗杀',related:'吉田松阴(弟子)、胜海舟(弟子)',drama:'—'},
+  {id:4,cn:'中浜万次郎',jp:'中濱萬次郎',b:1827,d:1898,faction:'思想家/文化',role:'漂流渔夫，翻译家',event:'漂流至美国，带回西方知识',related:'—',drama:'—'},
+  {id:5,cn:'高杉晋作',jp:'高杉晋作',b:1839,d:1867,faction:'长州藩',role:'奇兵队创建者',event:'下关举兵、功山寺起义',related:'吉田松阴(师)、久坂玄瑞(同门)',drama:'花燃ゆ (2015)'},
+  {id:6,cn:'久坂玄瑞',jp:'久坂玄瑞',b:1840,d:1864,faction:'长州藩',role:'尊攘派激进先锋',event:'禁门之变战死',related:'吉田松阴(师+岳父)、高杉晋作(同门)',drama:'花燃ゆ (2015)'},
+  {id:7,cn:'武市半平太',jp:'武市半平太',b:1829,d:1865,faction:'倒幕派/志士',role:'土佐勤王党盟主',event:'土佐勤王党弹压、切腹',related:'坂本龙马(同乡)、中冈慎太郎',drama:'龍馬伝 (2010)'},
+  {id:8,cn:'坂本龙马',jp:'坂本龍馬',b:1836,d:1867,faction:'倒幕派/志士',role:'维新志士，海援队队长',event:'薩長同盟、船中八策、大政奉还、近江屋遇刺',related:'中冈慎太郎、胜海舟(师)、西乡隆盛、木户孝允',drama:'龍馬伝 (2010)'},
+  {id:9,cn:'中冈慎太郎',jp:'中岡慎太郎',b:1838,d:1867,faction:'倒幕派/志士',role:'陆援队队长',event:'薩長同盟斡旋、近江屋同夜遇刺',related:'坂本龙马(同志)、西乡隆盛',drama:'龍馬伝 (2010)'},
+  {id:10,cn:'岛津齐彬',jp:'島津斉彬',b:1809,d:1858,faction:'萨摩藩',role:'萨摩藩第28代藩主',event:'集成馆事业(近代化)、将一桥庆喜拥立',related:'岛津久光(异母弟)、西乡隆盛(家臣)、天璋院(养女)',drama:'篤姫 (2008)、西郷どん (2018)'},
+  {id:11,cn:'岛津久光',jp:'島津久光',b:1817,d:1887,faction:'萨摩藩',role:'萨摩藩国父(实权者)',event:'率兵上京、文久改革、生麦事件',related:'岛津齐彬(异母兄)、西乡隆盛、大久保利通',drama:'西郷どん (2018)'},
+  {id:12,cn:'毛利敬亲',jp:'毛利敬親',b:1819,d:1871,faction:'长州藩',role:'长州藩第13代藩主',event:'支持尊攘运动、长州征伐',related:'高杉晋作、木户孝允',drama:'花燃ゆ (2015)'},
+  {id:13,cn:'松平容保',jp:'松平容保',b:1836,d:1893,faction:'幕府方',role:'会津藩主，京都守护职',event:'京都守护职、�的屋原之战、会津战争',related:'德川庆喜(主君)、近藤勇(新选组)',drama:'八重の桜 (2013)'},
+  {id:14,cn:'井伊直弼',jp:'井伊直弼',b:1815,d:1860,faction:'幕府方',role:'大老(幕府最高职)',event:'安政大狱、樱田门外之变被暗杀',related:'德川齐昭(政敌)',drama:'花の生涯 (1963)'},
+  {id:15,cn:'德川庆喜',jp:'徳川慶喜',b:1837,d:1913,faction:'幕府方',role:'第15代(末代)征夷大将军',event:'大政奉还、鸟羽伏见之战、江户无血开城',related:'德川齐昭(父)、松平容保、胜海舟',drama:'徳川慶喜 (1998)、青天を衝け (2021)'},
+  {id:16,cn:'胜海舟',jp:'勝海舟',b:1823,d:1899,faction:'幕府方',role:'幕臣，海军奉行',event:'咸临丸渡美、神户海军操练所、江户无血开城',related:'坂本龙马(弟子)、西乡隆盛(谈判对手)',drama:'勝海舟 (1974)'},
+  {id:17,cn:'近藤勇/土方岁三',jp:'近藤勇/土方歳三',b:1834,d:1869,faction:'幕府方',role:'新选组局长/副长',event:'池田屋事件、鸟羽伏见、函馆战争',related:'松平容保(上司)、西乡隆盛(敌)',drama:'新選組! (2004)'},
+  {id:18,cn:'西乡隆盛',jp:'西郷隆盛',b:1828,d:1877,faction:'萨摩藩',role:'维新三杰，陆军大将',event:'薩長同盟、戊辰战争、征韩论、西南战争',related:'大久保利通(盟友→敌)、木户孝允、岛津齐彬',drama:'西郷どん (2018)、翔ぶが如く (1990)'},
+  {id:19,cn:'大久保利通',jp:'大久保利通',b:1830,d:1878,faction:'萨摩藩',role:'维新三杰，内务卿',event:'版籍奉还、废藩置县、征韩论反对、纪尾井坂遇刺',related:'西乡隆盛(同乡→决裂)、岛津久光',drama:'翔ぶが如く (1990)'},
+  {id:20,cn:'木户孝允',jp:'木戸孝允',b:1833,d:1877,faction:'长州藩',role:'维新三杰(桂小五郎)',event:'薩長同盟、五条御誓文、废藩置县',related:'西乡隆盛、大久保利通、坂本龙马',drama:'花燃ゆ (2015)'},
+  {id:21,cn:'大村益次郎',jp:'大村益次郎',b:1824,d:1869,faction:'长州藩',role:'兵学者，近代军制之父',event:'戊辰战争指挥、陆军创设',related:'木户孝允',drama:'花神 (1977)'},
+  {id:22,cn:'伊藤博文',jp:'伊藤博文',b:1841,d:1909,faction:'明治政府',role:'第一任内阁总理大臣',event:'大日本帝国宪法制定、日清战争',related:'吉田松阴(师)、山县有朋(同门)、大隈重信',drama:'花燃ゆ (2015)'},
+  {id:23,cn:'山县有朋',jp:'山縣有朋',b:1838,d:1922,faction:'明治政府',role:'元帅，军阀之祖',event:'征兵令、军人敕谕、日俄战争',related:'吉田松阴(师)、伊藤博文(同门)',drama:'花燃ゆ (2015)'},
+  {id:24,cn:'大隈重信',jp:'大隈重信',b:1838,d:1922,faction:'明治政府',role:'两任首相，早稻田大学创建者',event:'明治十四年政变、立宪改进党',related:'伊藤博文、板垣退助',drama:'—'},
+  {id:25,cn:'板垣退助',jp:'板垣退助',b:1837,d:1919,faction:'明治政府',role:'自由民权运动之父',event:'�的发自由党、"板垣死すとも自由は死せず"',related:'西乡隆盛、大隈重信',drama:'—'},
+  {id:26,cn:'陆奥宗光',jp:'陸奥宗光',b:1844,d:1897,faction:'明治政府',role:'外务大臣',event:'废除不平等条约、日清战争外交',related:'坂本龙马(海援队同志)、伊藤博文',drama:'—'},
+  {id:27,cn:'江藤新平',jp:'江藤新平',b:1834,d:1874,faction:'明治政府',role:'司法卿',event:'司法制度整备、佐贺之乱、处刑',related:'大久保利通(对立)',drama:'—'},
+  {id:28,cn:'福泽谕吉',jp:'福澤諭吉',b:1835,d:1901,faction:'思想家/文化',role:'启蒙思想家，庆应义塾创建者',event:'《劝学篇》《文明论之概略》脱亚论',related:'—',drama:'—'},
+  {id:29,cn:'中江兆民',jp:'中江兆民',b:1847,d:1901,faction:'思想家/文化',role:'思想家，"东洋卢梭"',event:'翻译卢梭《社会契约论》、自由民权运动',related:'板垣退助',drama:'—'},
+  {id:30,cn:'涩泽荣一',jp:'渋沢栄一',b:1840,d:1931,faction:'思想家/文化',role:'实业家，日本资本主义之父',event:'第一国立银行、设立500余企业',related:'德川庆喜(旧主)',drama:'青天を衝け (2021)'},
+  {id:31,cn:'岩崎弥太郎',jp:'岩崎弥太郎',b:1835,d:1885,faction:'思想家/文化',role:'三菱财阀创始人',event:'创立三菱商会',related:'坂本龙马(海援队)、后藤象二郎',drama:'龍馬伝 (2010)'},
+  {id:32,cn:'东乡平八郎',jp:'東郷平八郎',b:1848,d:1934,faction:'军事',role:'元帅海军大将',event:'日俄战争·日本海海战大胜',related:'西乡隆盛(萨摩前辈)',drama:'坂の上の雲 (2009)'},
+  {id:33,cn:'乃木希典',jp:'乃木希典',b:1849,d:1912,faction:'军事',role:'陆军大将，军神',event:'日俄战争·旅顺攻围战、明治天皇驾崩后殉死',related:'东乡平八郎',drama:'坂の上の雲 (2009)'},
+  {id:34,cn:'新渡户稻造',jp:'新渡戸稲造',b:1862,d:1933,faction:'思想家/文化',role:'教育家，国际联盟事务局次长',event:'英文著作《武士道》',related:'—',drama:'—'},
+  {id:35,cn:'夏目漱石',jp:'夏目漱石',b:1867,d:1916,faction:'思想家/文化',role:'小说家，国民作家',event:'《我是猫》《心》《少爷》',related:'—',drama:'—'},
+  {id:36,cn:'天璋院/篤姫',jp:'天璋院/篤姫',b:1836,d:1883,faction:'女性',role:'德川家定正室(将军御台所)',event:'从萨摩嫁入德川家、大奥、无血开城斡旋',related:'岛津齐彬(养父)、德川庆喜、西乡隆盛',drama:'篤姫 (2008)'},
+  {id:37,cn:'新岛八重',jp:'新島八重',b:1845,d:1932,faction:'女性',role:'会津女战士，教育家',event:'会津战争中持枪参战、日本红十字活动',related:'松平容保(藩主)、新岛襄(夫)',drama:'八重の桜 (2013)'},
+  {id:38,cn:'津田梅子',jp:'津田梅子',b:1864,d:1929,faction:'女性',role:'女子教育先驱',event:'6岁赴美留学、创办津田塾大学',related:'—',drama:'—'},
+  {id:39,cn:'与谢野晶子',jp:'与謝野晶子',b:1878,d:1942,faction:'女性',role:'歌人，反战诗人',event:'《君死にたまふことなかれ》反战诗',related:'—',drama:'—'}
+];
+
+// Table
+function renderTable(){
+  const tbody=document.getElementById('tableBody');
+  tbody.innerHTML=DATA.map(d=>`<tr data-faction="${d.faction}">
+    <td>${d.id}</td><td><strong>${d.cn}</strong></td><td>${d.jp}</td>
+    <td>${d.b}-${d.d}</td>
+    <td><span class="faction-tag" style="background:${FCOLORS[d.faction]}">${d.faction}</span></td>
+    <td>${d.role}</td><td>${d.event}</td><td>${d.related}</td><td>${d.drama}</td>
+  </tr>`).join('');
+}
+
+let sortCol=-1, sortAsc=true;
+function sortTable(col){
+  if(sortCol===col) sortAsc=!sortAsc; else { sortCol=col; sortAsc=true; }
+  const rows=[...document.querySelectorAll('#tableBody tr')];
+  rows.sort((a,b)=>{
+    let va=a.cells[col].textContent, vb=b.cells[col].textContent;
+    if(col===0||col===3){ va=parseInt(va)||0; vb=parseInt(vb)||0; return sortAsc?va-vb:vb-va; }
+    return sortAsc?va.localeCompare(vb,'zh'):vb.localeCompare(va,'zh');
+  });
+  const tbody=document.getElementById('tableBody');
+  rows.forEach(r=>tbody.appendChild(r));
+}
+
+function filterTable(){
+  const q=document.getElementById('searchBox').value.toLowerCase();
+  const f=document.getElementById('factionFilter').value;
+  document.querySelectorAll('#tableBody tr').forEach(r=>{
+    const text=r.textContent.toLowerCase();
+    const faction=r.dataset.faction;
+    r.style.display=(text.includes(q)&&(!f||faction===f))?'':'none';
+  });
+}
+
+// Timeline
+function renderTimeline(){
+  const c=document.getElementById('timeline-container');
+  const W=1400, H=820, pad=50, labelW=100;
+  const minY=1795, maxY=1945;
+  const x=v=>labelW+(v-minY)/(maxY-minY)*(W-labelW-pad);
+  // sort by birth
+  const sorted=[...DATA].sort((a,b)=>a.b-b.b);
+  const rowH=Math.min(20, (H-60)/sorted.length);
+  let svg=`<svg class="timeline-svg" viewBox="0 0 ${W} ${Math.max(H, sorted.length*rowH+60)}" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:sans-serif">`;
+  // grid
+  for(let y=1800;y<=1940;y+=10){
+    const xp=x(y);
+    svg+=`<line x1="${xp}" y1="25" x2="${xp}" y2="${sorted.length*rowH+40}" stroke="var(--border)" stroke-width="0.5"/>`;
+    svg+=`<text x="${xp}" y="18" text-anchor="middle" fill="var(--text2)" font-size="11">${y}</text>`;
+  }
+  sorted.forEach((d,i)=>{
+    const yp=35+i*rowH;
+    const clr=FCOLORS[d.faction];
+    svg+=`<text x="${labelW-5}" y="${yp+rowH/2+4}" text-anchor="end" fill="var(--text)" font-size="10">${d.cn}</text>`;
+    svg+=`<rect x="${x(d.b)}" y="${yp}" width="${x(d.d)-x(d.b)}" height="${rowH-3}" rx="3" fill="${clr}" opacity="0.75"><title>${d.cn} (${d.b}-${d.d})</title></rect>`;
+  });
+  svg+=`</svg>`;
+  c.innerHTML=svg;
+}
+
+// Network graph
+function renderNetwork(){
+  const nodes=DATA.map(d=>({
+    id:d.id, label:d.cn, group:d.faction,
+    title:`${d.cn} (${d.jp})\n${d.b}-${d.d}\n${d.role}`,
+    color:{background:FCOLORS[d.faction],border:FCOLORS[d.faction],highlight:{background:FCOLORS[d.faction],border:'#000'}},
+    font:{color:'#fff',size:12,strokeWidth:2,strokeColor:FCOLORS[d.faction]}
+  }));
+
+  const EDGE_STYLES={
+    '师徒':{color:'#e65100',dashes:false,label:'师徒'},
+    '同志':{color:'#2e7d32',dashes:false,label:'同志'},
+    '敌对':{color:'#c62828',dashes:[5,5],label:'敌对'},
+    '父子':{color:'#1565c0',dashes:false,label:'父子'},
+    '兄弟':{color:'#1565c0',dashes:[8,4],label:'兄弟'},
+    '君臣':{color:'#6a1b9a',dashes:false,label:'君臣'},
+    '同盟':{color:'#00796b',dashes:false,label:'同盟'},
+    '养女':{color:'#c2185b',dashes:false,label:'养女'},
+    '嫁入':{color:'#c2185b',dashes:[5,5],label:'嫁入'},
+    '提拔':{color:'#ef6c00',dashes:[3,3],label:'提拔'},
+    '谈判':{color:'#546e7a',dashes:[8,4],label:'谈判'},
+    '女婿':{color:'#c2185b',dashes:[3,3],label:'女婿'},
+    '同门':{color:'#e65100',dashes:[3,3],label:'同门'},
+  };
+
+  const edgesData=[
+    {from:2,to:5,t:'师徒'},{from:2,to:6,t:'师徒'},{from:2,to:22,t:'师徒'},{from:2,to:23,t:'师徒'},
+    {from:6,to:2,t:'女婿'},
+    {from:8,to:9,t:'同志'},{from:8,to:16,t:'师徒'},
+    {from:8,to:18,t:'同盟',label:'薩長同盟'},{from:8,to:20,t:'同盟',label:'薩長同盟'},
+    {from:18,to:19,t:'同志',label:'同乡→决裂'},{from:18,to:20,t:'同盟'},
+    {from:10,to:11,t:'兄弟'},{from:10,to:18,t:'提拔'},{from:10,to:36,t:'养女'},
+    {from:1,to:15,t:'父子'},{from:15,to:13,t:'君臣'},
+    {from:14,to:1,t:'敌对'},{from:18,to:19,t:'敌对',label:'西南战争'},
+    {from:36,to:15,t:'嫁入'},
+    {from:16,to:18,t:'谈判',label:'江户无血开城'},
+    {from:3,to:2,t:'师徒'},{from:3,to:16,t:'师徒'},
+    {from:5,to:6,t:'同门'},
+    {from:7,to:8,t:'同志',label:'土佐同乡'},
+    {from:37,to:13,t:'君臣',label:'会津'},
+    {from:30,to:15,t:'君臣',label:'旧主'},
+    {from:32,to:18,t:'同志',label:'萨摩'},
+  ];
+
+  // deduplicate edges between same pair: keep first
+  const seen=new Set();
+  const edges=[];
+  edgesData.forEach(e=>{
+    const key=Math.min(e.from,e.to)+'-'+Math.max(e.from,e.to)+'-'+e.t;
+    if(!seen.has(key)){seen.add(key);
+      const s=EDGE_STYLES[e.t]||{color:'#999',dashes:false};
+      edges.push({from:e.from,to:e.to,
+        label:e.label||s.label,
+        color:{color:s.color,highlight:s.color},
+        dashes:s.dashes,
+        font:{size:9,color:s.color,strokeWidth:0},
+        arrows:e.t==='师徒'||e.t==='父子'||e.t==='提拔'||e.t==='养女'?'to':'',
+        smooth:{type:'continuous'}
+      });
+    }
+  });
+
+  const container=document.getElementById('network');
+  new vis.Network(container,{nodes:new vis.DataSet(nodes),edges:new vis.DataSet(edges)},{
+    physics:{barnesHut:{gravitationalConstant:-4000,springLength:180,springConstant:0.02},stabilization:{iterations:200}},
+    interaction:{hover:true,tooltipDelay:100},
+    layout:{improvedLayout:true}
+  });
+
+  // legends
+  document.getElementById('nodeLegend').innerHTML=Object.entries(FCOLORS).map(([k,v])=>
+    `<span class="legend-item"><span class="legend-dot" style="background:${v}"></span>${k}</span>`).join('');
+  const edgeTypes=['师徒','同志','敌对','父子','兄弟','君臣','同盟','养女','嫁入','提拔','谈判'];
+  document.getElementById('edgeLegend').innerHTML=edgeTypes.map(t=>{
+    const s=EDGE_STYLES[t];
+    const dash=s.dashes?'stroke-dasharray:'+s.dashes.join(','):'';
+    return `<span><svg width="24" height="6"><line x1="0" y1="3" x2="24" y2="3" stroke="${s.color}" stroke-width="2" style="${dash}"/></svg>${t}</span>`;
+  }).join('');
+}
+
+function showSection(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(id==='graph') renderNetwork();
+}
+
+function toggleTheme(){
+  const d=document.documentElement;
+  const dark=d.getAttribute('data-theme')==='dark';
+  d.setAttribute('data-theme',dark?'':'dark');
+  document.querySelector('.theme-toggle').textContent=dark?'🌙':'☀️';
+}
+
+renderTable();
+renderTimeline();
+</script>
+</body>
+</html>

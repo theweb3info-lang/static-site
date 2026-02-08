@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><style>
+body { margin: 0; display: flex; align-items: center; justify-content: center; width: 512px; height: 512px; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); font-family: -apple-system, sans-serif; }
+.container { text-align: center; position: relative; }
+.bulb { font-size: 160px; filter: drop-shadow(0 0 40px rgba(255,215,0,0.6)); animation: glow 2s ease-in-out infinite; }
+@keyframes glow { 0%,100% { filter: drop-shadow(0 0 30px rgba(255,215,0,0.4)); } 50% { filter: drop-shadow(0 0 60px rgba(255,215,0,0.8)); } }
+.title { color: #fff; font-size: 52px; font-weight: 800; letter-spacing: 4px; margin-top: 10px; text-shadow: 0 0 20px rgba(100,200,255,0.5); }
+.subtitle { color: #a0a0ff; font-size: 22px; margin-top: 8px; letter-spacing: 2px; }
+.sparkles { position: absolute; top: -20px; left: -20px; right: -20px; bottom: -20px; }
+.spark { position: absolute; color: rgba(255,215,0,0.7); font-size: 24px; }
+.s1 { top: 5%; left: 10%; } .s2 { top: 15%; right: 8%; } .s3 { bottom: 25%; left: 5%; } .s4 { bottom: 10%; right: 12%; } .s5 { top: 40%; left: 2%; } .s6 { top: 35%; right: 3%; }
+</style></head>
+<body>
+<div class="container">
+<div class="sparkles">
+<span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">⚡</span><span class="spark s4">✦</span><span class="spark s5">💡</span><span class="spark s6">✧</span>
+</div>
+<div class="bulb">💡</div>
+<div class="title">IDEAS</div>
+<div class="subtitle">AI × Money × Build</div>
+</div>
+</body>
+</html>

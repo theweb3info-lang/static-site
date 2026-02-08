@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎨 语音场景画板</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #0a0a0a;
+  color: #e0e0e0;
+  font-family: system-ui, sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+header {
+  text-align: center;
+  padding: 12px;
+  background: #111;
+  border-bottom: 1px solid #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+header h1 { font-size: 20px; }
+#settings-btn {
+  background: none; border: 1px solid #444; color: #aaa;
+  padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 13px;
+}
+#settings-btn:hover { border-color: #888; color: #eee; }
+#status {
+  text-align: center;
+  padding: 6px;
+  font-size: 13px;
+  color: #888;
+  min-height: 28px;
+}
+#status.listening { color: #ff4444; }
+#status.thinking { color: #FFB300; }
+#transcript {
+  text-align: center;
+  padding: 4px 16px;
+  font-size: 12px;
+  color: #666;
+  min-height: 22px;
+}
+#canvas-wrap {
+  flex: 1;
+  margin: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,150,136,0.4);
+  background: #050810;
+  position: relative;
+  overflow: hidden;
+}
+canvas { width: 100%; height: 100%; }
+#controls {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding-bottom: 24px;
+}
+.ctrl-btn {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+#mic-btn {
+  width: 72px; height: 72px;
+  font-size: 32px;
+  background: #009688;
+  box-shadow: 0 4px 20px rgba(0,150,136,0.3);
+}
+#mic-btn:hover { transform: scale(1.05); }
+#mic-btn.active {
+  background: #f44336;
+  box-shadow: 0 4px 20px rgba(244,67,54,0.4);
+  animation: pulse 1.5s infinite;
+}
+#clear-btn { background: #455A64; }
+#clear-btn:hover { background: #546E7A; }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(244,67,54,0.4); }
+  50% { box-shadow: 0 4px 35px rgba(244,67,54,0.7); }
+}
+
+/* Settings modal */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7); z-index: 100;
+  align-items: center; justify-content: center;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: #1a1a1a; border-radius: 12px; padding: 24px;
+  width: 90%; max-width: 420px; border: 1px solid #333;
+}
+.modal h2 { margin-bottom: 16px; font-size: 18px; }
+.modal label { display: block; font-size: 13px; color: #aaa; margin-bottom: 4px; margin-top: 12px; }
+.modal select, .modal input {
+  width: 100%; padding: 8px 10px; border-radius: 6px;
+  border: 1px solid #444; background: #222; color: #eee; font-size: 14px;
+}
+.modal .btn-row { margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end; }
+.modal button {
+  padding: 8px 20px; border-radius: 6px; border: none; cursor: pointer; font-size: 14px;
+}
+.modal .save-btn { background: #009688; color: white; }
+.modal .cancel-btn { background: #333; color: #aaa; }
+.no-support {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: #f44; font-size: 16px; text-align: center; padding: 20px;
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎨 语音场景画板</h1>
+  <button id="settings-btn">⚙️</button>
+</header>
+<div id="status">点击麦克风开始说话</div>
+<div id="transcript"></div>
+<div id="canvas-wrap"><canvas id="scene"></canvas></div>
+<div id="controls">
+  <button class="ctrl-btn" id="clear-btn">🗑</button>
+  <button class="ctrl-btn" id="mic-btn">🎤</button>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal">
+    <h2>⚙️ 设置</h2>
+    <label>代理地址（默认自动检测）</label>
+    <input type="text" id="cfg-proxy" placeholder="自动" />
+    <div class="btn-row">
+      <button class="cancel-btn" id="cfg-cancel">取消</button>
+      <button class="save-btn" id="cfg-save">保存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ Config ============
+const PROXY_BASE = location.origin + '/api';
+
+function loadConfig() {
+  try { return JSON.parse(localStorage.getItem('vsp_config') || '{}'); } catch { return {}; }
+}
+function saveConfig(cfg) { localStorage.setItem('vsp_config', JSON.stringify(cfg)); }
+let config = loadConfig();
+
+// Settings UI
+const modal = document.getElementById('settings-modal');
+document.getElementById('settings-btn').addEventListener('click', () => modal.classList.add('show'));
+document.getElementById('cfg-cancel').addEventListener('click', () => modal.classList.remove('show'));
+document.getElementById('cfg-save').addEventListener('click', () => {
+  config.proxyUrl = document.getElementById('cfg-proxy').value.trim() || PROXY_BASE;
+  saveConfig(config);
+  modal.classList.remove('show');
+});
+
+// ============ AI Scene Parser (via local Claude proxy) ============
+let pendingRequest = null;
+
+async function parseWithAI(text) {
+  const proxyUrl = config.proxyUrl || PROXY_BASE;
+
+  if (pendingRequest) pendingRequest.abort();
+  const controller = new AbortController();
+  pendingRequest = controller;
+
+  statusEl.textContent = '🤔 AI 解析中...';
+  statusEl.className = 'thinking';
+
+  try {
+    const resp = await fetch(proxyUrl + '/parse', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
+      signal: controller.signal,
+    });
+
+    if (!resp.ok) {
+      const err = await resp.text();
+      console.error('Proxy error:', err);
+      statusEl.textContent = `❌ 解析错误: ${resp.status}`;
+      return null;
+    }
+
+    const elements = await resp.json();
+    if (elements.error) {
+      statusEl.textContent = `❌ ${elements.error}`;
+      return null;
+    }
+
+    statusEl.textContent = isListening ? '🎤 正在聆听...' : '点击麦克风开始说话';
+    statusEl.className = isListening ? 'listening' : '';
+    return elements;
+  } catch (e) {
+    if (e.name === 'AbortError') return null;
+    console.error('Parse error:', e);
+    statusEl.textContent = `❌ 连接失败: ${e.message}`;
+    return null;
+  } finally {
+    if (pendingRequest === controller) pendingRequest = null;
+  }
+}
+
+// ============ Canvas Drawing ============
+const canvas = document.getElementById('scene');
+const ctx = canvas.getContext('2d');
+
+// Drawing functions for each element type
+const DRAWERS = {
+  sky: (ctx, x, y, w, h, el) => {
+    // Handled by background gradient
+  },
+
+  sun: (ctx, x, y, w, h, el) => {
+    const s = el.scale || 1;
+    // Rays
+    ctx.strokeStyle = el.color || '#FFD700'; ctx.lineWidth = 2;
+    for (let i = 0; i < 8; i++) {
+      const a = (Math.PI * 2 / 8) * i;
+      ctx.beginPath();
+      ctx.moveTo(x + Math.cos(a)*28*s, y + Math.sin(a)*28*s);
+      ctx.lineTo(x + Math.cos(a)*45*s, y + Math.sin(a)*45*s);
+      ctx.stroke();
+    }
+    ctx.fillStyle = el.color || '#FFD700';
+    ctx.beginPath(); ctx.arc(x, y, 24*s, 0, Math.PI*2); ctx.fill();
+    // Face
+    ctx.fillStyle = '#000';
+    ctx.beginPath(); ctx.arc(x-7*s, y-5*s, 3*s, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(x+7*s, y-5*s, 3*s, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#000'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(x, y+4*s, 7*s, 0, Math.PI); ctx.stroke();
+  },
+
+  moon: (ctx, x, y, w, h, el) => {
+    const s = el.scale || 1;
+    ctx.fillStyle = '#FFC107';
+    ctx.beginPath(); ctx.arc(x, y, 22*s, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#050810';
+    ctx.beginPath(); ctx.arc(x+10*s, y-5*s, 18*s, 0, Math.PI*2); ctx.fill();
+  },
+
+  stars: (ctx, x, y, w, h, el) => {
+    ctx.fillStyle = '#FFEB3B';
+    const drawStar = (sx, sy, r) => {
+      ctx.beginPath();
+      for (let i = 0; i < 5; i++) {
+        const a = (Math.PI*2/5)*i - Math.PI/2;
+        ctx[i===0?'moveTo':'lineTo'](sx+Math.cos(a)*r, sy+Math.sin(a)*r);
+        const a2 = a + Math.PI/5;
+        ctx.lineTo(sx+Math.cos(a2)*r*0.4, sy+Math.sin(a2)*r*0.4);
+      }
+      ctx.closePath(); ctx.fill();
+    };
+    for (let i = 0; i < 8; i++) {
+      drawStar(x - 60 + i*20 + Math.sin(i*3)*15, y + Math.cos(i*5)*12, 3 + Math.random()*3);
+    }
+  },
+
+  clouds: (ctx, x, y, w, h, el) => {
+    ctx.fillStyle = el.color || 'rgba(200,210,220,0.7)';
+    const cloud = (cx, cy, s) => {
+      ctx.beginPath(); ctx.arc(cx, cy, 20*s, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(cx-18*s, cy+5*s, 14*s, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(cx+18*s, cy+5*s, 16*s, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(cx+8*s, cy-8*s, 12*s, 0, Math.PI*2); ctx.fill();
+    };
+    cloud(x, y, el.scale || 1);
+  },
+
+  rain: (ctx, x, y, w, h, el) => {
+    ctx.fillStyle = '#607D8B';
+    ctx.beginPath(); ctx.arc(x, y, 22, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(x-20, y+5, 16, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(x+20, y+5, 18, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#64B5F6'; ctx.lineWidth = 2;
+    for (let i = 0; i < 8; i++) {
+      const rx = x - 30 + i*9, ry = y + 28 + (i%2)*8;
+      ctx.beginPath(); ctx.moveTo(rx, ry); ctx.lineTo(rx-3, ry+12); ctx.stroke();
+    }
+  },
+
+  snow: (ctx, x, y, w, h, el) => {
+    ctx.fillStyle = '#fff'; ctx.font = '14px serif';
+    for (let i = 0; i < 15; i++) {
+      ctx.fillText('❄', x-50+Math.random()*100, y+Math.random()*80);
+    }
+  },
+
+  rainbow: (ctx, x, y, w, h, el) => {
+    const colors = ['#F44336','#FF9800','#FFEB3B','#4CAF50','#2196F3','#3F51B5','#9C27B0'];
+    colors.forEach((c, i) => {
+      ctx.strokeStyle = c; ctx.lineWidth = 5;
+      ctx.beginPath(); ctx.arc(x, y+40, 90-i*9, Math.PI, 0); ctx.stroke();
+    });
+  },
+
+  mountain: (ctx, x, y, w, h, el) => {
+    const s = el.scale || 1;
+    ctx.fillStyle = el.color || '#4E342E';
+    ctx.beginPath(); ctx.moveTo(x, y-80*s); ctx.lineTo(x-100*s, y+40*s); ctx.lineTo(x+100*s, y+40*s); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#6D4C41';
+    ctx.beginPath(); ctx.moveTo(x+60*s, y-50*s); ctx.lineTo(x-10*s, y+40*s); ctx.lineTo(x+130*s, y+40*s); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#eee';
+    ctx.beginPath(); ctx.moveTo(x, y-80*s); ctx.lineTo(x-15*s, y-55*s); ctx.lineTo(x+15*s, y-55*s); ctx.closePath(); ctx.fill();
+  },
+
+  tree: (ctx, x, y, w, h, el) => {
+    const s = el.scale || 1;
+    ctx.fillStyle = '#5D4037';
+    ctx.fillRect(x-5*s, y+20*s, 10*s, 25*s);
+    ctx.fillStyle = el.color || '#2E7D32';
+    ctx.beginPath(); ctx.moveTo(x, y-25*s); ctx.lineTo(x-25*s, y+10*s); ctx.lineTo(x+25*s, y+10*s); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#388E3C';
+    ctx.beginPath(); ctx.moveTo(x, y-40*s); ctx.lineTo(x-20*s, y-5*s); ctx.lineTo(x+20*s, y-5*s); ctx.closePath(); ctx.fill();
+  },
+
+  grass: (ctx, x, y, w, h, el) => {
+    ctx.fillStyle = '#1B5E20';
+    ctx.fillRect(0, y, w, h - y + 50);
+    ctx.strokeStyle = '#2E7D32'; ctx.lineWidth = 1.5;
+    for (let i = 0; i < w/6; i++) {
+      const gx = i*6 + Math.random()*3;
+      ctx.beginPath();
+      ctx.moveTo(gx, y+5);
+      ctx.quadraticCurveTo(gx+3, y-5, gx+2, y-6-Math.random()*5);
+      ctx.stroke();
+    }
+  },
+
+  river: (ctx, x, y, w, h, el) => {
+    ctx.fillStyle = 'rgba(33,150,243,0.4)';
+    ctx.beginPath(); ctx.moveTo(0, y);
+    for (let i = 0; i <= w; i += 20) ctx.quadraticCurveTo(i+10, y+(i%40===0?-5:5), i+20, y);
+    ctx.lineTo(w, y+30); ctx.lineTo(0, y+30); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = 'rgba(144,202,249,0.5)'; ctx.lineWidth = 1;
+    for (let i = 0; i < w; i += 30) { ctx.beginPath(); ctx.moveTo(i, y+12); ctx.lineTo(i+15, y+12); ctx.stroke(); }
+  },
+
+  lake: (ctx, x, y, w, h, el) => {
+    const s = el.scale || 1;
+    ctx.fillStyle = 'rgba(33,150,243,0.35)';
+    ctx.beginPath(); ctx.ellipse(x, y, 70*s, 25*s, 0, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = 'rgba(144,202,249,0.4)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.ellipse(x, y, 70*s, 25*s, 0, 0, Math.PI*2); ctx.stroke();
+  },
+
+  flowers: (ctx, x, y, w, h, el) => {
+    const colors = ['#E91E63','#FF5722','#9C27B0','#F44336','#FF4081'];
+    const count = el.count || 4;
+    for (let i = 0; i < count; i++) {
+      const fx = x + i*22 - (count*11), fy = y + (i%2)*8;
+      ctx.fillStyle = '#4CAF50'; ctx.fillRect(fx-1, fy, 2, 15);
+      ctx.fillStyle = colors[i % colors.length];
+      for (let j = 0; j < 5; j++) {
+        const a = (Math.PI*2/5)*j;
+        ctx.beginPath(); ctx.arc(fx+Math.cos(a)*6, fy+Math.sin(a)*6, 4, 0, Math.PI*2); ctx.fill();
+      }
+      ctx.fillStyle = '#FFEB3B';
+      ctx.beginPath(); ctx.arc(fx, fy, 4, 0, Math.PI*2); ctx.fill();
+    }
+  },
+
+  house: (ctx, x, y, w, h, el) => {
+    const s = el.scale || 1;
+    ctx.fillStyle = '#C62828';
+    ctx.beginPath(); ctx.moveTo(x, y-40*s); ctx.lineTo(x-45*s, y); ctx.lineTo(x+45*s, y); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = el.color || '#FFCC80';
+    ctx.fillRect(x-35*s, y, 70*s, 50*s);
+    ctx.fillStyle = '#5D4037';
+    ctx.fillRect(x-8*s, y+20*s, 16*s, 30*s);
+    ctx.fillStyle = '#64B5F6';
+    ctx.fillRect(x-28*s, y+10*s, 14*s, 14*s);
+    ctx.fillRect(x+14*s, y+10*s, 14*s, 14*s);
+  },
+
+  building: (ctx, x, y, w, h, el) => {
+    const s = el.scale || 1;
+    const bld = (bx, bh, bw, color) => {
+      ctx.fillStyle = color;
+      ctx.fillRect(bx, y-bh, bw, bh);
+      ctx.fillStyle = '#FFE082';
+      for (let row = 0; row < bh-15; row += 18) {
+        for (let col = 6; col < bw-6; col += 14) {
+          ctx.fillRect(bx+col, y-bh+10+row, 8, 10);
+        }
+      }
+    };
+    bld(x-20*s, 120*s, 40*s, '#455A64');
+    bld(x+25*s, 90*s, 50*s, '#37474F');
+    bld(x+80*s, 70*s, 35*s, '#546E7A');
+  },
+
+  car: (ctx, x, y, w, h, el) => {
+    ctx.fillStyle = el.color || '#F44336';
+    ctx.beginPath();
+    ctx.moveTo(x+10, y); ctx.lineTo(x+20, y-18); ctx.lineTo(x+45, y-18); ctx.lineTo(x+55, y);
+    ctx.closePath(); ctx.fill();
+    ctx.fillRect(x, y, 65, 16);
+    ctx.fillStyle = '#BBDEFB';
+    ctx.beginPath(); ctx.moveTo(x+14, y-2); ctx.lineTo(x+22, y-15); ctx.lineTo(x+32, y-15); ctx.lineTo(x+32, y-2); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#333';
+    ctx.beginPath(); ctx.arc(x+15, y+16, 7, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(x+50, y+16, 7, 0, Math.PI*2); ctx.fill();
+  },
+
+  boat: (ctx, x, y, w, h, el) => {
+    ctx.fillStyle = '#5D4037';
+    ctx.beginPath(); ctx.moveTo(x-30, y); ctx.lineTo(x-20, y+15); ctx.lineTo(x+20, y+15); ctx.lineTo(x+30, y); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#795548'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y-40); ctx.stroke();
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.moveTo(x, y-38); ctx.lineTo(x, y-5); ctx.lineTo(x+22, y-5); ctx.closePath(); ctx.fill();
+  },
+
+  swing: (ctx, x, y, w, h, el) => {
+    ctx.strokeStyle = '#FF5722'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(x-25, y+50); ctx.lineTo(x, y-20); ctx.lineTo(x+25, y+50); ctx.stroke();
+    ctx.strokeStyle = '#795548'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(x-5, y-15); ctx.lineTo(x-8, y+30); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x+5, y-15); ctx.lineTo(x+8, y+30); ctx.stroke();
+    ctx.fillStyle = '#5D4037'; ctx.fillRect(x-12, y+28, 24, 4);
+  },
+
+  child: (ctx, x, y, w, h, el) => {
+    const colors = ['#00BCD4','#FF9800','#E91E63','#9C27B0','#4CAF50','#FFEB3B'];
+    const count = el.count || 1;
+    for (let i = 0; i < count; i++) {
+      const cx = x + i*40 - (count-1)*20;
+      const c = colors[i % colors.length];
+      ctx.fillStyle = '#FFCC80';
+      ctx.beginPath(); ctx.arc(cx, y, 8, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = c; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(cx, y+8); ctx.lineTo(cx, y+28); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx-12, y+16); ctx.lineTo(cx+12, y+16); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, y+28); ctx.lineTo(cx-10, y+42); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, y+28); ctx.lineTo(cx+10, y+42); ctx.stroke();
+      ctx.strokeStyle = '#333'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(cx, y+2, 4, 0, Math.PI); ctx.stroke();
+    }
+  },
+
+  person: (ctx, x, y, w, h, el) => {
+    const count = el.count || 1;
+    for (let i = 0; i < count; i++) {
+      const px = x + i*45 - (count-1)*22;
+      ctx.fillStyle = '#FFCC80';
+      ctx.beginPath(); ctx.arc(px, y, 10, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = el.color || '#eee'; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(px, y+10); ctx.lineTo(px, y+35); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(px-15, y+20); ctx.lineTo(px+15, y+20); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(px, y+35); ctx.lineTo(px-12, y+52); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(px, y+35); ctx.lineTo(px+12, y+52); ctx.stroke();
+    }
+  },
+
+  dog: (ctx, x, y, w, h, el) => {
+    const s = el.scale || 1;
+    ctx.fillStyle = el.color || '#8D6E63';
+    ctx.beginPath(); ctx.ellipse(x, y, 20*s, 12*s, 0, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(x+22*s, y-8*s, 10*s, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#5D4037';
+    ctx.beginPath(); ctx.ellipse(x+28*s, y-16*s, 5*s, 8*s, 0.3, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#000';
+    ctx.beginPath(); ctx.arc(x+25*s, y-10*s, 2*s, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(x+30*s, y-5*s, 2.5*s, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = el.color || '#8D6E63'; ctx.lineWidth = 3*s;
+    [[-12,12],[-4,12],[8,12],[16,12]].forEach(([dx,dy]) => {
+      ctx.beginPath(); ctx.moveTo(x+dx*s, y+dy*s); ctx.lineTo(x+dx*s, y+22*s); ctx.stroke();
+    });
+  },
+
+  cat: (ctx, x, y, w, h, el) => {
+    const s = el.scale || 1;
+    ctx.fillStyle = el.color || '#FF8A65';
+    ctx.beginPath(); ctx.ellipse(x, y, 16*s, 12*s, 0, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(x+18*s, y-6*s, 10*s, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(x+12*s, y-16*s); ctx.lineTo(x+15*s, y-26*s); ctx.lineTo(x+20*s, y-16*s); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(x+20*s, y-16*s); ctx.lineTo(x+23*s, y-26*s); ctx.lineTo(x+27*s, y-16*s); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#4CAF50';
+    ctx.beginPath(); ctx.arc(x+15*s, y-8*s, 2.5*s, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(x+23*s, y-8*s, 2.5*s, 0, Math.PI*2); ctx.fill();
+  },
+
+  bird: (ctx, x, y, w, h, el) => {
+    const count = el.count || 3;
+    for (let i = 0; i < count; i++) {
+      const bx = x - 20 + i*25, by = y + Math.sin(i*2)*10;
+      ctx.strokeStyle = el.color || '#555'; ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(bx-10, by); ctx.quadraticCurveTo(bx-5, by-8, bx, by);
+      ctx.quadraticCurveTo(bx+5, by-8, bx+10, by);
+      ctx.stroke();
+    }
+  },
+
+  butterfly: (ctx, x, y, w, h, el) => {
+    const colors = ['#E91E63','#FF9800','#9C27B0'];
+    const count = el.count || 2;
+    for (let i = 0; i < count; i++) {
+      const bx = x + i*35 - (count-1)*17, by = y + Math.sin(i)*15;
+      ctx.fillStyle = colors[i%3];
+      ctx.beginPath(); ctx.ellipse(bx-8, by-4, 8, 5, -0.3, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(bx+8, by-4, 8, 5, 0.3, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(bx-6, by+4, 6, 4, 0.3, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(bx+6, by+4, 6, 4, -0.3, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#333'; ctx.fillRect(bx-1, by-6, 2, 12);
+    }
+  },
+
+  fish: (ctx, x, y, w, h, el) => {
+    const s = el.scale || 1;
+    ctx.fillStyle = el.color || '#FF9800';
+    ctx.beginPath(); ctx.ellipse(x, y, 15*s, 8*s, 0, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(x-15*s, y); ctx.lineTo(x-25*s, y-8*s); ctx.lineTo(x-25*s, y+8*s); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#000';
+    ctx.beginPath(); ctx.arc(x+8*s, y-2*s, 2*s, 0, Math.PI*2); ctx.fill();
+  },
+
+  bench: (ctx, x, y, w, h, el) => {
+    ctx.fillStyle = '#795548';
+    ctx.fillRect(x-20, y, 40, 4);
+    ctx.fillRect(x-20, y+8, 40, 4);
+    ctx.fillRect(x-18, y+4, 3, 16);
+    ctx.fillRect(x+16, y+4, 3, 16);
+    ctx.fillStyle = '#5D4037';
+    ctx.fillRect(x-22, y-12, 3, 16);
+    ctx.fillRect(x+20, y-12, 3, 16);
+    ctx.fillRect(x-22, y-12, 44, 3);
+  },
+
+  path: (ctx, x, y, w, h, el) => {
+    ctx.fillStyle = 'rgba(161,136,127,0.5)';
+    ctx.beginPath();
+    ctx.moveTo(x-20, y); ctx.lineTo(x-8, y+60); ctx.lineTo(x+12, y+60); ctx.lineTo(x+20, y);
+    ctx.closePath(); ctx.fill();
+  },
+
+  fence: (ctx, x, y, w, h, el) => {
+    ctx.strokeStyle = '#BCAAA4'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(x-40, y+5); ctx.lineTo(x+40, y+5); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x-40, y+15); ctx.lineTo(x+40, y+15); ctx.stroke();
+    for (let i = -40; i <= 40; i += 16) {
+      ctx.beginPath(); ctx.moveTo(x+i, y-5); ctx.lineTo(x+i, y+20); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x+i-3, y-8); ctx.lineTo(x+i, y-12); ctx.lineTo(x+i+3, y-8); ctx.stroke();
+    }
+  },
+
+  bridge: (ctx, x, y, w, h, el) => {
+    ctx.strokeStyle = '#8D6E63'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(x, y+20, 40, Math.PI, 0); ctx.stroke();
+    ctx.fillStyle = '#A1887F';
+    ctx.fillRect(x-45, y-22, 90, 6);
+    ctx.strokeStyle = '#8D6E63'; ctx.lineWidth = 2;
+    for (let i = -40; i <= 40; i += 20) {
+      ctx.beginPath(); ctx.moveTo(x+i, y-22); ctx.lineTo(x+i, y-32); ctx.stroke();
+    }
+    ctx.beginPath(); ctx.moveTo(x-40, y-32); ctx.lineTo(x+40, y-32); ctx.stroke();
+  },
+
+  kite: (ctx, x, y, w, h, el) => {
+    ctx.fillStyle = el.color || '#F44336';
+    ctx.beginPath(); ctx.moveTo(x, y-20); ctx.lineTo(x+15, y); ctx.lineTo(x, y+20); ctx.lineTo(x-15, y); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, y-20); ctx.lineTo(x, y+20); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x-15, y); ctx.lineTo(x+15, y); ctx.stroke();
+    ctx.strokeStyle = '#888'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, y+20); ctx.quadraticCurveTo(x+20, y+40, x+10, y+60); ctx.stroke();
+  },
+
+  balloon: (ctx, x, y, w, h, el) => {
+    const colors = ['#F44336','#2196F3','#FFEB3B','#4CAF50','#9C27B0'];
+    const count = el.count || 1;
+    for (let i = 0; i < count; i++) {
+      const bx = x + i*25 - (count-1)*12;
+      ctx.fillStyle = colors[i%5];
+      ctx.beginPath(); ctx.ellipse(bx, y, 12, 16, 0, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = '#888'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(bx, y+16); ctx.lineTo(bx+3, y+45); ctx.stroke();
+    }
+  },
+};
+
+let currentElements = [];
+
+function render(elements) {
+  canvas.width = canvas.clientWidth * (window.devicePixelRatio || 1);
+  canvas.height = canvas.clientHeight * (window.devicePixelRatio || 1);
+  ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+  const W = canvas.clientWidth, H = canvas.clientHeight;
+
+  // Background
+  const hasSun = elements.some(e => e.type === 'sun');
+  const hasNight = elements.some(e => e.type === 'moon' || e.type === 'stars');
+  const grad = ctx.createLinearGradient(0, 0, 0, H);
+  if (hasNight) {
+    grad.addColorStop(0, '#0a0a2e'); grad.addColorStop(1, '#1a1a3e');
+  } else if (hasSun || elements.length > 0) {
+    grad.addColorStop(0, '#1565C0'); grad.addColorStop(0.6, '#64B5F6'); grad.addColorStop(1, '#81C784');
+  } else {
+    grad.addColorStop(0, '#050810'); grad.addColorStop(1, '#050810');
+  }
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Sort by y position (back to front)
+  const sorted = [...elements].sort((a, b) => (a.y || 0) - (b.y || 0));
+
+  for (const el of sorted) {
+    const drawer = DRAWERS[el.type];
+    if (!drawer) continue;
+    const px = (el.x || 0.5) * W;
+    const py = (el.y || 0.5) * H;
+    ctx.save();
+    drawer(ctx, px, py, W, H, el);
+    ctx.restore();
+
+    // Draw label if present
+    if (el.label) {
+      ctx.fillStyle = 'rgba(255,255,255,0.5)';
+      ctx.font = '10px system-ui';
+      ctx.textAlign = 'center';
+      ctx.fillText(el.label, px, py - 50*(el.scale||1));
+    }
+  }
+}
+
+// ============ Speech Recognition ============
+const micBtn = document.getElementById('mic-btn');
+const clearBtn = document.getElementById('clear-btn');
+const statusEl = document.getElementById('status');
+const transcriptEl = document.getElementById('transcript');
+
+let recognition = null;
+let isListening = false;
+let debounceTimer = null;
+let lastProcessed = '';
+
+if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+  document.getElementById('canvas-wrap').innerHTML =
+    '<div class="no-support">⚠️ 当前浏览器不支持语音识别<br>请使用 Chrome / Edge</div>';
+  micBtn.disabled = true;
+} else {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SR();
+  recognition.lang = 'zh-CN';
+  recognition.continuous = true;
+  recognition.interimResults = true;
+
+  recognition.onresult = (e) => {
+    let final_ = '', interim = '';
+    for (let i = 0; i < e.results.length; i++) {
+      if (e.results[i].isFinal) final_ += e.results[i][0].transcript;
+      else interim += e.results[i][0].transcript;
+    }
+    const text = final_ || interim;
+    if (text) {
+      transcriptEl.textContent = `📝 "${text}"`;
+      // Debounce AI call - wait for user to pause speaking
+      if (debounceTimer) clearTimeout(debounceTimer);
+      if (final_ && final_ !== lastProcessed) {
+        debounceTimer = setTimeout(async () => {
+          lastProcessed = final_;
+          const elements = await parseWithAI(final_);
+          if (elements && Array.isArray(elements)) {
+            currentElements = elements;
+            render(elements);
+          }
+        }, 800);
+      }
+    }
+  };
+
+  recognition.onend = () => {
+    if (isListening) recognition.start();
+  };
+
+  recognition.onerror = (e) => {
+    console.error('Speech error:', e.error);
+    if (e.error === 'not-allowed') {
+      statusEl.textContent = '⚠️ 请允许麦克风权限';
+      stopListening();
+    }
+  };
+}
+
+function startListening() {
+  if (!recognition) return;
+  isListening = true;
+  lastProcessed = '';
+  recognition.start();
+  micBtn.classList.add('active');
+  micBtn.textContent = '⏹';
+  statusEl.textContent = '🎤 正在聆听...';
+  statusEl.classList.add('listening');
+}
+
+function stopListening() {
+  isListening = false;
+  if (recognition) recognition.stop();
+  micBtn.classList.remove('active');
+  micBtn.textContent = '🎤';
+  statusEl.textContent = '点击麦克风开始说话';
+  statusEl.className = '';
+}
+
+micBtn.addEventListener('click', () => isListening ? stopListening() : startListening());
+
+clearBtn.addEventListener('click', () => {
+  currentElements = [];
+  transcriptEl.textContent = '';
+  render([]);
+});
+
+// Init
+render([]);
+window.addEventListener('resize', () => render(currentElements));
+</script>
+</body>
+</html>
