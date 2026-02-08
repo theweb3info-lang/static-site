@@ -48,7 +48,7 @@ body { font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-seri
 
 <div class="header">
   <h1>🇯🇵 明治维新人物志</h1>
-  <p>Meiji Restoration Figures — 54 Stories That Changed Japan</p>
+  <p>Meiji Restoration Figures — 53 Stories That Changed Japan</p>
 </div>
 
 <div class="figures-link">
@@ -92,10 +92,10 @@ body { font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-seri
 <script>
 const figures = [
   // Tier 1
-  {tier:1, num:"01", zh:"坂本龙马", en:"sakamoto-ryoma", enName:"Sakamoto Ryoma", desc:"大政奉还推手", status:"done"},
-  {tier:1, num:"02", zh:"西乡隆盛", en:"saigo-takamori", enName:"Saigō Takamori", desc:"最后的武士", status:"pending"},
-  {tier:1, num:"03", zh:"德川庆喜", en:"tokugawa-yoshinobu", enName:"Tokugawa Yoshinobu", desc:"末代将军", status:"pending"},
-  {tier:1, num:"04", zh:"伊藤博文", en:"ito-hirobumi", enName:"Itō Hirobumi", desc:"第一任首相", status:"pending"},
+  {tier:1, num:"01", zh:"坂本龙马", en:"sakamoto-ryoma", enName:"Sakamoto Ryoma", desc:"大政奉还推手", status:"done", zhDone:true, enDone:true, zhAudioDone:true, enAudioDone:false},
+  {tier:1, num:"02", zh:"西乡隆盛", en:"saigo-takamori", enName:"Saigō Takamori", desc:"最后的武士", status:"done", zhDone:true, enDone:true, zhAudioDone:true, enAudioDone:false},
+  {tier:1, num:"03", zh:"德川庆喜", en:"tokugawa-yoshinobu", enName:"Tokugawa Yoshinobu", desc:"末代将军", status:"done", zhDone:true, enDone:true, zhAudioDone:true, enAudioDone:false},
+  {tier:1, num:"04", zh:"伊藤博文", en:"ito-hirobumi", enName:"Itō Hirobumi", desc:"第一任首相", status:"done", zhDone:true, enDone:false, zhAudioDone:true, enAudioDone:false},
   {tier:1, num:"05", zh:"福泽谕吉", en:"fukuzawa-yukichi", enName:"Fukuzawa Yukichi", desc:"脱亚入欧", status:"pending"},
   {tier:1, num:"06", zh:"近藤勇·土方岁三", en:"shinsengumi", enName:"Kondō Isami & Hijikata Toshizō", desc:"新选组", status:"pending"},
   {tier:1, num:"07", zh:"大久保利通", en:"okubo-toshimichi", enName:"Ōkubo Toshimichi", desc:"冷酷的建国者", status:"pending"},
@@ -130,7 +130,7 @@ const figures = [
   {tier:4, num:"33", zh:"武市半平太", en:"takechi-hanpeita", enName:"Takechi Hanpeita", desc:"土佐勤王党", status:"pending"},
   {tier:4, num:"34", zh:"久坂玄瑞", en:"kusaka-genzui", enName:"Kusaka Genzui", desc:"激进派先锋", status:"pending"},
   {tier:4, num:"35", zh:"江藤新平", en:"eto-shinpei", enName:"Etō Shinpei", desc:"佐贺之乱", status:"pending"},
-  {tier:4, num:"36", zh:"陆奥宗光", en:"mutsu-munemitsu", enName:"Mutsu Munemitsu", desc:"废除不平等条约", status:"pending"},
+  {tier:4, num:"36", zh:"陆奥宗光", en:"mutsu-munemitsu", enName:"Mutsu Munemitsu", desc:"废除不平等条约（→合并入明治外交双雄）", status:"pending"},
   {tier:4, num:"37", zh:"岩崎弥太郎", en:"iwasaki-yataro", enName:"Iwasaki Yatarō", desc:"三菱财阀", status:"pending"},
   {tier:4, num:"38", zh:"后藤象二郎", en:"goto-shojiro", enName:"Gotō Shōjirō", desc:"大政奉还推动者", status:"pending"},
   {tier:4, num:"39", zh:"津田梅子", en:"tsuda-umeko", enName:"Tsuda Umeko", desc:"女子教育先驱", status:"pending"},
@@ -138,18 +138,22 @@ const figures = [
   // Tier 5
   {tier:5, num:"41", zh:"佐久间象山", en:"sakuma-shozan", enName:"Sakuma Shōzan", desc:"开国论先驱", status:"pending"},
   {tier:5, num:"42", zh:"德川齐昭", en:"tokugawa-nariaki", enName:"Tokugawa Nariaki", desc:"水户学源头", status:"pending"},
-  {tier:5, num:"43", zh:"毛利敬亲", en:"mori-takachika", enName:"Mōri Takachika", desc:"长州藩主", status:"pending"},
+  {tier:5, num:"43", zh:"幕末藩主群像", en:"bakumatsu-lords", enName:"Bakumatsu Lords", desc:"【合并篇】毛利敬亲 + 锅岛直正 + 岛津齐兴", status:"pending", merged:true},
   {tier:5, num:"44", zh:"中浜万次郎", en:"nakahama-manjiro", enName:"Nakahama Manjirō", desc:"漂流美国的渔夫", status:"pending"},
-  {tier:5, num:"45", zh:"三条实美", en:"sanjo-sanetomi", enName:"Sanjō Sanetomi", desc:"太政大臣", status:"pending"},
-  {tier:5, num:"46", zh:"锅岛直正", en:"nabeshima-naomasa", enName:"Nabeshima Naomasa", desc:"佐贺技术先驱", status:"pending"},
-  {tier:5, num:"47", zh:"小村寿太郎", en:"komura-jutaro", enName:"Komura Jutarō", desc:"日英同盟", status:"pending"},
-  {tier:5, num:"48", zh:"森有礼", en:"mori-arinori", enName:"Mori Arinori", desc:"首任文部大臣", status:"pending"},
-  {tier:5, num:"49", zh:"中江兆民", en:"nakae-chomin", enName:"Nakae Chōmin", desc:"东洋卢梭", status:"pending"},
-  {tier:5, num:"50", zh:"新渡户稻造", en:"nitobe-inazo", enName:"Nitobe Inazō", desc:"《武士道》", status:"pending"},
-  {tier:5, num:"51", zh:"中村正直", en:"nakamura-masanao", enName:"Nakamura Masanao", desc:"翻译《自助论》", status:"pending"},
-  {tier:5, num:"52", zh:"小栗忠顺", en:"oguri-tadamasa", enName:"Oguri Tadamasa", desc:"幕府财政改革家", status:"pending"},
-  {tier:5, num:"53", zh:"小松带刀", en:"komatsu-tatewaki", enName:"Komatsu Tatewaki", desc:"萨摩家老", status:"pending"},
-  {tier:5, num:"54", zh:"马修·佩里", en:"matthew-perry", enName:"Matthew C. Perry", desc:"黑船来航", status:"pending"},
+  {tier:5, num:"45", zh:"明治外交双雄", en:"meiji-diplomats", enName:"Meiji Diplomats", desc:"【合并篇】陆奥宗光 + 小村寿太郎", status:"pending", merged:true},
+  {tier:5, num:"46", zh:"启蒙者们", en:"meiji-enlighteners", enName:"Meiji Enlighteners", desc:"【合并篇】森有礼 + 中村正直 + 新渡户稻造", status:"pending", merged:true},
+  {tier:5, num:"47", zh:"中江兆民", en:"nakae-chomin", enName:"Nakae Chōmin", desc:"东洋卢梭", status:"pending"},
+  {tier:5, num:"48", zh:"小栗忠顺", en:"oguri-tadamasa", enName:"Oguri Tadamasa", desc:"幕府财政改革家", status:"pending"},
+  {tier:5, num:"49", zh:"小松带刀", en:"komatsu-tatewaki", enName:"Komatsu Tatewaki", desc:"萨摩家老", status:"pending"},
+  {tier:5, num:"50", zh:"马修·佩里", en:"matthew-perry", enName:"Matthew C. Perry", desc:"黑船来航", status:"pending"},
+  {tier:5, num:"51", zh:"岛津齐兴", en:"shimazu-narihiro", enName:"Shimazu Narioki", desc:"萨摩老藩主", status:"pending"},
+  {tier:5, num:"52", zh:"明治天皇", en:"emperor-meiji", enName:"Emperor Meiji", desc:"从傀儡少年到近代日本象征", status:"pending"},
+  {tier:5, num:"53", zh:"孝明天皇", en:"emperor-komei", enName:"Emperor Kōmei", desc:"尊攘派，突然病死（有毒杀说）", status:"pending"},
+  {tier:5, num:"54", zh:"高岛秋帆", en:"takashima-shuhan", enName:"Takashima Shūhan", desc:"西洋炮术先驱", status:"pending"},
+  {tier:5, num:"55", zh:"横井小楠", en:"yokoi-shonan", enName:"Yokoi Shōnan", desc:"船中八策思想源头", status:"pending"},
+  {tier:5, num:"56", zh:"大鸟圭介", en:"otori-keisuke", enName:"Ōtori Keisuke", desc:"箱馆战争指挥官", status:"pending"},
+  {tier:5, num:"57", zh:"河井继之助", en:"kawai-tsuginosuke", enName:"Kawai Tsuginosuke", desc:"长冈藩悲剧英雄", status:"pending"},
+  {tier:5, num:"58", zh:"皇女与将军", en:"kazunomiya-iemochi", enName:"Kazunomiya & Iemochi", desc:"【合并篇】和宫 + 德川家茂", status:"pending", merged:true},
 ];
 
 function renderCards() {
@@ -157,15 +161,20 @@ function renderCards() {
     const container = document.getElementById('tier' + t);
     const items = figures.filter(f => f.tier === t);
     container.innerHTML = items.map(f => {
-      const zhLink = f.status === 'done' ? `<a href="zh/${f.num}-${f.zh}.html">📖 中文</a>` : '';
-      const enLink = f.status === 'done' ? `<a href="en/${f.num}-${f.en}.html">📖 English</a>` : '';
-      const zhAudio = f.status === 'done' ? `<a href="audio/zh/${f.num}-${f.zh}.mp3">🎧 中文音频</a>` : '';
-      const enAudio = f.status === 'done' ? `<a href="audio/en/${f.num}-${f.en}.mp3">🎧 EN Audio</a>` : '';
-      const statusBadge = f.status === 'done' 
-        ? '<span class="status done">✅ 已完成</span>' 
+      const zhLink = f.zhDone ? `<a href="zh/${f.num}-${f.zh}.html">📖 中文</a>` : '';
+      const enLink = f.enDone ? `<a href="en/${f.num}-${f.en}.html">📖 English</a>` : '';
+      const zhAudio = f.zhAudioDone ? `<a href="audio/zh/${f.num}-${f.zh}.mp3">🎧 中文音频</a>` : '';
+      const enAudio = f.enAudioDone ? `<a href="audio/en/${f.num}-${f.en}.mp3">🎧 EN Audio</a>` : '';
+      const allDone = f.zhDone && f.enDone && f.zhAudioDone && f.enAudioDone;
+      const partial = f.zhDone || f.enDone;
+      const statusBadge = allDone
+        ? '<span class="status done">✅ 全部完成</span>'
+        : partial
+        ? '<span class="status" style="background:#d1ecf1;color:#0c5460;">🔄 部分完成</span>'
         : '<span class="status pending">⏳ 待生成</span>';
+      const mergedTag = f.merged ? ' 📦' : '';
       return `<div class="card">
-        <div class="name">${f.num}. ${f.zh}</div>
+        <div class="name">${f.num}. ${f.zh}${mergedTag}</div>
         <div class="desc">${f.enName} — ${f.desc}</div>
         <div class="links">${zhLink}${enLink}${zhAudio}${enAudio}</div>
         ${statusBadge}
