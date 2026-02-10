@@ -14,7 +14,7 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
             line-height: 1.8;
-            color: #333;
+            color: #3a3a3a;
             background: #f5f5f5;
             padding: 20px 0;
         }
@@ -31,22 +31,23 @@
             width: 100%;
             height: auto;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .section-img {
             width: 100%;
             height: auto;
             border-radius: 8px;
-            margin: 20px 0;
+            margin: 25px 0;
         }
         
         h1 {
             font-size: 24px;
             font-weight: 700;
             color: #000;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             line-height: 1.4;
+            text-align: left;
         }
         
         h2 {
@@ -56,6 +57,7 @@
             margin: 40px 0 20px;
             padding-left: 15px;
             border-left: 4px solid #07c160;
+            text-align: left;
         }
         
         h3 {
@@ -63,12 +65,20 @@
             font-weight: 600;
             color: #000;
             margin: 30px 0 15px;
+            text-align: left;
         }
         
         p {
             font-size: 16px;
-            margin-bottom: 15px;
-            text-align: justify;
+            margin-bottom: 18px;
+            text-align: left;
+            color: #3a3a3a;
+        }
+        
+        p.center {
+            text-align: center;
+            font-weight: 600;
+            margin: 25px 0;
         }
         
         strong {
@@ -84,29 +94,31 @@
         .quote {
             background: #f7f8fa;
             border-left: 4px solid #07c160;
-            padding: 15px 20px;
-            margin: 20px 0;
-            font-style: italic;
-            color: #666;
+            padding: 18px 20px;
+            margin: 25px 0;
+            font-style: normal;
+            color: #555;
+            line-height: 1.8;
         }
         
         .divider {
             text-align: center;
-            margin: 30px 0;
-            color: #999;
-            font-size: 20px;
-            letter-spacing: 5px;
+            margin: 35px 0;
+            color: #ccc;
+            font-size: 18px;
+            letter-spacing: 8px;
         }
         
         ul {
-            margin: 15px 0 15px 20px;
+            margin: 18px 0 18px 25px;
             list-style: none;
         }
         
         ul li {
             position: relative;
             padding-left: 20px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            color: #3a3a3a;
         }
         
         ul li:before {
@@ -122,40 +134,41 @@
             border: 1px solid #bfdbfe;
             border-radius: 8px;
             padding: 20px;
-            margin: 20px 0;
+            margin: 25px 0;
         }
         
         .data-box h4 {
             font-size: 16px;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             color: #1e40af;
         }
         
         .data-item {
-            margin: 8px 0;
+            margin: 10px 0;
             font-size: 15px;
             color: #334155;
+            line-height: 1.6;
         }
         
         .emoji {
-            font-size: 1.2em;
+            font-size: 1.1em;
         }
         
         .section-intro {
             background: #fef3c7;
-            padding: 15px;
+            padding: 18px;
             border-radius: 6px;
-            margin-bottom: 20px;
-            font-weight: 500;
+            margin-bottom: 25px;
+            line-height: 1.8;
         }
         
         .cta {
             background: #f0fdf4;
             border: 2px solid #86efac;
             border-radius: 8px;
-            padding: 20px;
-            margin: 30px 0;
+            padding: 25px;
+            margin: 35px 0;
             text-align: center;
         }
         
@@ -165,6 +178,7 @@
             border-top: 1px solid #e5e5e5;
             font-size: 14px;
             color: #999;
+            line-height: 1.8;
         }
         
         .checkmark {
@@ -173,6 +187,11 @@
         
         .crossmark {
             color: #dc2626;
+        }
+        
+        .emphasis {
+            font-weight: 600;
+            color: #000;
         }
     </style>
 </head>
@@ -192,13 +211,13 @@
             老板在群里 @ 你："AI 不是能帮你写代码吗？那这个新需求明天能上线吧？"同事转发了一篇《不会用 AI 的程序员正在被淘汰》，你心里一紧，赶紧打开第五个 AI 工具的教程……
         </p>
         
-        <p style="text-align: center; font-size: 18px; font-weight: 700; margin: 30px 0;">
+        <p class="center emphasis" style="font-size: 18px;">
             <span class="highlight">效率翻了三倍，工作量翻了五倍。</span>
         </p>
         
         <p>这不是段子，这是 Upwork 调查的 <strong>77% 职场人的真实状态</strong>：AI 工具越用越多，下班时间越来越晚。BBC、McKinsey、微软的最新报告都指向同一个残酷真相——</p>
         
-        <p style="text-align: center; font-size: 18px; font-weight: 700; margin: 20px 0;">
+        <p class="center emphasis" style="font-size: 17px;">
             我们正在经历 AI 时代的三重过劳：<br>
             人累了，AI 也累了，整个行业都在疯狂内卷。
         </p>
@@ -226,9 +245,7 @@
             <li>Midjourney（做设计）</li>
         </ul>
         
-        <p style="text-align: center; font-weight: 700; margin: 20px 0;">
-            每天光是选用哪个工具，就要花半小时。
-        </p>
+        <p class="emphasis">每天光是选用哪个工具，就要花半小时。</p>
         
         <h3>"AI 精通焦虑"：没学会就被淘汰</h3>
         
@@ -242,9 +259,7 @@
             <li>Sora 能生成视频了，你连 Stable Diffusion 都没装</li>
         </ul>
         
-        <p style="text-align: center; font-weight: 700; margin: 20px 0;">
-            AI 工具的迭代速度，远超人类的学习速度。
-        </p>
+        <p class="emphasis">AI 工具的迭代速度，远超人类的学习速度。</p>
         
         <h3>类比：给你一把电锯</h3>
         
@@ -274,9 +289,7 @@
         
         <p>每个对话都要消耗 Token（计算资源）。当你一次性输入 10 万字的文档，AI 需要处理的信息量爆炸，输出质量直线下降。</p>
         
-        <p style="text-align: center; font-weight: 700; margin: 20px 0;">
-            越长的对话，越容易出错。
-        </p>
+        <p class="emphasis">越长的对话，越容易出错。</p>
         
         <h3>幻觉 = 胡言乱语</h3>
         
@@ -309,9 +322,7 @@
             "We work hard. This is a ~70-hour-per-week role."
         </div>
         
-        <p style="text-align: center; font-weight: 700; margin: 20px 0;">
-            这不是加班文化，这是明码标价的过劳。
-        </p>
+        <p class="emphasis">这不是加班文化，这是明码标价的过劳。</p>
         
         <h3>中国 996 卷到全球</h3>
         
@@ -319,9 +330,7 @@
         
         <p>Anthropic、OpenAI、DeepMind……这些顶尖 AI 公司的员工，工作强度不亚于国内互联网大厂。</p>
         
-        <p style="text-align: center; font-weight: 700; margin: 20px 0;">
-            不是热爱，是恐惧驱动。
-        </p>
+        <p class="emphasis">不是热爱，是恐惧驱动。</p>
         
         <h3>融资 → 冲刺 → 燃尽 → 下一轮</h3>
         
@@ -368,9 +377,7 @@
             <li>作家用 AI 润色文案（质量提升 15%）</li>
         </ul>
         
-        <p style="text-align: center; font-weight: 700; margin: 20px 0;">
-            关键是「人机协作」，而不是「人被 AI 替代」。
-        </p>
+        <p class="emphasis">关键是「人机协作」，而不是「人被 AI 替代」。</p>
         
         <h3>工具断舍离</h3>
         
@@ -382,9 +389,7 @@
             <li>1 个搜索工具（Perplexity/Gemini）</li>
         </ul>
         
-        <p style="text-align: center; font-weight: 700; margin: 20px 0;">
-            少即是多。
-        </p>
+        <p class="emphasis">少即是多。</p>
         
         <h3>给 AI 设边界</h3>
         
@@ -396,9 +401,7 @@
             <li>睡前 1 小时不用 AI</li>
         </ul>
         
-        <p style="text-align: center; font-weight: 700; margin: 20px 0;">
-            你是 AI 的主人，不是它的奴隶。
-        </p>
+        <p class="emphasis">你是 AI 的主人，不是它的奴隶。</p>
         
         <h3>Bain：聚焦+治理 > 撒网式部署</h3>
         
@@ -412,9 +415,7 @@
             <li>市场团队用 AI 分析用户反馈</li>
         </ul>
         
-        <p style="text-align: center; font-weight: 700; margin: 20px 0;">
-            深度 > 广度。
-        </p>
+        <p class="emphasis">深度 > 广度。</p>
         
         <div class="divider">━━━</div>
         
@@ -428,16 +429,16 @@
         
         <p>但如果你把 AI 当成「辅助工具」，用它处理机械性任务、释放创造力，那效率提升就是真的提升。</p>
         
-        <p style="text-align: center; font-size: 18px; font-weight: 700; margin: 30px 0;">
+        <p class="center emphasis" style="font-size: 17px; margin: 30px 0;">
             <span class="highlight">AI 时代的核心技能，不是「会用多少个工具」，而是「知道什么时候不用」。</span>
         </p>
         
         <div class="quote">
-            Upwork 的调查结论值得每个人深思：<br>
+            Upwork 的调查结论值得每个人深思：<br><br>
             "77% of workers say AI tools have increased their workload. The problem isn't AI itself — it's how we're using it."
         </div>
         
-        <p style="text-align: center; font-size: 18px; font-weight: 700; margin: 30px 0;">
+        <p class="center emphasis" style="font-size: 17px; margin: 30px 0;">
             工具越多，越要克制。<br>
             效率越高，越要休息。
         </p>
