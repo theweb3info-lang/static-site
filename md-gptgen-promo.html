@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我做了个Markdown转公众号工具，30天0成本获得5000用户的复盘</title>
+    <meta name="description" content="从开发到推广的完整方法论，8个实战策略，适合所有工具类产品">
+    <meta name="keywords" content="产品推广,增长黑客,工具类产品,Markdown,公众号,副业,创业">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: #f5f7fa;
+        }
+        .header-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .header-banner h1 {
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .header-banner .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        }
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            background: linear-gradient(135deg, #a8e6cf 0%, #81c784 100%);
+            padding: 30px;
+            margin: -40px -40px 40px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            margin: 10px;
+        }
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #2d3436;
+        }
+        .stat-label {
+            color: #636e72;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin: 50px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        h3 {
+            color: #764ba2;
+            font-size: 1.4em;
+            margin: 30px 0 15px;
+        }
+        h4 {
+            color: #667eea;
+            font-size: 1.2em;
+            margin: 25px 0 10px;
+        }
+        p {
+            margin: 15px 0;
+            font-size: 1.05em;
+        }
+        .highlight-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .info-box {
+            background: #d1ecf1;
+            border-left: 5px solid #17a2b8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .strategy-card {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .strategy-card h4 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+        tr:hover {
+            background: #f5f5f5;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: "Monaco", "Courier New", monospace;
+            color: #e17055;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d3436;
+            color: #dfe6e9;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-size: 0.9em;
+        }
+        pre code {
+            background: none;
+            color: #a8e6cf;
+            padding: 0;
+        }
+        ul, ol {
+            margin: 15px 0 15px 30px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #666;
+            font-style: italic;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            margin: 40px -40px -40px;
+            text-align: center;
+            border-radius: 0 0 8px 8px;
+        }
+        .cta-section h3 {
+            color: white;
+            margin-top: 0;
+        }
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 10px;
+            transition: transform 0.3s;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .lesson-box {
+            background: #fff;
+            border: 2px solid #e17055;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .lesson-box h4 {
+            color: #e17055;
+            margin-top: 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            .stats-bar {
+                margin: -20px -20px 20px;
+                padding: 20px;
+            }
+            .stat-number {
+                font-size: 2em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-banner">
+        <h1>我做了个Markdown转公众号工具</h1>
+        <p class="subtitle">30天0成本获得5000用户的完整复盘</p>
+    </div>
+
+    <div class="container">
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number">5000+</div>
+                <div class="stat-label">总用户数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">¥0</div>
+                <div class="stat-label">推广成本</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">30天</div>
+                <div class="stat-label">冷启动时间</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">8个</div>
+                <div class="stat-label">推广策略</div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <strong>适合谁看：</strong>
+            <ul style="margin-bottom: 0;">
+                <li>想做副业的开发者</li>
+                <li>工具类产品创业者</li>
+                <li>想学增长黑客的运营人</li>
+                <li>对0预算冷启动感兴趣的人</li>
+            </ul>
+        </div>
+
+        <h2>前言：一个程序员的副业故事</h2>
+        <p>作为一个技术博主，我每周要发3-5篇公众号文章。</p>
+        <p>最痛苦的不是写内容，而是<strong>排版</strong>。</p>
+        
+        <div class="highlight-box">
+            <p><strong>公众号编辑器的痛点：</strong></p>
+            <ul>
+                <li>复制粘贴代码 → 格式全乱</li>
+                <li>手动调整样式 → 浪费1小时</li>
+                <li>表格、公式、高亮 → 根本不支持</li>
+            </ul>
+        </div>
+
+        <p>于是，程序员的老毛病又犯了：<strong>既然没有好工具，那就自己做一个。</strong></p>
+        <p>花了一个周末，我开发了 <strong>md.gptgen.xyz</strong> —— 一个专门为技术博主设计的Markdown转公众号工具。</p>
+
+        <div class="success-box">
+            <p><strong>增长数据：</strong></p>
+            <ul>
+                <li>第一周：50个用户</li>
+                <li>第二周：300个用户</li>
+                <li>第四周：突破5000个用户</li>
+            </ul>
+        </div>
+
+        <h2>Part 1：产品开发 - 做对3件事</h2>
+
+        <h3>1. 找到真痛点，而不是伪需求</h3>
+        <p><strong>错误做法：</strong></p>
+        <blockquote>"我觉得公众号排版很麻烦，所以做个工具。"</blockquote>
+        <p>这叫<strong>自嗨式需求</strong>。你觉得痛，不代表别人觉得痛。</p>
+
+        <div class="strategy-card">
+            <h4>正确做法：开发前做3件事</h4>
+            <p><strong>① 知乎搜索调研</strong></p>
+            <ul>
+                <li>搜索："公众号排版"、"Markdown公众号"</li>
+                <li>发现80+个相关问题，累计100万+浏览</li>
+                <li>证明：这是真需求</li>
+            </ul>
+
+            <p><strong>② 竞品分析</strong></p>
+            <table>
+                <tr>
+                    <th>工具</th>
+                    <th>优点</th>
+                    <th>缺点</th>
+                </tr>
+                <tr>
+                    <td>墨滴</td>
+                    <td>功能全</td>
+                    <td>收费，界面复杂</td>
+                </tr>
+                <tr>
+                    <td>Md2All</td>
+                    <td>免费</td>
+                    <td>样式丑，代码高亮差</td>
+                </tr>
+                <tr>
+                    <td>mdnice</td>
+                    <td>开源</td>
+                    <td>需要自己部署</td>
+                </tr>
+            </table>
+
+            <p><strong>③ 用户访谈</strong></p>
+            <p>找了10个技术博主，核心洞察：</p>
+            <ul>
+                <li>80%的人需要代码高亮</li>
+                <li>60%的人需要表格支持</li>
+                <li>40%的人愿意为"自定义主题"付费</li>
+            </ul>
+        </div>
+
+        <h3>2. MVP原则：做最小可用版本</h3>
+        <div class="lesson-box">
+            <h4>很多人的错误</h4>
+            <p>一开始就All-in：做10个主题，支持所有语法，加用户系统、会员系统...</p>
+            <p><strong>结果：</strong> 做了3个月还没上线，热情耗尽。</p>
+        </div>
+
+        <p><strong>我的做法：</strong> 第一版只做3个核心功能</p>
+        <ol>
+            <li>Markdown粘贴 → 公众号格式</li>
+            <li>代码高亮（支持20种语言）</li>
+            <li>一键复制到公众号</li>
+        </ol>
+
+        <div class="success-box">
+            <p><strong>开发时间：</strong> 2天（周末）</p>
+            <p><strong>上线标准：</strong> "能用，别管好看不好看"</p>
+            <p><strong>结果：</strong> 留存率从40%提升到75%</p>
+        </div>
+
+        <h3>3. 技术选型：够用就好，别炫技</h3>
+        <pre><code>技术栈：
+- 前端：Vue 3 + Vite
+- Markdown解析：markdown-it
+- 代码高亮：Prism.js
+- 部署：Vercel（免费）
+
+原则：副业项目，时间成本 > 技术炫技</code></pre>
+
+        <h2>Part 2：0成本推广 - 8个实战策略</h2>
+
+        <div class="strategy-card">
+            <h4>策略1：内容营销 - 写1篇爆款文章</h4>
+            <p><strong>标题公式：</strong></p>
+            <blockquote>[痛点] + [解决方案] + [数字/效果]</blockquote>
+            
+            <p><strong>我的标题：</strong><br>"终于找到最好用的Markdown转公众号工具了！对比5个工具后的良心推荐"</p>
+
+            <p><strong>发布渠道：</strong></p>
+            <ul>
+                <li>知乎（3天后上热榜）</li>
+                <li>小红书（获赞500+）</li>
+                <li>掘金（编辑推荐）</li>
+            </ul>
+
+            <div class="success-box">
+                <p><strong>效果：</strong> 第一篇文章带来800个UV，转化率15%（120个用户）</p>
+            </div>
+        </div>
+
+        <div class="strategy-card">
+            <h4>策略2：知乎回答 - 占领搜索入口</h4>
+            <p><strong>做法：</strong></p>
+            <ol>
+                <li>搜索高赞问题："公众号排版工具推荐"</li>
+                <li>写详细回答（2000字）</li>
+                <li>末尾推荐自己的工具（不硬推）</li>
+            </ol>
+
+            <div class="success-box">
+                <p><strong>效果：</strong> 3个回答累计获赞2000+，每天带来50-100个UV（长期稳定流量）</p>
+            </div>
+
+            <p><strong>为什么有效：</strong></p>
+            <ul>
+                <li>知乎SEO强，搜索能找到你</li>
+                <li>高赞回答=长尾流量</li>
+                <li>用户主动搜索=精准用户</li>
+            </ul>
+        </div>
+
+        <div class="strategy-card">
+            <h4>策略3：短视频演示 - B站/抖音/YouTube</h4>
+            <p><strong>60秒视频脚本：</strong></p>
+            <pre><code>[0-10秒] 痛点演示
+公众号编辑器复制代码 → 格式全乱
+
+[10-40秒] 解决方案
+打开工具 → 粘贴Markdown → 完美排版
+
+[40-50秒] 对比
+传统方式 vs 我的工具
+
+[50-60秒] CTA
+完全免费，链接在评论区</code></pre>
+
+            <div class="success-box">
+                <p><strong>效果：</strong></p>
+                <ul>
+                    <li>B站一个视频10万播放</li>
+                    <li>抖音涨粉2000+</li>
+                    <li>YouTube带来国际用户</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="strategy-card">
+            <h4>策略4：社区渗透 - V2EX/即刻/Product Hunt</h4>
+            <table>
+                <tr>
+                    <th>平台</th>
+                    <th>效果</th>
+                </tr>
+                <tr>
+                    <td>V2EX</td>
+                    <td>上首页，带来500个UV</td>
+                </tr>
+                <tr>
+                    <td>即刻</td>
+                    <td>转发200+，涨粉500+</td>
+                </tr>
+                <tr>
+                    <td>Product Hunt</td>
+                    <td>冲到#5，国际用户</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="strategy-card">
+            <h4>策略5：SEO优化 - 长期流量来源</h4>
+            <pre><code>&lt;title&gt;Markdown转微信公众号 - 免费在线排版工具&lt;/title&gt;
+
+&lt;meta name="description" 
+content="免费在线Markdown转微信公众号格式，
+支持代码高亮、表格、公式，3秒完成排版"&gt;</code></pre>
+
+            <div class="success-box">
+                <p><strong>效果：</strong> 上线1个月，Google搜索"Markdown转公众号"排前3，每天50-100个自然流量</p>
+            </div>
+        </div>
+
+        <div class="strategy-card">
+            <h4>策略6：社群裂变 - 设计分享激励</h4>
+            <p><strong>裂变机制：</strong></p>
+            <blockquote>"分享到朋友圈/微博 → 解锁3个高级主题"</blockquote>
+
+            <div class="success-box">
+                <p><strong>效果：</strong></p>
+                <ul>
+                    <li>20%的用户会分享</li>
+                    <li>每个分享平均带来3个新用户</li>
+                    <li>K因子=0.6（接近自增长）</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="strategy-card">
+            <h4>策略7：KOL合作 - 借力快速扩散</h4>
+            <p><strong>合作话术：</strong></p>
+            <pre><code>Hi [博主名]，
+
+我是 md.gptgen.xyz 的开发者，
+这是一个免费的Markdown转公众号工具。
+
+看到你经常分享效率工具，
+想邀请你试用并推荐给粉丝。
+
+作为回报，我可以：
+1. 为你定制专属主题
+2. 优先开发你需要的功能
+3. 或支付 ¥200-500 推广费</code></pre>
+
+            <div class="success-box">
+                <p><strong>效果：</strong> 一个10万粉丝UP主推荐 → 带来2000个UV，ROI = 1:10</p>
+            </div>
+        </div>
+
+        <div class="strategy-card">
+            <h4>策略8：数据驱动 - 持续优化</h4>
+            <p><strong>追踪核心指标：</strong></p>
+            <ul>
+                <li>UV（独立访客）</li>
+                <li>转化率（访问 → 使用）</li>
+                <li>留存率（7天回访）</li>
+                <li>分享率</li>
+            </ul>
+
+            <table>
+                <tr>
+                    <th>时间</th>
+                    <th>UV</th>
+                    <th>转化率</th>
+                </tr>
+                <tr>
+                    <td>Week 1</td>
+                    <td>500</td>
+                    <td>15%</td>
+                </tr>
+                <tr>
+                    <td>Week 2</td>
+                    <td>2000</td>
+                    <td>20%</td>
+                </tr>
+                <tr>
+                    <td>Week 4</td>
+                    <td>5000</td>
+                    <td>25%</td>
+                </tr>
+            </table>
+        </div>
+
+        <h2>Part 3：增长底层逻辑</h2>
+
+        <div class="highlight-box">
+            <h4>增长公式</h4>
+            <pre><code>用户增长 = 流量 × 转化率 × 留存率 × 分享率</code></pre>
+            
+            <p><strong>优化顺序：</strong></p>
+            <ol>
+                <li>先做流量（0→1）</li>
+                <li>再优化转化率（1→10）</li>
+                <li>最后做留存和分享（10→100）</li>
+            </ol>
+        </div>
+
+        <h3>冷启动三板斧</h3>
+        <ol>
+            <li><strong>找种子用户：</strong> 先服务好100个核心用户</li>
+            <li><strong>建立反馈闭环：</strong> 拉用户群，每周收集反馈</li>
+            <li><strong>打造口碑：</strong> 极致体验 → 用户自发推荐</li>
+        </ol>
+
+        <h2>Part 4：变现路径</h2>
+
+        <div class="strategy-card">
+            <h4>Freemium模式（免费+付费）</h4>
+            <table>
+                <tr>
+                    <th>版本</th>
+                    <th>功能</th>
+                    <th>价格</th>
+                </tr>
+                <tr>
+                    <td>免费版</td>
+                    <td>基础功能、3个主题</td>
+                    <td>¥0</td>
+                </tr>
+                <tr>
+                    <td>Pro版</td>
+                    <td>10个主题、自定义CSS、无水印</td>
+                    <td>¥9.9/月</td>
+                </tr>
+                <tr>
+                    <td>企业版</td>
+                    <td>多人协作、品牌定制、API</td>
+                    <td>¥199/月</td>
+                </tr>
+            </table>
+
+            <div class="success-box">
+                <p><strong>预估：</strong> 1000个用户 × 5%转化率 × ¥9.9 = ¥495/月</p>
+            </div>
+        </div>
+
+        <h2>Part 5：踩过的坑</h2>
+
+        <div class="lesson-box">
+            <h4>坑1：过早优化</h4>
+            <p><strong>错误：</strong> 第一版就想做完美<br>
+            <strong>教训：</strong> MVP快速上线，根据反馈迭代</p>
+        </div>
+
+        <div class="lesson-box">
+            <h4>坑2：忽视用户反馈</h4>
+            <p><strong>错误：</strong> 闭门造车，按自己想法开发<br>
+            <strong>教训：</strong> 建用户群，每周收集反馈</p>
+        </div>
+
+        <div class="lesson-box">
+            <h4>坑3：推广太晚</h4>
+            <p><strong>错误：</strong> 产品做好才推广<br>
+            <strong>教训：</strong> 边开发边推广，积累种子用户</p>
+        </div>
+
+        <div class="lesson-box">
+            <h4>坑4：数据不追踪</h4>
+            <p><strong>错误：</strong> 不知道用户从哪来，怎么用<br>
+            <strong>教训：</strong> 第一天就加Google Analytics</p>
+        </div>
+
+        <div class="lesson-box">
+            <h4>坑5：单一流量来源</h4>
+            <p><strong>错误：</strong> 只依赖知乎，流量波动大<br>
+            <strong>教训：</strong> 多渠道布局（SEO+社交+视频）</p>
+        </div>
+
+        <h2>结语：给想做副业的开发者</h2>
+
+        <div class="info-box">
+            <h4>3个最重要的经验</h4>
+            <ol>
+                <li><strong>先解决真问题，再考虑技术</strong> - 不要为了炫技而开发</li>
+                <li><strong>推广和开发同样重要</strong> - 酒香也怕巷子深</li>
+                <li><strong>用户反馈是最好的指南针</strong> - 不要闭门造车</li>
+            </ol>
+        </div>
+
+        <div class="cta-section">
+            <h3>🎯 行动建议</h3>
+            <p style="margin-bottom: 30px;">如果你想做副业、推广产品、学增长黑客：</p>
+            
+            <div style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <p><strong>第一步：</strong> 写1篇爆款文章（内容营销）</p>
+                <p><strong>第二步：</strong> 录1个演示视频（视觉化展示）</p>
+                <p><strong>第三步：</strong> 找3个KOL合作（借力扩散）</p>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <a href="https://md.gptgen.xyz" class="cta-button">访问工具网站</a>
+                <a href="https://droidyue.com" class="cta-button">查看作者博客</a>
+            </div>
+
+            <p style="margin-top: 30px; opacity: 0.9;">
+                <strong>关于作者：</strong> Andy，技术博主，AI创业者<br>
+                博客：droidyue.com | 产品：md.gptgen.xyz
+            </p>
+        </div>
+    </div>
+</body>
+</html>
