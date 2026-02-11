@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>洗车店就在家门口 50 米，我问 AI 怎么去，它说"走过去"</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: #fff;
+            padding: 16px;
+            font-size: 16px;
+        }
+        
+        .article {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #000;
+            margin: 30px 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin: 24px 0 12px;
+        }
+        
+        p {
+            margin-bottom: 16px;
+            text-align: justify;
+            line-height: 1.8;
+        }
+        
+        .cover-img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .highlight-box {
+            background: #f7f7f7;
+            border-left: 4px solid #07c160;
+            padding: 12px 16px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .highlight-box p {
+            margin-bottom: 8px;
+        }
+        
+        .highlight-box p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .quote {
+            background: #fff9e6;
+            border-left: 4px solid #ff9500;
+            padding: 12px 16px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .quote p {
+            margin-bottom: 8px;
+        }
+        
+        .quote p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .code-block {
+            background: #f5f5f5;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin: 16px 0;
+            border-radius: 4px;
+            font-family: "SF Mono", Monaco, Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 24px 0;
+            color: #ccc;
+            font-size: 14px;
+        }
+        
+        ul, ol {
+            margin: 12px 0;
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+            line-height: 1.7;
+        }
+        
+        strong {
+            font-weight: 600;
+            color: #000;
+        }
+        
+        .emoji {
+            font-size: 18px;
+        }
+        
+        .check {
+            color: #07c160;
+        }
+        
+        .cross {
+            color: #fa5151;
+        }
+        
+        .tip-box {
+            background: #e7f4ff;
+            border: 1px solid #91d5ff;
+            padding: 12px 16px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .tip-box strong {
+            color: #0050b3;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .section-header {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 20px 0 12px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="article">
+        <h1>洗车店就在家门口 50 米，我问 AI 怎么去，它说"走过去"—— 为什么 AI 会集体翻车？</h1>
+        
+        <img src="https://images.unsplash.com/photo-1485463611174-f302f6a5c1c9?w=1200&q=80" alt="AI Technology" class="cover-img">
+        
+        <div class="highlight-box">
+            <p><strong>📌 你会学到什么</strong></p>
+            <p>✅ 为什么 AI 给出"正确"但无用的答案<br>
+            ✅ 大语言模型的实际工作原理（以及它们做不到什么）<br>
+            ✅ 模式匹配与推理的区别<br>
+            ✅ 为什么 AI 缺乏"常识"</p>
+        </div>
+        
+        <div class="divider">━━━━━━</div>
+        
+        <h2>🎬 真实案例：一次翻车的对话</h2>
+        
+        <p>让我分享昨天和 AI 的一段对话：</p>
+        
+        <div class="quote">
+            <p><strong>我：</strong> "洗车店距离我家 50 米，我怎么过去？"</p>
+            <p><strong>ChatGPT：</strong> "很简单！直接走过去就可以了，50 米大约是 1 分钟的步行距离。"</p>
+            <p><strong>我：</strong> "......"</p>
+        </div>
+        
+        <p>听起来很合理，对吧？AI 给出了一个<strong>正确的</strong>答案。</p>
+        
+        <p><strong>但问题是：我问这个问题，是因为我想开车去。</strong></p>
+        
+        <p>我当时坐在车里，准备导航去 50 米外的洗车店。我问 AI 怎么去，期待它说：</p>
+        
+        <div class="quote">
+            <p>"太近了，不需要导航。直接往前开就能看到。"</p>
+        </div>
+        
+        <p>但它告诉我<strong>走过去</strong>。</p>
+        
+        <p><strong>为什么 AI 在这么简单的问题上翻车了？</strong></p>
+        
+        <div class="divider">━━━━━━</div>
+        
+        <h2>Part 1: AI "说"对了，但没"想"对</h2>
+        
+        <h3>理解的幻觉</h3>
+        
+        <p>当 ChatGPT 告诉我"走过去"时，它并没有错。走 50 米是完全合理的建议 —— <strong>如果你是个行人的话</strong>。</p>
+        
+        <p>问题是：<strong>AI 没有理解上下文</strong>。</p>
+        
+        <p>它看到了：</p>
+        <ul>
+            <li>距离：50 米</li>
+            <li>问题："我怎么过去？"</li>
+            <li>模式：短距离 → 走路</li>
+        </ul>
+        
+        <p>它匹配了模式。但它错过了我问题背后的<strong>意图</strong>。</p>
+        
+        <div class="tip-box">
+            <p><strong>📖 打个比方</strong></p>
+            <p>想象你问同学："我怎么去食堂？"</p>
+            <p><strong>聪明的同学：</strong> 看着你，注意到你坐轮椅，说"坐电梯。"</p>
+            <p><strong>AI 同学：</strong> 不看你，直接说"走过去。"</p>
+            <p><strong>为什么？因为 AI 不会"看"你 —— 它只看到文字。</strong></p>
+        </div>
+        
+        <div class="divider">━━━━━━</div>
+        
+        <h2>Part 2: LLM 的工作原理 —— Token 预测机器</h2>
+        
+        <h3>AI 不是在"思考"，而是在"预测"</h3>
+        
+        <p>让我们理解当你和 ChatGPT、Claude 对话时，实际发生了什么。</p>
+        
+        <p><strong>AI 本质上是一个预测下一个词的机器。</strong></p>
+        
+        <p>以下是它如何处理你的问题：</p>
+        
+        <div class="code-block">
+<strong>输入：</strong>
+"洗车店距离我家 50 米，我怎么过去？"
+
+<strong>分词：</strong>
+["洗车店", "距离", "我家", "50", "米", "，", "我", "怎么", "过去", "？"]
+
+<strong>AI 的内部处理：</strong>
+Token 1: "洗车店"
+Token 2: "距离"
+Token 3: "我家"
+Token 4: "50"
+Token 5: "米"  ← 哦，短距离
+...
+Token 10: "？" ← 问号
+
+检测到模式：
+[短距离] + [怎么去]
+
+最可能的回复：
+→ "走过去"
+        </div>
+        
+        <p><strong>这不是推理。这是模式匹配。</strong></p>
+        
+        <h3>AI 看到的 vs. 你的意思</h3>
+        
+        <p>当你输入："洗车店距离我家 50 米，我怎么过去？"</p>
+        
+        <p><strong>你的意思：</strong></p>
+        <ul>
+            <li>我在车里</li>
+            <li>我需要开车去</li>
+            <li>我在问是否近到不需要导航</li>
+        </ul>
+        
+        <p><strong>AI 看到的：</strong></p>
+        <ul>
+            <li>距离 = 50 米</li>
+            <li>问题词 = "怎么"</li>
+            <li>上下文 = 无</li>
+        </ul>
+        
+        <div class="tip-box">
+            <p><strong>📊 人类推理 vs. AI 处理</strong></p>
+            <p><strong>人类：</strong><br>
+            问题 → 上下文 → 意图 → 答案<br>
+            "怎么去？" → 他在问洗车店 → 可能想开车 → "太近了，直接开过去"</p>
+            <p><strong>AI：</strong><br>
+            Tokens → 模式 → 最可能的 token<br>
+            ["50", "米", "怎么", "去"] → 模式：short_distance + travel → 最常见答案："走过去"</p>
+        </div>
+        
+        <p><strong>看到区别了吗？人类从意图推理。AI 匹配模式。</strong></p>
+        
+        <div class="divider">━━━━━━</div>
+        
+        <h2>Part 3: 为什么 AI 缺乏"常识"</h2>
+        
+        <h3>缺失的部分：物理世界模型</h3>
+        
+        <p>AI 读过数十亿个单词，但它从未：</p>
+        <ul>
+            <li>坐过车</li>
+            <li>走过 50 米</li>
+            <li>见过洗车店</li>
+        </ul>
+        
+        <p><strong>它没有物理世界的模型。</strong></p>
+        
+        <p class="section-header">常识 = 物理世界 + 社会规范 + 隐含知识</p>
+        
+        <p><strong>1. 物理世界知识</strong></p>
+        
+        <p><span class="check">✅</span> <strong>人类知道：</strong></p>
+        <ul>
+            <li>如果你已经在车里，50 米也要用车</li>
+            <li>走路是给行人的</li>
+            <li>你不会下车走 50 米</li>
+        </ul>
+        
+        <p><span class="cross">❌</span> <strong>AI 不知道：</strong></p>
+        <ul>
+            <li>坐在车里是什么感觉</li>
+            <li>下车会很不方便</li>
+            <li>这个问题暗示"我在车里"</li>
+        </ul>
+        
+        <p><strong>2. 社会规范</strong></p>
+        
+        <p><span class="check">✅</span> <strong>人类知道：</strong></p>
+        <ul>
+            <li>问"怎么去"一个 50 米的地方暗示特殊情况</li>
+            <li>正常人不需要帮助走 50 米</li>
+            <li>所以问题可能是关于开车</li>
+        </ul>
+        
+        <p><span class="cross">❌</span> <strong>AI 不知道：</strong></p>
+        <ul>
+            <li>问题的社会含义</li>
+            <li>什么是"显而易见"vs"需要问"</li>
+        </ul>
+        
+        <p><strong>3. 隐含知识</strong></p>
+        
+        <p><span class="check">✅</span> <strong>人类推断：</strong></p>
+        <ul>
+            <li>问洗车店 → 可能在开车</li>
+            <li>已经知道位置 → 问的是导航</li>
+            <li>50 米对导航应用来说很尴尬</li>
+        </ul>
+        
+        <p><span class="cross">❌</span> <strong>AI 推断：</strong></p>
+        <ul>
+            <li>什么都不推断。只处理明确的文字。</li>
+        </ul>
+        
+        <div class="quote">
+            <p><strong>⚠️ 常见误区</strong></p>
+            <p><span class="cross">❌</span> "AI 可以从更多训练数据中学到常识。"</p>
+            <p><span class="check">✅</span> <strong>真相：</strong> 常识需要<strong>具身体验</strong>。你无法仅从文本中学会坐在车里是什么感觉。</p>
+            <p><strong>读再多关于游泳的文字，都学不会游泳。</strong></p>
+        </div>
+        
+        <div class="divider">━━━━━━</div>
+        
+        <h2>Part 4: 更多翻车案例 —— 当模式匹配失败时</h2>
+        
+        <h3>案例 1：草莓问题</h3>
+        
+        <div class="quote">
+            <p><strong>问题：</strong> "strawberry" 这个词里有几个字母 'r'？</p>
+            <p><strong>GPT-4 回答：</strong> "strawberry 里有两个 'r'。"</p>
+            <p><strong>正确答案：</strong> 三个。(st<strong>r</strong>awbe<strong>rr</strong>y)</p>
+        </div>
+        
+        <p><strong>为什么翻车：</strong> AI 不"看"字母。它看 token。"strawberry" 是一个 token，不是 10 个字母。</p>
+        
+        <h3>案例 2：反转文本问题</h3>
+        
+        <div class="quote">
+            <p><strong>问题：</strong> 反转单词 "apple"</p>
+            <p><strong>AI 回答：</strong> "elppa" <span class="check">✅</span></p>
+            <p><strong>问题：</strong> 反转单词 "ChatGPT"</p>
+            <p><strong>AI 回答：</strong> 经常答错 <span class="cross">❌</span></p>
+        </div>
+        
+        <p><strong>为什么困难：</strong> Token 级处理使字符操作变得困难。</p>
+        
+        <h3>案例 3：大小比较问题</h3>
+        
+        <div class="quote">
+            <p><strong>问题：</strong> 哪个更大：9.11 还是 9.9？</p>
+            <p><strong>早期 GPT 回答：</strong> "9.11 更大，因为它有更多数字。"</p>
+            <p><strong>正确答案：</strong> 9.9（9.11 = 九点一一，不是九百一十一）</p>
+        </div>
+        
+        <p><strong>为什么翻车：</strong> 模式匹配"更多数字 = 更大"，不理解小数。</p>
+        
+        <h3>案例 4：50 米洗车店（我们的案例）</h3>
+        
+        <div class="quote">
+            <p><strong>问题：</strong> "洗车店距离我家 50 米，我怎么过去？"</p>
+            <p><strong>AI 回答：</strong> "走过去。"</p>
+            <p><strong>我的意思：</strong> "我在车里，是不是太近了不需要导航？"</p>
+        </div>
+        
+        <p><strong>模式：短距离 + "怎么过去" → 走路</strong></p>
+        
+        <div class="divider">━━━━━━</div>
+        
+        <h2>Part 5: 这告诉我们什么</h2>
+        
+        <h3>AI 是"学者综合症患者" —— 某些领域天才，其他方面无知</h3>
+        
+        <p>把 AI 想象成一个患有<strong>学者综合症</strong>的人 —— 在特定领域有非凡能力，但缺乏基本常识。</p>
+        
+        <p><strong>AI 的超能力：</strong></p>
+        <ul>
+            <li><span class="check">✅</span> 写代码</li>
+            <li><span class="check">✅</span> 翻译语言</li>
+            <li><span class="check">✅</span> 总结文档</li>
+            <li><span class="check">✅</span> 回答事实性问题</li>
+            <li><span class="check">✅</span> 模式识别</li>
+        </ul>
+        
+        <p><strong>AI 的盲区：</strong></p>
+        <ul>
+            <li><span class="cross">❌</span> 物理世界推理</li>
+            <li><span class="cross">❌</span> 上下文理解</li>
+            <li><span class="cross">❌</span> 常识判断</li>
+            <li><span class="cross">❌</span> 意图推断</li>
+            <li><span class="cross">❌</span> 具身体验</li>
+        </ul>
+        
+        <h3>悖论：更多数据 ≠ 更多理解</h3>
+        
+        <p>OpenAI 用以下内容训练 GPT-4：</p>
+        <ul>
+            <li>数十亿网页</li>
+            <li>书籍、论文、代码</li>
+            <li>对话</li>
+        </ul>
+        
+        <p><strong>但它仍然不知道，当你已经在车里时，你不会走 50 米去洗车店。</strong></p>
+        
+        <p>为什么？因为<strong>知道 ≠ 理解</strong>。</p>
+        
+        <div class="tip-box">
+            <p><strong>📖 设计背后的故事</strong></p>
+            <p><strong>"中文房间"论证（1980）</strong></p>
+            <p>哲学家 John Searle 提出：想象一个人在房间里，有一本翻译中文的规则书。他们收到中文问题，按照规则，产生中文答案。</p>
+            <p><strong>他们理解中文吗？不。他们只是在遵循规则。</strong></p>
+            <p><strong>这就是 LLM 所做的。它们遵循统计规则，但它们不"理解"。</strong></p>
+        </div>
+        
+        <div class="divider">━━━━━━</div>
+        
+        <h2>Part 6: 如何与 AI 的局限性共处</h2>
+        
+        <h3>给出明确的上下文</h3>
+        
+        <p><span class="cross">❌</span> <strong>之前：</strong> "洗车店距离我家 50 米，我怎么过去？"</p>
+        
+        <p><span class="check">✅</span> <strong>现在：</strong> "我现在在车里，洗车店距离我家 50 米。我需要导航吗？"</p>
+        
+        <p><strong>明确说明：</strong></p>
+        <ul>
+            <li>你的当前状态（我在车里）</li>
+            <li>你的意图（我想开车去）</li>
+            <li>你的实际问题（太近了需要导航吗？）</li>
+        </ul>
+        
+        <h3>理解 AI 擅长什么</h3>
+        
+        <p><strong><span class="check">✅</span> 用 AI 来：</strong></p>
+        <ul>
+            <li>文本生成（写代码、文案）</li>
+            <li>模式识别（分类、总结）</li>
+            <li>知识检索（查找信息）</li>
+            <li>翻译</li>
+        </ul>
+        
+        <p><strong><span class="cross">❌</span> 不要依赖 AI：</strong></p>
+        <ul>
+            <li>常识判断</li>
+            <li>物理推理</li>
+            <li>微妙的社交语境</li>
+            <li>意图理解</li>
+        </ul>
+        
+        <h3>验证，不要盲目信任</h3>
+        
+        <p>当 AI 给你一个答案时，问问自己：</p>
+        
+        <ul>
+            <li>这在上下文中合理吗？</li>
+            <li>我提供了足够的信息吗？</li>
+            <li>AI 只是在匹配模式吗？</li>
+        </ul>
+        
+        <p><strong>AI 是工具，不是神谕。</strong></p>
+        
+        <div class="divider">━━━━━━</div>
+        
+        <h2>总结：为什么 AI 在简单问题上翻车</h2>
+        
+        <div class="highlight-box">
+            <p><strong>五个原因</strong></p>
+            <p><strong>❶</strong> AI 不理解上下文</p>
+            <p><strong>❷</strong> AI 是模式匹配器，不是推理器</p>
+            <p><strong>❸</strong> AI 缺少物理世界模型</p>
+            <p><strong>❹</strong> AI 无法推断隐含意图</p>
+            <p><strong>❺</strong> 常识需要具身体验</p>
+        </div>
+        
+        <h3>一句话总结</h3>
+        
+        <p><strong>AI 在模式匹配方面令人难以置信，但在常识方面很糟糕 —— 因为它从未体验过物理世界。</strong></p>
+        
+        <h3>思考题</h3>
+        
+        <div class="quote">
+            <p>下次你问 AI 一个问题时，试着问问自己："我是否给了它足够的上下文来理解我的<strong>意图</strong>，而不仅仅是我的<strong>词语</strong>？"</p>
+        </div>
+        
+        <div class="divider">━━━━━━</div>
+        
+        <h2>🎓 最后的思考</h2>
+        
+        <p>50 米洗车店问题不是一个 bug —— 这是一个特性。</p>
+        
+        <p><strong>它提醒我们，AI 是一个为模式匹配而构建的工具，而不是一个理解世界的心智。</strong></p>
+        
+        <p>当 AI 说：</p>
+        
+        <div class="quote">
+            <p>"等等，你在车里问洗车店怎么走。它就在 50 米外 —— 看看窗外，直接开过去。你不需要导航。"</p>
+        </div>
+        
+        <p><strong>那一天，AI 才有了常识。</strong></p>
+        
+        <p><strong>我们还没到那一步。</strong></p>
+        
+        <div class="divider">━━━━━━</div>
+        
+        <div class="highlight-box">
+            <p><strong>💬 你的经历</strong></p>
+            <p>你遇到过哪些"AI 翻车"的时刻？<br>
+            欢迎留言分享！</p>
+        </div>
+        
+        <div class="footer">
+            <p>文章长度：约 2,800 字 | 阅读时间：约 10 分钟</p>
+            <p>首发于 OpenClaw 工作室 | 2026-02-12</p>
+        </div>
+    </div>
+</body>
+</html>
