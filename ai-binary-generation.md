@@ -82,20 +82,16 @@ int sum_array(int* arr, int n) {
 
 ### 权威Benchmark数据揭示的现实
 
-**SWE-Bench Verified (2024年数据)**
-SWE-Bench是目前最权威的AI编程能力测试，要求AI修复来自真实GitHub项目的bug。根据官方2024年最新数据：
-- **Claude 3.5 Sonnet**：49.0%（500个验证案例）
-- **GPT-4o**：43.2%
-- **DeepSeek-V2-Coder**：43.0%  
-- **SWE-agent (开源SOTA)**：12.5%（完整2294个案例）
+**SWE-Bench Verified（2026年2月最新数据，来源：swebench.com）**
+SWE-Bench是目前最权威的AI编程能力测试，要求AI修复来自真实GitHub项目的bug。最新排行榜：
+- **Claude 4.5 Opus**：74.40%（当前第一）
+- **Gemini 3 Pro Preview**：74.20%
+- **GPT-5.2 (high reasoning)**：71.80%
+- **Claude 4.5 Sonnet**：70.60%
+- **DeepSeek V3.2 Reasoner**：60.00%（成本仅$0.03）
+注意，这已经比一年前的49%（Claude 3.5 Sonnet）提升了巨大幅度。AI编程能力的进化速度确实惊人。
 
-**HumanEval (代码生成基础测试)**
-OpenAI的HumanEval基准测试显示：
-- **GPT-4**：67.0%（164个Python编程问题）
-- **Claude 3.5 Sonnet**：64.0%
-- **最强开源模型（DeepSeek-Coder-33B）**：78.6%
-
-这意味着即使是最先进的AI，在处理真实编程任务时，成功率还不到50%。更关键的是，这些任务都是在现有代码基础上的修复或高级语言的简单函数编写，复杂度远低于直接生成二进制程序。
+但即便如此，当前最强的AI在真实编程任务上也只有74%的成功率——而这些任务都是在现有代码基础上的bug修复，远不是从零生成完整程序。更关键的是，这些任务都是在现有代码基础上的修复或高级语言的简单函数编写，复杂度远低于直接生成二进制程序。
 
 ### 代码质量的三大问题
 
