@@ -1,4 +1,4 @@
-# 千亿CEO的深夜代码：Tobi Lütke 为什么还在写程序？
+# 千亿总裁的深夜代码：Tobi Lütke 为什么还在写程序？
 
 ![Cover](cover)
 
