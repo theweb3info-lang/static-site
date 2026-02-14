@@ -1,4 +1,4 @@
-![蒸馏 - Photo by Shawn DENG on Unsplash](images/distillation-cover.jpg)
+![蒸馏 - Photo by Shawn DENG on Unsplash](https://theweb3info-lang.github.io/static-site/images/distillation-cover.jpg)
 
 # AI知识蒸馏：当天龙八部遇上现代科技
 
