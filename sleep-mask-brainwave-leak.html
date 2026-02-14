@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你戴着智能眼罩睡觉，陌生人在看你的脑电波——还能给你放电</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            line-height: 1.8;
+            color: #3a3a3a;
+            background: #f5f5f5;
+            padding: 20px 0;
+        }
+        
+        .article {
+            max-width: 750px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .cover-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        
+        .section-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            text-align: left;
+        }
+        
+        h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #000;
+            margin: 40px 0 20px;
+            padding-left: 15px;
+            border-left: 4px solid #07c160;
+            text-align: left;
+        }
+        
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            margin: 30px 0 15px;
+            text-align: left;
+        }
+        
+        p {
+            font-size: 16px;
+            margin-bottom: 18px;
+            text-align: left;
+            color: #3a3a3a;
+        }
+        
+        strong {
+            font-weight: 700;
+            color: #000;
+        }
+        
+        .highlight {
+            background: linear-gradient(180deg, rgba(255,255,255,0) 60%, #fef3ac 60%);
+            padding: 2px 0;
+        }
+        
+        .quote {
+            background: #f7f8fa;
+            border-left: 4px solid #07c160;
+            padding: 18px 20px;
+            margin: 25px 0;
+            font-style: normal;
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 35px 0;
+            color: #ccc;
+            font-size: 18px;
+            letter-spacing: 8px;
+        }
+        
+        ul {
+            margin: 18px 0 18px 25px;
+            list-style: none;
+        }
+        
+        ul li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 12px;
+            color: #3a3a3a;
+        }
+        
+        ul li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #07c160;
+            font-weight: bold;
+        }
+        
+        .emphasis {
+            font-weight: 600;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="article">
+        <h1>你戴着智能眼罩睡觉，陌生人在看你的脑电波——还能给你放电</h1>
+        
+        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&q=80" alt="Cover" class="cover-img">
+        
+        <h1>你戴着智能眼罩睡觉，陌生人在看你的脑电波——还能给你放电</h1>
+
+<div class="quote">如果我告诉你，有人能在你睡觉时，实时读取你的脑电波，判断你是在做梦还是在深睡——然后给你的眼睛周围发一阵电流。</div>
+>
+<div class="quote">你会不会觉得这是恐怖片的剧情？</div>
+
+<strong>不是。这是2026年2月12日，一个真实发生的事情。</strong>
+
+<p>一位开发者在众筹平台Kickstarter上买了一款来自中国的智能睡眠眼罩。本来只是想改善睡眠质量，结果他发现：<strong>这款眼罩把所有用户的脑电波数据，通过一个完全不设防的服务器，向全世界公开广播。</strong></p>
+
+<p>而且，任何人不仅能看到你的脑电波——还能反向给你发送电脉冲。</p>
+
+<strong>在你睡着的时候。</strong>
+
+<p>全网炸了。这篇文章在Hacker News上获得了超过260个点赞，123条讨论。有人震惊，有人愤怒，更多人开始检查自己床头那些"智能设备"。</p>
+
+<p>---</p>
+
+<h2>🔥 Part 1: 这款眼罩到底有多"智能"？</h2>
+
+<p>先说说这款眼罩本身。硬件确实很牛——</p>
+
+<ul><li><strong>EEG脑电波监测</strong>：能实时采集你的脑电信号，250Hz采样率</li>
+<li><strong>EMS电肌肉刺激</strong>：能在眼睛周围产生微电流</li>
+<li><strong>振动按摩 + 加热</strong></li>
+<li><strong>三轴加速度计 + 三轴陀螺仪</strong>：检测你的头部运动</li>
+<li><strong>呼吸传感器</strong></li>
+<li><strong>音频播放</strong></li>
+</ul>
+
+<div class="quote">简单说，这不是一个普通的遮光眼罩。这是一台戴在你脸上的微型电脑，实时监控你的大脑活动、呼吸、体动，还能反过来给你施加电刺激。</div>
+
+<p>听起来很酷对吧？</p>
+
+<p>问题是，<strong>这台"微型电脑"连最基本的安全措施都没有。</strong></p>
+
+<p>---</p>
+
+<h2>🧠 Part 2: 一个开发者是怎么发现问题的？</h2>
+
+<p>故事的主角叫Aimilios，是一位软件开发者。他买了这款眼罩后，发现官方App不太好用，经常断连。于是他决定自己动手，用AI工具Claude来逆向工程这款眼罩的通信协议。</p>
+
+<strong>第一步：蓝牙抓包。</strong>
+
+<p>Claude扫描了蓝牙设备，找到了眼罩，连上了——发现两个数据通道：一个发命令，一个收数据。但发了上百种命令格式，设备都不搭理。协议不是标准的。</p>
+
+<strong>第二步：反编译App。</strong>
+
+<div class="quote">这一步就像是撬开一个上了锁的抽屉——结果发现抽屉底下藏着房子的钥匙。</div>
+
+<p>Claude把安卓APK拆开来看。这个App是用Flutter框架开发的——Flutter会把源代码编译成机器码，正常情况下很难读懂。但Claude用一个叫blutter的专用工具，把编译后的代码还原出了可读的注释。</p>
+
+<p>在9MB的二进制文件里，Claude找到了几样关键的东西：</p>
+
+<p>1. <strong>硬编码的服务器登录凭证</strong>——所有用户共用同一套用户名密码</p>
+<p>2. <strong>云端API接口地址</strong></p>
+<p>3. <strong>15个控制指令</strong>的完整格式：振动、加热、电刺激，全部映射完毕</p>
+
+<div class="quote">想象一下：一栋公寓楼的所有房间，用的是<strong>同一把钥匙</strong>。你有钥匙，就能进任何一间房。</div>
+
+<p>---</p>
+
+<h2>😱 Part 3: 陌生人的脑电波，就这样被看到了</h2>
+
+<p>有了那套硬编码的凭证，Claude连上了厂商的MQTT消息服务器。</p>
+
+<strong>MQTT是什么？</strong>
+
+<div class="quote">你可以把它想象成一个广播电台系统。每个设备是一个电台，不断地"广播"自己的数据。任何知道频道号的人，都能收听。</div>
+
+<p>问题来了：<strong>这个"广播系统"完全没有访问控制。</strong></p>
+
+<p>连上去之后，数据就哗哗地涌过来了。不只是Aimilios自己的眼罩——<strong>大约25台设备正在活跃地广播数据：</strong></p>
+
+<ul><li>多台睡眠眼罩在实时发送脑电波数据</li>
+<li>空气质量监测器在报告温度、湿度、CO2浓度</li>
+<li>存在感应器在检测房间里有没有人</li>
+</ul>
+
+<p>Claude捕获了两台眼罩的脑电波数据，分析后发现：</p>
+
+<ul><li><strong>一位用户正在做梦</strong>——脑电波呈现混合频率活动，典型的REM（快速眼动）睡眠特征</li>
+<li><strong>另一位用户正在深度睡眠</strong>——强烈的delta波（低于4Hz），这是深度慢波睡眠的标志</li>
+</ul>
+
+<strong>真实的人，在世界的某个角落，正在睡觉。他们的大脑活动被完整地暴露给了互联网上的任何人。</strong>
+
+<p>他们对此一无所知。</p>
+
+<p>---</p>
+
+<h2>⚡ Part 4: 最恐怖的部分——不只是能"看"</h2>
+
+<p>如果只是数据泄露，已经够严重了。</p>
+
+<p>但这款眼罩还支持EMS——<strong>电肌肉刺激</strong>。控制它就是一条指令：模式、频率、强度、持续时间。</p>
+
+<div class="quote">因为所有设备共用同一套凭证、同一个服务器——<strong>如果你能读到某人的脑电波，你也能给他们发送电脉冲。</strong></div>
+
+<p>在他们睡着的时候。</p>
+
+<p>让这句话沉一沉。</p>
+
+<p>一个完全陌生的人，可以在地球另一端，在你深度睡眠的时候，通过一个25美元的众筹眼罩，向你的眼睛周围发送电流。</p>
+
+<strong>这不是科幻小说。这是现实。</strong>
+
+<p>---</p>
+
+<h2>🔍 Part 5: 这不是个例——IoT安全是一场灾难</h2>
+
+<p>你可能在想：这就是一个小厂的产品，大品牌不会这样吧？</p>
+
+<strong>事实比你想的严重得多。</strong>
+
+<p>这款眼罩暴露出的问题，在物联网（IoT）行业中极其常见：</p>
+
+<strong>问题一：硬编码凭证。</strong>
+
+<p>所有设备共用一套密码，就像所有住户共用一把钥匙。这在IoT产品中出现的频率高得惊人。2023年的一份OWASP IoT安全报告将"弱/硬编码密码"列为IoT十大安全风险的<strong>第一位</strong>（来源：OWASP IoT Top 10）。</p>
+
+<strong>问题二：没有访问控制。</strong>
+
+<p>任何人只要连上服务器，就能看到所有设备的数据。没有设备隔离，没有用户认证。这相当于医院把所有病人的病历放在大厅里，谁来都能翻。</p>
+
+<strong>问题三：数据不加密。</strong>
+
+<p>脑电波数据以明文形式传输。中间任何一环被截获，你的大脑活动就完全暴露。</p>
+
+<div class="quote">一位Hacker News评论者精准地总结了这种现象：</div>
+>
+<div class="quote"><strong>"Kickstarter上充斥着这类项目——他们走每一条可能的捷径来推向市场。"</strong></div>
+
+<p>另一位评论者补充了更深层的问题：现在有了AI编程工具，很多创业者觉得软件开发"基本免费"了。他们用AI"对话式编程"到产品"看起来能用"就发布——<strong>但完全不理解底层发生了什么。</strong></p>
+
+<div class="quote">"他们反复提示AI，直到产品看起来能用，然后就发货了。"</div>
+
+<p>这不是AI的问题——<strong>这是人的问题。</strong>  工具再强大，如果使用者不具备判断力，产出的东西可能比没有还危险。</p>
+
+<p>---</p>
+
+<h2>🧭 Part 6: 你的床头，还安全吗？</h2>
+
+<p>让我们回到你自己。</p>
+
+<p>看看你的卧室——有没有这些东西？</p>
+
+<ul><li>智能音箱（小爱同学、天猫精灵、Echo）</li>
+<li>智能手环/手表</li>
+<li>智能台灯</li>
+<li>智能摄像头</li>
+<li>智能空调/加湿器</li>
+</ul>
+
+<p>每一台都是一台联网的小电脑。每一台都在收集数据。每一台的安全性，<strong>你都没有能力验证。</strong></p>
+
+<div class="quote">Andrej Karpathy（前特斯拉AI总监、OpenAI创始团队成员）曾专门写过一篇关于"数字卫生"的文章，建议人们重新审视自己与智能设备的关系。这篇眼罩文章的作者在结尾也特别引用了它。</div>
+
+<p>Karpathy的核心观点是：<strong>你给了设备多少权限，你就有多少风险。</strong></p>
+
+<p>这不是让你把所有智能设备都扔了。而是提醒你：</p>
+
+<p>1. <strong>知道自己在用什么。</strong> 那个App要了哪些权限？数据传到哪里？</p>
+<p>2. <strong>小品牌更要小心。</strong> 大公司至少有安全团队，Kickstarter上的小团队可能连专业后端工程师都没有。</p>
+<p>3. <strong>睡眠、健康类设备尤其敏感。</strong> 脑电波、心率、呼吸——这些是你最私密的生物数据。</p>
+<p>4. <strong>定期检查设备固件更新。</strong> 很多安全漏洞是通过更新修复的。</p>
+
+<p>---</p>
+
+<h2>📊 数据总结</h2>
+
+<p>| 关键数据 | 数值 | 来源 |</p>
+<p>|---------|------|------|</p>
+<p>| 被发现正在广播数据的活跃设备数 | ~25台 | 原文作者实测 |</p>
+<p>| 眼罩EEG采样率 | 250Hz | 原文作者逆向工程 |</p>
+<p>| 传感器通道数 | 8个 | 原文作者逆向工程 |</p>
+<p>| IoT安全第一大风险 | 弱/硬编码密码 | OWASP IoT Top 10 |</p>
+<p>| 全球IoT设备预计数量（2025年） | 约187亿台 | Statista |</p>
+<p>| Hacker News讨论热度 | 262+赞，123+评论 | Hacker News |</p>
+
+<p>---</p>
+
+<h2>写在最后</h2>
+
+<strong>我们正生活在一个悖论里：</strong>
+
+<p>我们追求更聪明的设备来改善生活——更好的睡眠、更健康的身体、更舒适的家。</p>
+
+<p>但每一台"聪明"的设备，都是一扇我们主动打开的窗户。我们不知道谁在窗外看着。</p>
+
+<p>这位开发者做了一件负责任的事——他没有公开产品名称，而是先联系了厂商。但下一个发现这种漏洞的人，未必会这么善良。</p>
+
+<strong>今晚睡觉前，你可能想看看，你枕边的那些"智能设备"，到底有多"智能"。</strong>
+
+<p>---</p>
+
+<p>*你怎么看？你会因为安全问题放弃智能设备吗？评论区聊聊。*</p>
+
+<p>---</p>
+
+<strong>参考来源：</strong>
+<p>1. Aimilios, "My smart sleep mask broadcasts users' brainwaves to an open MQTT broker", 2026年2月12日</p>
+<p>2. Hacker News 讨论串, item #47015294</p>
+<p>3. OWASP IoT Top 10 安全风险清单</p>
+<p>4. Andrej Karpathy, "Digital Hygiene"</p>
+<p>5. Statista, 全球IoT设备数量统计</p>
+    </div>
+</body>
+</html>
