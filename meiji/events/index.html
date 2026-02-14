@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>明治维新事件篇 | 改变日本的历史时刻</title>
+<style>
+:root {
+  --bg: #faf8f5;
+  --text: #333;
+  --accent: #8B0000;
+  --card-bg: #fff;
+  --border: #e8e0d8;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #1a1a1a; --text: #e0d8d0; --accent: #c0392b; --card-bg: #252525; --border: #3a3a3a; }
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif; background: var(--bg); color: var(--text); }
+.header { text-align: center; padding: 60px 20px 30px; }
+.header h1 { font-size: 2.2em; color: var(--accent); margin-bottom: 8px; }
+.header p { font-size: 1.1em; opacity: 0.7; }
+.back-link { text-align: center; margin: 20px 0; }
+.back-link a { color: var(--accent); text-decoration: none; }
+.section { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+.section h2 { font-size: 1.3em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 12px; margin-bottom: 16px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px; transition: transform 0.2s; }
+.card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.card .title { font-size: 1.3em; font-weight: bold; margin-bottom: 8px; }
+.card .date { font-size: 0.9em; color: var(--accent); margin-bottom: 8px; }
+.card .desc { font-size: 0.95em; opacity: 0.8; margin-bottom: 16px; line-height: 1.6; }
+.card .links a { display: inline-block; margin-right: 12px; font-size: 0.9em; color: var(--accent); text-decoration: none; padding: 4px 8px; border: 1px solid var(--accent); border-radius: 4px; }
+.card .links a:hover { background: var(--accent); color: #fff; }
+.footer { text-align: center; padding: 40px 20px; opacity: 0.5; font-size: 0.85em; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏛️ 明治维新事件篇</h1>
+  <p>改变日本历史的关键时刻</p>
+</div>
+
+<div class="back-link">
+  <a href="../index.html">← 返回人物志</a>
+</div>
+
+<div class="section">
+  <h2>📚 重大历史事件</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="title">黑船来航</div>
+      <div class="date">1853年7月8日</div>
+      <div class="desc">马修·佩里率领四艘黑船驶入江户湾，叩开了日本锁国200年的大门。四声炮响，改变了一个民族的命运。</div>
+      <div class="links">
+        <a href="event-01-黑船来航.md" target="_blank">📖 阅读</a>
+        <a href="event-01-黑船来航.mp3" target="_blank">🎧 音频</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  明治维新事件篇 · Powered by AI Content Pipeline
+</div>
+
+</body>
+</html>
