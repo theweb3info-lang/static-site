@@ -1,5 +1,7 @@
 # The Last Shogun Who Chose to Lose
 
+![Tokugawa Yoshinobu in 1867](../images/03-tokugawa-yoshinobu/cover-portrait.jpg)
+
 **He commanded the largest army in Japan, controlled the most powerful navy in East Asia, and inherited a dynasty that had ruled for 265 years. Then, in the middle of the battle that would decide everything, Tokugawa Yoshinobu abandoned his troops in the dead of night and sailed away. It was either the greatest act of cowardice in Japanese history — or the most courageous decision no one understood.**
 
 ---
@@ -57,6 +59,8 @@ In 1866, Shogun Iemochi died in Osaka Castle. He was twenty years old.
 The circumstances of his death tell you everything about the state of the shogunate. Iemochi had traveled to Osaka to oversee the Second Chōshū Expedition — a massive military campaign in which the shogunate mobilized tens of thousands of troops to punish the rebellious Chōshū domain. It was supposed to be a demonstration of overwhelming force, a reminder that the *bakufu* could still command obedience.
 
 It was a disaster. Chōshū's forces — smaller but armed with modern Western rifles and led by the brilliant Takasugi Shinsaku and his irregular militia units — routed the shogunate's armies on multiple fronts. The great feudal military machine of the Tokugawa, which had maintained order across Japan for over two and a half centuries, was beaten by the militia of a single domain. Iemochi died during the campaign, quite possibly from the stress of watching his government's credibility collapse in real time.
+
+![Tokugawa Yoshinobu in ceremonial dress](../images/03-tokugawa-yoshinobu/mid-1.jpg)
 
 This was the inheritance Yoshinobu accepted when he became the fifteenth shogun. He was stepping into a role that was, by any rational assessment, a poisoned chalice.
 
@@ -135,6 +139,8 @@ He liked it for a very long time.
 What Tokugawa Yoshinobu did with the remaining four and a half decades of his life is, in its own way, as extraordinary as anything he did during his political career.
 
 He disappeared. Not physically — he lived openly in Shizuoka, and later in Tokyo — but spiritually. He withdrew from politics completely. No scheming, no attempts at rehabilitation, no memoir-writing campaigns to restore his reputation. He simply... stopped being a political figure and started being a private person.
+
+![Tokugawa Yoshinobu in his later years](../images/03-tokugawa-yoshinobu/mid-2.jpg)
 
 And what a private person he became. Yoshinobu threw himself into an astonishing range of hobbies with the same intensity he had once brought to statecraft. Photography became his great passion — he acquired cameras (expensive, exotic instruments in Meiji-era Japan) and spent years documenting landscapes, still lifes, and the people around him. Hundreds of his photographs survive, offering a quietly intimate window into the daily life of a man who had once commanded armies.
 
