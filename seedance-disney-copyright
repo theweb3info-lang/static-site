@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>枪打出头鸟：春节刷屏的Seedance 2.0，直接被迪士尼告了</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            line-height: 1.8;
+            color: #3a3a3a;
+            background: #f5f5f5;
+            padding: 20px 0;
+        }
+        
+        .article {
+            max-width: 750px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .cover-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        
+        .section-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            text-align: left;
+        }
+        
+        h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #000;
+            margin: 40px 0 20px;
+            padding-left: 15px;
+            border-left: 4px solid #07c160;
+            text-align: left;
+        }
+        
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            margin: 30px 0 15px;
+            text-align: left;
+        }
+        
+        p {
+            font-size: 16px;
+            margin-bottom: 18px;
+            text-align: left;
+            color: #3a3a3a;
+        }
+        
+        strong {
+            font-weight: 700;
+            color: #000;
+        }
+        
+        .highlight {
+            background: linear-gradient(180deg, rgba(255,255,255,0) 60%, #fef3ac 60%);
+            padding: 2px 0;
+        }
+        
+        .quote {
+            background: #f7f8fa;
+            border-left: 4px solid #07c160;
+            padding: 18px 20px;
+            margin: 25px 0;
+            font-style: normal;
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 35px 0;
+            color: #ccc;
+            font-size: 18px;
+            letter-spacing: 8px;
+        }
+        
+        ul {
+            margin: 18px 0 18px 25px;
+            list-style: none;
+        }
+        
+        ul li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 12px;
+            color: #3a3a3a;
+        }
+        
+        ul li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #07c160;
+            font-weight: bold;
+        }
+        
+        .emphasis {
+            font-weight: 600;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="article">
+        <h1>枪打出头鸟：春节刷屏的Seedance 2.0，直接被迪士尼告了</h1>
+        
+        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&q=80" alt="Cover" class="cover-img">
+        
+        <h1>枪打出头鸟：春节刷屏的Seedance 2.0，直接被迪士尼告了</h1>
+
+<p>2月12号，字节跳动发了个新产品。</p>
+
+<p>两天后，迪士尼的律师函就到了。</p>
+
+<p>速度之快，堪称AI行业的"闪电战"。</p>
+
+<p>---</p>
+
+<p>迪士尼的律师 David Singer 在信里原话是这么写的：</p>
+
+<div class="quote">"ByteDance's virtual smash-and-grab of Disney's IP is willful, pervasive, and totally unacceptable."</div>
+<div class="quote">（字节跳动对迪士尼知识产权的虚拟打砸抢，是蓄意的、大规模的、完全不可接受的。）</div>
+
+<p>——来源：Axios，2026年2月13日首发报道</p>
+
+<p>看到这条新闻，朋友圈大概分成了三派：</p>
+
+<strong>嘲笑派：</strong> "迪士尼这是急了，中国AI把他们吓到了！"
+
+<strong>困惑派：</strong> "不就是个AI工具嘛，有什么好告的？"
+
+<strong>顿悟派：</strong> "卧槽……我上周用AI做的那个视频，是不是也有问题？"
+
+<p>如果你是第三种，恭喜你，你可能是对的。</p>
+
+<p>---</p>
+
+<h2>先说说 Seedance 2.0 到底是什么</h2>
+
+<p>简单讲：<strong>你打几个字，它给你生成一段视频。</strong></p>
+
+<p>不是那种PPT动画质感的视频。是那种——Deadpool编剧 Rhett Reese 看完之后在社交媒体上说 "I hate to say it. It's likely over for us"（我不想承认，但我们可能完了）的那种视频。</p>
+
+<p>——来源：The Guardian，2026年2月13日</p>
+
+<p>Seedance 2.0 是字节跳动（就是TikTok的母公司）在2月12号发布的AI视频生成模型。</p>
+
+<p>它支持四种输入方式：<strong>文字、图片、音频、视频。</strong></p>
+
+<p>输出是1080p高清视频，带同步音效。</p>
+
+<p>据 ByteDance Seed 团队官方博客介绍，它采用了"统一多模态音视频联合生成架构"——听不懂没关系，你只需要知道：<strong>它能做到的事情，比你想象的多得多。</strong></p>
+
+<p>让它真正出圈的是什么呢？</p>
+
+<p>爱尔兰导演 Ruairí Robinson 用它生成了一段15秒的视频：<strong>汤姆·克鲁斯和布拉德·皮特在一座废墟上的桥上打架。</strong></p>
+
+<p>他说，这只用了"两行提示词"。</p>
+
+<p>这段视频病毒式传播，直接引爆了好莱坞的恐慌。</p>
+
+<p>---</p>
+
+<h2>它是怎么做到的？一个类比</h2>
+
+<p>想象你在教一个小孩画画。</p>
+
+<p>你给他看了10万张猫的照片，然后对他说："画一只猫。"</p>
+
+<p>他画出来了。画得还挺好。</p>
+
+<p>问题是：<strong>那10万张照片，是谁拍的？拍照的人同意了吗？</strong></p>
+
+<p>AI视频生成，本质上就是这个过程：</p>
+
+<p>```</p>
+<p>┌─────────────────────────────────────────────┐</p>
+<p>│           AI 视频生成的底层逻辑              │</p>
+<p>├─────────────────────────────────────────────┤</p>
+<p>│                                             │</p>
+<p>│  互联网上的海量数据                          │</p>
+<p>│  （电影片段、图片、音乐、文字……）            │</p>
+<p>│          │                                  │</p>
+<p>│          ▼                                  │</p>
+<p>│  ┌───────────────┐                          │</p>
+<p>│  │   AI 模型训练  │  ← 在这里"学会"了        │</p>
+<p>│  │  （吃掉数据）  │    什么是蜘蛛侠          │</p>
+<p>│  └───────┬───────┘    什么是达斯·维达        │</p>
+<p>│          │            什么是尤达宝宝          │</p>
+<p>│          ▼                                  │</p>
+<p>│  用户输入："蜘蛛侠在上海打太极"              │</p>
+<p>│          │                                  │</p>
+<p>│          ▼                                  │</p>
+<p>│  ┌───────────────┐                          │</p>
+<p>│  │  生成新视频    │  ← 这算"创作"还是"抄袭"？ │</p>
+<p>│  └───────────────┘                          │</p>
+<p>│                                             │</p>
+<p>└─────────────────────────────────────────────┘</p>
+<p>```</p>
+
+<p>关键问题来了：</p>
+
+<p>AI"学习"的过程中吃掉的那些数据——电影、图片、小说、音乐——<strong>绝大多数是有版权的。</strong></p>
+
+<p>而且绝大多数版权方，<strong>根本不知道自己的作品被拿去喂了AI。</strong></p>
+
+<p>The Guardian 在报道中写道：AI系统——包括聊天机器人、图像生成器和视频制作工具——都是在从开放网络获取的数据上训练的，其中包括受版权保护的材料，如小说、艺术作品和电影片段。</p>
+
+<p>---</p>
+
+<h2>迪士尼到底在气什么？</h2>
+
+<p>回到 Seedance 2.0 的事。</p>
+
+<p>迪士尼在律师函里列出了一大堆被侵权的角色：</p>
+
+<ul><li><strong>蜘蛛侠</strong>（Spider-Man）</li>
+<li><strong>达斯·维达</strong>（Darth Vader）</li>
+<li><strong>尤达宝宝</strong>（Baby Yoda / Grogu）</li>
+<li><strong>彼得·格里芬</strong>（Peter Griffin，《恶搞之家》）</li>
+</ul>
+
+<p>——来源：Axios 报道</p>
+
+<p>律师函的措辞相当狠：说 Seedance 2.0 把迪士尼的IP当成了"免费的公共领域剪贴画"（free public domain clip art），里面藏着一个"盗版的迪士尼版权角色库"（pirated library of Disney's copyrighted characters）。</p>
+
+<p>——来源：Deadline，2026年2月13日</p>
+
+<p>而且不只是迪士尼。</p>
+
+<strong>美国电影协会（MPA）</strong> 主席 Charles Rivkin 公开声明：
+
+<div class="quote">"In a single day, the Chinese AI service Seedance 2.0 has engaged in unauthorized use of U.S. copyrighted works on a massive scale."</div>
+<div class="quote">（仅仅一天之内，中国AI服务 Seedance 2.0 就大规模未经授权使用了美国版权作品。）</div>
+
+<strong>美国演员工会 SAG-AFTRA</strong> 也发声了：
+
+<div class="quote">"The infringement includes the unauthorized use of our members' voices and likenesses."</div>
+<div class="quote">（侵权行为包括未经授权使用我们会员的声音和肖像。）</div>
+
+<p>——来源：The Wrap，2026年2月14日</p>
+
+<strong>人类艺术运动（Human Artistry Campaign）</strong> 更是直接定性：
+
+<div class="quote">"Stealing human creators' work in an attempt to replace them with AI-generated slop is destructive to our culture: stealing isn't innovation."</div>
+<div class="quote">（偷走人类创作者的作品，试图用AI生成的垃圾取代他们，这是在摧毁我们的文化：偷窃不是创新。）</div>
+
+<p>——来源：Deadline</p>
+
+<p>注意，这里用的词是 <strong>slop</strong>——垃圾、泔水。</p>
+
+<p>好莱坞是真的怒了。</p>
+
+<p>---</p>
+
+<h2>等等，先别急着看热闹</h2>
+
+<p>你可能在想：这是迪士尼和字节跳动的事，跟我有什么关系？</p>
+
+<p>那我问你一个问题：</p>
+
+<strong>你用过 ChatGPT 生成图片吗？用过 Midjourney 画过图吗？用过任何 AI 写过文章吗？</strong>
+
+<p>这些工具的训练数据，来源和 Seedance 2.0 是一模一样的——<strong>从互联网上海量抓取，其中大量是版权内容。</strong></p>
+
+<p>Seedance 2.0 只不过做得太明显了——你输入"蜘蛛侠"，它真的就给你生成一个蜘蛛侠。</p>
+
+<p>其他AI工具，只是<strong>藏得更深而已。</strong></p>
+
+<p>这不是字节跳动一家的问题。</p>
+
+<p>这是整个AI行业的原罪。</p>
+
+<p>---</p>
+
+<h2>数据冲击：看看已经打起来的官司</h2>
+
+<p>这场战争早就开始了，Seedance 只是最新的导火索。</p>
+
+<strong>已知的重大AI版权诉讼：</strong>
+
+<p>🔹 <strong>Getty Images 诉 Stability AI</strong></p>
+<p>全球最大图片库 Getty Images 起诉 Stable Diffusion 的开发商 Stability AI，指控其未经授权使用了数百万张版权图片来训练AI模型。这是美国最早的AI版权诉讼之一。</p>
+<p>——来源：Stafford Law 法律分析</p>
+
+<p>🔹 <strong>《纽约时报》诉 OpenAI 和微软</strong></p>
+<p>2023年12月，《纽约时报》起诉 OpenAI 和微软，指控 ChatGPT 使用了大量纽约时报的文章进行训练，索赔据报道高达数十亿美元。</p>
+<p>——来源：多家媒体广泛报道</p>
+
+<p>🔹 <strong>迪士尼、NBC环球、华纳兄弟 联合起诉 Midjourney 和 MiniMax</strong></p>
+<p>没错，迪士尼不是只告字节跳动。它联合了好莱坞几大巨头，同时起诉了AI图像生成工具 Midjourney 和中国AI公司 MiniMax。</p>
+<p>——来源：The Wrap</p>
+
+<p>🔹 <strong>迪士尼此前还给 Google、Meta、Character.AI 都发过律师函</strong></p>
+<p>2025年12月，迪士尼给Google发了律师函，指控其AI工具 Gemini 大规模侵犯版权。此后 Google 的工具已开始拒绝生成迪士尼角色。迪士尼还先后给 Meta 和 Character.AI 发了类似警告。</p>
+<p>——来源：The Wrap</p>
+
+<p>数一数：<strong>Google、Meta、字节跳动、Stability AI、Midjourney、MiniMax、Character.AI、OpenAI……</strong></p>
+
+<p>基本上你能叫得出名字的AI公司，都被告了或者被警告了。</p>
+
+<p>---</p>
+
+<h2>最魔幻的部分</h2>
+
+<p>迪士尼一边告字节跳动，一边——</p>
+
+<strong>跟 OpenAI 签了10亿美元的合作。</strong>
+
+<p>你没看错。</p>
+
+<p>据 The Wrap 报道，迪士尼投资了10亿美元入股OpenAI，并计划在2026年初将迪士尼角色授权给 OpenAI 的视频平台 Sora。这些角色还会进入 ChatGPT 的图像生成工具。</p>
+
+<p>所以逻辑很清楚：</p>
+
+<strong>不是不能用我的IP。是你得付钱。</strong>
+
+<p>迪士尼不反对AI。迪士尼反对的是白嫖。</p>
+
+<p>---</p>
+
+<h2>这件事的本质：谁来定义"创作"？</h2>
+
+<p>让我们把视角拉远一点。</p>
+
+<p>过去几百年，"创作"的定义很简单：<strong>人类用大脑想出来的东西，就是创作。</strong></p>
+
+<p>版权法保护的就是这个。</p>
+
+<p>但现在AI来了。</p>
+
+<p>AI"看"了几百万部电影，然后"创造"了一段新视频。这算创作吗？</p>
+
+<p>AI的训练过程和人类学习有什么区别？</p>
+
+<p>人类画家也是看了无数前辈的画才学会画画的，对吧？</p>
+
+<strong>区别在于规模和方式。</strong>
+
+<p>人类画家看一万幅画，消化几十年，形成自己的风格。</p>
+
+<p>AI"看"一千万幅画，消化几秒钟，直接复制风格。</p>
+
+<p>英国上议院议员 Beeban Kidron（也是好莱坞导演）说得很直白：</p>
+
+<div class="quote">"This is just the latest in a long stream of copyright abuses... the AI sector needs to come to the table with a 'real offer' that satisfies the creative industries. Otherwise we will have a decade of litigation and the destruction of an industry on which they depend."</div>
+<div class="quote">（这只是一连串版权侵权中最新的一起……AI行业需要拿出一个让创意产业满意的"真正方案"。否则我们将迎来十年的诉讼，以及他们赖以生存的整个行业的毁灭。）</div>
+
+<p>——来源：The Guardian</p>
+
+<p>十年的诉讼。一个行业的毁灭。</p>
+
+<p>这不是危言耸听。</p>
+
+<p>---</p>
+
+<h2>所以接下来会怎样？</h2>
+
+<p>短期：字节跳动大概率会加内容审核，屏蔽迪士尼角色的生成。就像 Google 的 Gemini 在收到迪士尼律师函后已经做的那样。</p>
+
+<p>中期：更多版权方会跳出来。不只好莱坞，还有音乐、出版、游戏。每个拥有IP的公司都会想：等等，我的内容是不是也被拿去训练了？</p>
+
+<p>长期：<strong>版权法会被重写。</strong></p>
+
+<p>这不是某一家公司的问题。这是整个社会需要回答的问题：</p>
+
+<strong>AI时代，"学习"和"抄袭"的边界在哪里？</strong>
+
+<p>目前没有答案。美国、欧盟、中国、日本，各国都还在摸着石头过河。</p>
+
+<p>但 Seedance 2.0 这一巴掌，把这个问题从学术讨论直接拍到了现实桌面上。</p>
+
+<p>---</p>
+
+<h2>最后一个问题</h2>
+
+<p>你用AI输入"蜘蛛侠在上海外滩跳舞"，它生成了一段视频。</p>
+
+<strong>这算侵权吗？</strong>
+
+<p>侵权的是你？是AI公司？还是谁都没有侵权？</p>
+
+<p>如果你觉得"这有什么大不了的"——迪士尼的律师团可不这么想。</p>
+
+<p>如果你觉得"AI就是在学习，跟人学画画一样"——那些被AI"学习"了作品却一分钱没拿到的创作者也不这么想。</p>
+
+<strong>评论区聊聊：你觉得AI生成蜘蛛侠，算侵权吗？</strong>
+
+<p>---</p>
+
+<p>*参考来源：*</p>
+<ul><li>*Axios，2026年2月13日*</li>
+<li>*Deadline，2026年2月13日*</li>
+<li>*The Guardian，2026年2月13日*</li>
+<li>*The Wrap，2026年2月14日*</li>
+<li>*ByteDance Seed 官方博客，2026年2月12日*</li>
+<li>*eWeek / NDTV / Android Headlines 等科技媒体报道*</li>
+</ul>
+    </div>
+</body>
+</html>
