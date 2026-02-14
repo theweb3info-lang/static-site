@@ -1,3 +1,5 @@
+![蒸馏 - Photo by Shawn DENG on Unsplash](images/distillation-cover.jpg)
+
 # AI知识蒸馏：当天龙八部遇上现代科技
 
 > "如果金庸活在2026年，他一定会把'北冥神功'写成一个AI蒸馏的故事。"
