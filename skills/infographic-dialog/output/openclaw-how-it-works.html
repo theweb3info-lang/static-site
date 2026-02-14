@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>给 AI 装了个飞书，它是怎么收发消息的？</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { background: #24243e; }
+    body {
+      font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+      background: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      background-attachment: scroll;
+      color: #eee;
+      line-height: 1.8;
+      font-size: 26px;
+      overflow-x: hidden;
+    }
+    .container { max-width: 690px; margin: 0 auto; padding: 24px; position: relative; }
+    .header { text-align: center; padding: 50px 20px; margin-bottom: 30px; }
+    .header h1 {
+      font-size: 2.4rem; font-weight: 900;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 18px; line-height: 1.4;
+    }
+    .header .subtitle { color: #a8edea; font-size: 1.3rem; }
+    .character-intro { display: flex; justify-content: center; gap: 30px; margin: 40px 0; flex-wrap: wrap; }
+    .char-card {
+      background: rgba(255,255,255,0.05); border-radius: 24px; padding: 32px;
+      text-align: center; width: 240px; border: 1px solid rgba(255,255,255,0.1);
+    }
+    .char-card .avatar {
+      width: 90px; height: 90px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.2rem; margin: 0 auto 18px;
+    }
+    .char-card.xiaobai .avatar { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+    .char-card.dawei .avatar { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+    .char-card h3 { font-size: 1.85rem; margin-bottom: 12px; font-weight: 900; }
+    .char-card.xiaobai h3 { color: #fcb69f; }
+    .char-card.dawei h3 { color: #a8edea; }
+    .char-card p { font-size: 1.35rem; color: #aaa; }
+    .section-divider { text-align: center; margin: 50px 0 30px; position: relative; }
+    .section-divider::before {
+      content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    }
+    .section-divider span {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 18px 40px; border-radius: 30px; font-size: 1.8rem; position: relative; font-weight: 900;
+    }
+    .chat-row { margin: 28px 0; overflow: visible; }
+    .chat-row.right .chat-content { display: flex; flex-direction: column; align-items: flex-end; }
+    .chat-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding-left: 6px; }
+    .chat-row.right .chat-header { flex-direction: row-reverse; padding-left: 0; padding-right: 6px; }
+    .chat-avatar {
+      width: 44px; height: 44px; min-width: 44px; min-height: 44px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; flex-shrink: 0;
+    }
+    .chat-row.left .chat-avatar { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+    .chat-row.right .chat-avatar { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+    .chat-content { width: 100%; display: flex; flex-direction: column; align-items: flex-start; }
+    .chat-name { font-size: 1.1rem; font-weight: bold; }
+    .chat-row.left .chat-name { color: #fcb69f; }
+    .chat-row.right .chat-name { color: #a8edea; }
+    .chat-bubble {
+      padding: 20px 18px; border-radius: 20px; font-size: 1.75rem; line-height: 1.9;
+      margin-left: 6px; margin-right: 6px; width: fit-content; max-width: 100%;
+    }
+    .chat-row.left .chat-bubble { background: linear-gradient(135deg, #434343 0%, #2c2c2c 100%); }
+    .chat-row.right .chat-bubble { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .chat-bubble strong { color: #ffeaa7; }
+    .chat-row.left .chat-bubble strong { color: #f5576c; }
+    .demo-box {
+      background: rgba(0,0,0,0.4); border-radius: 15px; padding: 24px; margin: 18px 0;
+      border: 1px solid rgba(255,255,255,0.1); overflow-x: auto;
+    }
+    .demo-box pre { font-family: 'Courier New', monospace; font-size: 1.05rem; white-space: pre; line-height: 1.7; }
+    .highlight-box {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      padding: 24px; border-radius: 15px; text-align: center; font-weight: bold; font-size: 1.3rem; margin: 22px 0;
+    }
+    .principle-card {
+      background: rgba(255,255,255,0.05); border-radius: 15px; padding: 20px; margin: 15px 0;
+      border-left: 4px solid #f5576c;
+    }
+    .principle-card h4 { color: #f093fb; margin-bottom: 10px; font-weight: 900; }
+    .big-quote {
+      font-size: 1.7rem; font-weight: 900; text-align: center; padding: 45px 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 25px; margin: 45px 0; position: relative; line-height: 1.9;
+    }
+    .big-quote::before { content: '"'; font-size: 4rem; position: absolute; top: 10px; left: 20px; opacity: 0.3; }
+    .summary-box {
+      background: rgba(255,255,255,0.05); border-radius: 20px; padding: 30px; margin: 30px 0;
+    }
+    .summary-box h3 { font-size: 1.6rem; margin-bottom: 24px; text-align: center; font-weight: 900; }
+    .summary-item { display: flex; align-items: flex-start; gap: 12px; margin: 15px 0; }
+    .summary-num {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: bold; font-size: 0.9rem; flex-shrink: 0;
+    }
+    .analogy-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.95rem; }
+    .analogy-table th, .analogy-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .analogy-table th { background: rgba(102, 126, 234, 0.3); color: #a8edea; }
+    .analogy-table tr:hover { background: rgba(255,255,255,0.05); }
+    .container::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none; z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='240'%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle' fill='rgba(255,255,255,0.07)' font-size='16' font-family='sans-serif' transform='rotate(-20 150 120)'%3E技术小黑屋%3C/text%3E%3C/svg%3E");
+      background-repeat: repeat;
+    }
+    .footer { text-align: center; padding: 40px 20px; color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>🔧 从按下发送到收到回复——OpenClaw 架构拆解</h1>
+      <p class="subtitle">OpenClaw 工作原理全解 · 小白 🐣 × 大维 🦉</p>
+    </header>
+
+    <div class="character-intro">
+      <div class="char-card xiaobai">
+        <div class="avatar">🐣</div>
+        <h3>小白</h3>
+        <p>刚装好 OpenClaw 的好奇宝宝</p>
+      </div>
+      <div class="char-card dawei">
+        <div class="avatar">🦉</div>
+        <h3>大维</h3>
+        <p>资深架构师，擅长拆解系统</p>
+      </div>
+    </div>
+
+    <!-- Section 1: 开场 -->
+    <div class="section-divider"><span>💬 一条消息的旅程</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">大维，我最近装了个叫 OpenClaw 的东西，在 Telegram 上给它发消息，它居然秒回我了！这中间到底发生了什么？感觉像魔法一样。</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">哈哈，确实像魔法，但背后其实是一套精密的流水线。我给你画个图——你发的每条消息，都要走完这一整条路：</div>
+      </div>
+    </div>
+
+    <div class="demo-box"><pre>
+你的手机 (Telegram/WhatsApp/Discord)
+        │
+        ▼
+┌─────────────────────┐
+│   Channel 通道层     │  ← 负责跟聊天App建立连接
+│  (Baileys/grammY/..)│
+└────────┬────────────┘
+         │
+         ▼
+┌─────────────────────┐
+│   Gateway 总调度     │  ← 整个系统的大脑
+│  消息路由 + 会话管理  │
+└────────┬────────────┘
+         │
+         ▼
+┌─────────────────────┐
+│   Agent Loop        │  ← AI 的思考引擎
+│  上下文 → 推理 → 工具 │
+└────────┬────────────┘
+         │
+         ▼
+┌─────────────────────┐
+│   回复路由回去        │  ← 原路返回你的聊天App
+└─────────────────────┘
+    </pre></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">哇，这么多层！每一层都在干什么？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">别急，我们一层层拆。先从最核心的 <strong>Gateway</strong> 讲起——它就像一个超级前台。</div>
+      </div>
+    </div>
+
+    <!-- Section 2: Gateway -->
+    <div class="section-divider"><span>🏗️ Gateway — 超级前台</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">Gateway 是个啥？听起来很高大上。</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">想象一下，你去一家大公司找人办事。你不能直接闯进去找每个部门，你得先到<strong>前台</strong>——前台帮你登记、找对应的人、把结果传回给你。<br><br>Gateway 就是 OpenClaw 的前台。它是一个<strong>常驻运行的进程</strong>，跑在你自己的电脑上（Mac、Linux、树莓派都行），负责三件事：</div>
+      </div>
+    </div>
+
+    <div class="principle-card">
+      <h4>🔌 连接聊天App</h4>
+      <p>同时对接 Telegram、WhatsApp、Discord、Slack、iMessage…… 所有消息从这些 App 汇聚到 Gateway。</p>
+    </div>
+
+    <div class="principle-card">
+      <h4>🔀 分发消息</h4>
+      <p>消息到了，Gateway 决定：这条消息该给哪个 Agent 处理？放到哪个会话（Session）里？</p>
+    </div>
+
+    <div class="principle-card">
+      <h4>📤 返回回复</h4>
+      <p>AI 想好了回答，Gateway 负责把回复原路送回你的聊天 App。你在 Telegram 问的，就回到 Telegram。</p>
+    </div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">所以 Gateway 就是个"中间人"？消息进来，分发出去？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">没错！而且它用的是 <strong>WebSocket</strong> 协议，这意味着它跟各个客户端之间保持着<strong>长连接</strong>——不是"问一下、断一下"，而是一直连着，消息能实时推送。<br><br>就像前台桌上有好几部直线电话，每部接一个渠道，随时来消息随时接。</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">💡 核心架构：一个 Gateway 进程 = 所有聊天渠道的统一入口</div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">等等，它跑在我自己电脑上？那数据不经过别人的服务器？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">对，这正是 OpenClaw 跟那些云端 AI 助手最大的区别——<strong>完全自托管</strong>。你的聊天记录、配置文件、记忆系统，全在你自己的硬盘上。你的数据你做主。</div>
+      </div>
+    </div>
+
+    <!-- Section 3: Channel & Routing -->
+    <div class="section-divider"><span>🔀 消息路由 — 谁来处理这条消息？</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">消息到了 Gateway，然后呢？它怎么知道该交给谁？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">好问题！这里有两个关键概念：<strong>Session（会话）</strong>和 <strong>Agent（智能体）</strong>。<br><br>先说 Session。你跟 AI 的每段对话都有一个"会话桶"。Gateway 根据规则，把你的消息放进对应的桶里。</div>
+      </div>
+    </div>
+
+    <div class="demo-box"><pre>
+Session Key 的生成规则：
+
+私聊 (DM):
+  默认 → agent:main:main
+  （所有私聊共享一个会话，跨平台也是同一个！）
+
+群聊 (Group):
+  → agent:main:telegram:group:-100123456
+  （每个群独立一个会话，互不干扰）
+
+Telegram 话题 (Topic):
+  → agent:main:telegram:group:-100123:topic:42
+  （群里每个话题也可以独立隔离）
+    </pre></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">那 Agent 又是什么？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble"><strong>Agent = 一个独立的 AI 大脑</strong>，有自己的工作区、记忆和技能。默认只有一个叫 "main"，但也可以配多个——比如一个客服、一个写代码。<br><br>有趣的是，默认所有私聊汇入<strong>同一个会话</strong>，所以你在 Telegram 说的，WhatsApp 也知道。多用户场景则可以配置隔离。</div>
+      </div>
+    </div>
+
+    <table class="analogy-table">
+      <tr><th>概念</th><th>类比</th></tr>
+      <tr><td>Gateway</td><td>🏢 公司前台 — 接待一切来访</td></tr>
+      <tr><td>Channel</td><td>📱 不同的电话线 — Telegram/WhatsApp/Discord</td></tr>
+      <tr><td>Session</td><td>📁 一个文件夹 — 存放对话上下文</td></tr>
+      <tr><td>Agent</td><td>🧠 一个员工 — 有自己的技能和记忆</td></tr>
+    </table>
+
+    <!-- Section 4: Agent Loop -->
+    <div class="section-divider"><span>🧠 Agent Loop — AI 怎么想的？</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">消息到了 Agent 那里，AI 到底怎么处理它的？不是简单问一下 GPT 然后回来吧？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">当然不是！OpenClaw 跑的是一个完整的 <strong>Agent Loop（智能体循环）</strong>，比普通的"一问一答"复杂得多。我来一步步拆解：</div>
+      </div>
+    </div>
+
+    <div class="demo-box"><pre>
+Agent Loop 完整流程：
+
+① 收到消息
+    │
+② 组装上下文 (System Prompt)
+    │  ├─ 基础人设 (SOUL.md)
+    │  ├─ 工作指令 (AGENTS.md)
+    │  ├─ 用户信息 (USER.md)
+    │  ├─ 技能配置 (Skills)
+    │  └─ 历史对话 (Session transcript)
+    │
+③ 发送给 LLM（Claude/GPT/...）
+    │
+④ LLM 返回文本 或 工具调用
+    │
+    ├─ 如果是文本 → ⑥ 流式输出回复
+    │
+    └─ 如果是工具调用 → ⑤ 执行工具
+                            │
+                        ⑤ 把结果交回 LLM
+                            │
+                        （回到 ④ 继续循环）
+    │
+⑥ 组装最终回复 → 通过 Gateway 送回
+    </pre></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">工具调用是什么意思？AI 不是只会说话吗？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">这就是关键了！AI 不只"说话"，它能<strong>干活</strong>——查天气、读文件、发消息、跑代码，全是真的调用工具。Agent Loop 的核心就是<strong>思考 → 调工具 → 拿结果 → 继续思考</strong>，循环直到任务完成。<br><br>而且同一会话内消息是<strong>串行处理</strong>的，连发多条会自动合并，不会冲突。</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">🔁 Agent Loop = 思考 → 工具调用 → 获取结果 → 再思考 → …… → 回复</div>
+
+    <!-- Section 5: Memory -->
+    <div class="section-divider"><span>💾 记忆系统 — AI 怎么记住你？</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">我最好奇的就是这个——AI 每次重启不是都会忘记一切吗？OpenClaw 怎么让它有"记忆"的？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">这可能是 OpenClaw 最巧妙的设计之一。答案很简单也很优雅：<br><br><strong>记忆 = 工作区里的 Markdown 文件。</strong><br><br>没有神秘的数据库，没有向量库（虽然也支持），核心就是你磁盘上的 .md 文件。AI 每次启动，都会读这些文件，就像"翻看自己的日记"。</div>
+      </div>
+    </div>
+
+    <div class="demo-box"><pre>
+~/.openclaw/workspace/
+├── MEMORY.md          ← 长期记忆（精华版）
+├── memory/
+│   ├── 2026-02-07.md  ← 每日日志
+│   ├── 2026-02-08.md
+│   └── 2026-02-09.md
+├── SOUL.md            ← 人格设定
+├── USER.md            ← 用户信息
+└── AGENTS.md          ← 行为准则
+    </pre></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">所以如果我说"记住我的生日是 3 月 15 号"，它是……</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">它会真的打开 MEMORY.md 或者当天的日志文件，把"用户生日：3月15号"写进去！<br><br>下次会话重启，它读文件的时候就能看到。不是"假装记住"，是<strong>真的写了下来</strong>。<br><br>这就像一个人每天写日记——就算你睡一觉起来脑子空了，但翻翻日记本就能想起来。</div>
+      </div>
+    </div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">那对话越来越长怎么办？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">OpenClaw 有 <strong>Compaction（自动压缩）</strong>——快撑满上下文时，自动把旧对话总结成精华摘要。压缩前还会先触发 <strong>Memory Flush</strong>，让 AI 把重要信息存到文件里，确保不丢东西。<br><br>另外还支持<strong>向量语义搜索</strong>——就算忘了关键词，也能通过语义匹配找到相关记忆。</div>
+      </div>
+    </div>
+
+    <!-- Section 6: Summary -->
+    <div class="section-divider"><span>📝 总结回顾</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">大维，帮我总结一下！从头到尾走一遍。</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">来，一张图搞定：</div>
+      </div>
+    </div>
+
+    <div class="summary-box">
+      <h3>🔧 OpenClaw 工作原理一图流</h3>
+      <div class="summary-item">
+        <span class="summary-num">1</span>
+        <span><strong>Channel 接收</strong> — Telegram/WhatsApp 等聊天 App 把你的消息传给 Gateway</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">2</span>
+        <span><strong>Gateway 路由</strong> — 根据来源（私聊/群聊/频道）确定 Session 和 Agent</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">3</span>
+        <span><strong>上下文组装</strong> — 加载人设、技能、历史对话、记忆文件，拼成完整 Prompt</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">4</span>
+        <span><strong>Agent Loop</strong> — AI 思考 → 调工具 → 拿结果 → 继续思考，直到完成任务</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">5</span>
+        <span><strong>流式回复</strong> — 边思考边输出，通过 Gateway 原路返回你的聊天 App</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">6</span>
+        <span><strong>记忆持久化</strong> — 重要信息写入 Markdown 文件，下次醒来还能想起你</span>
+      </div>
+    </div>
+
+    <div class="big-quote">OpenClaw 的哲学：你的数据，你的硬件，你的规则。AI 只是住在你家里的一个会干活的室友。</div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">太清楚了！原来从我按下发送到收到回复，背后跑了这么多步。以前觉得 AI 就是"打字回消息"，现在才知道它是一个完整的系统。</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">对，而且这一切都跑在你自己的电脑上，MIT 开源，想改就改。这就是 OpenClaw 的魅力所在 🦉</div>
+      </div>
+    </div>
+
+    <!-- WeChat QR -->
+    <div style="margin: 20px 0; text-align: center;">
+      <img src="/Users/andy_crab/.openclaw/workspace/skills/infographic-dialog/assets/wechat_xiaoheiwu.png" 
+           style="width: 100%; max-width: 690px; border-radius: 15px;" 
+           alt="技术小黑屋 公众号" />
+    </div>
+
+    <footer class="footer">
+      <p>🔧 从按下发送到收到回复——OpenClaw 架构拆解</p>
+      <p>OpenClaw 工作原理全解 · 技术小黑屋 · droidyue.com</p>
+    </footer>
+  </div>
+</body>
+</html>

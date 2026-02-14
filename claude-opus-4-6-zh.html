@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Opus 4.6 — Anthropic（简体中文翻译）</title>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --bg-alt: #f0efe9;
+      --text: #191919;
+      --text-secondary: #555;
+      --accent: #c96442;
+      --border: #ddd;
+      --quote-bg: #f5f3ee;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", "WenQuanYi Micro Hei", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header */
+    .site-header {
+      background: #191919;
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .site-header .wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .site-header svg { fill: #faf9f5; }
+    .site-header .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+
+    /* Hero */
+    .hero {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 80px 24px 40px;
+    }
+    .hero .tag {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .hero h1 {
+      font-size: 48px;
+      line-height: 1.15;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
+    }
+    .hero .date {
+      color: var(--text-secondary);
+      font-size: 15px;
+    }
+
+    /* Article */
+    article {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+    article p {
+      margin-bottom: 1.4em;
+      font-size: 17px;
+    }
+    article a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    article a:hover { opacity: 0.8; }
+    article h2 {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 56px 0 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      line-height: 1.25;
+    }
+    article h3 {
+      font-size: 22px;
+      font-weight: 600;
+      margin: 32px 0 16px;
+    }
+    article ul, article ol {
+      margin: 0 0 1.4em 1.5em;
+    }
+    article li {
+      margin-bottom: 0.8em;
+    }
+    article li strong {
+      font-weight: 700;
+    }
+    article code {
+      background: rgba(0,0,0,0.06);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.9em;
+    }
+    article sup {
+      font-size: 0.7em;
+      vertical-align: super;
+    }
+
+    /* Video embed */
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      margin: 32px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    /* Images */
+    .article-image {
+      margin: 32px 0;
+    }
+    .article-image img {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+    }
+    .article-image figcaption,
+    .tab-content figcaption {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 10px;
+      text-align: center;
+      font-style: italic;
+    }
+
+    /* Full-width images (benchmark table etc.) */
+    .full-width-image {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 24px;
+    }
+    .full-width-image img {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+    }
+
+    /* Tab carousel */
+    .tab-carousel {
+      margin: 36px 0;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .tab-nav {
+      display: flex;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-alt);
+    }
+    .tab-nav button {
+      background: none;
+      border: none;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text-secondary);
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .tab-nav button.active {
+      color: var(--text);
+      border-bottom-color: var(--accent);
+      background: #fff;
+    }
+    .tab-nav button:hover { color: var(--text); }
+    .tab-content { display: none; padding: 0; }
+    .tab-content.active { display: block; }
+    .tab-content img {
+      width: 100%;
+      display: block;
+    }
+    .tab-content figcaption {
+      padding: 12px 20px 16px;
+    }
+
+    /* Quote carousel */
+    .quote-section {
+      margin: 40px 0;
+    }
+    .quote-carousel {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding: 8px 0 16px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .quote-carousel::-webkit-scrollbar { height: 6px; }
+    .quote-carousel::-webkit-scrollbar-track { background: transparent; }
+    .quote-carousel::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+    .quote-card {
+      min-width: 340px;
+      max-width: 400px;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      background: var(--quote-bg);
+      border-radius: 12px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .quote-card .quote-text {
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+    .quote-card .quote-text::before { content: "\201C"; }
+    .quote-card .quote-text::after { content: "\201D"; }
+    .quote-footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .quote-footer img {
+      height: 24px;
+      width: auto;
+      opacity: 0.7;
+    }
+    .quote-footer .speaker {
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .quote-footer .speaker strong { font-weight: 600; }
+    .quote-footer .speaker span { color: var(--text-secondary); }
+    .quote-counter {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+
+    /* Footnotes */
+    .footnotes {
+      margin-top: 56px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+    .footnotes h4 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .footnotes p, .footnotes li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .footnotes ul {
+      margin: 12px 0 0 1.5em;
+    }
+
+    /* Related content */
+    .related {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+      border-top: 1px solid var(--border);
+    }
+    .related h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 32px;
+    }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .related-card {
+      padding: 24px;
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .related-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .related-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+    .related-card a {
+      color: var(--accent);
+      font-size: 14px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: #191919;
+      color: #b0aea5;
+      padding: 40px 24px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    /* Translation note */
+    .translation-note {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+    .translation-note a { color: var(--accent); }
+
+    @media (max-width: 680px) {
+      .hero h1 { font-size: 32px; }
+      article h2 { font-size: 26px; }
+      .quote-card { min-width: 280px; }
+      body { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="wrapper">
+    <a href="https://www.anthropic.com" aria-label="Anthropic 主页">
+      <svg width="46" height="32" viewBox="0 0 46 32"><path d="M32.73 0h-6.945L38.45 32h6.945L32.73 0ZM12.665 0 0 32h7.082l2.59-6.72h13.25l2.59 6.72h7.082L19.929 0h-7.264Zm-.702 19.337 4.334-11.246 4.334 11.246h-8.668Z"></path></svg>
+    </a>
+    <span class="badge">简体中文翻译</span>
+  </div>
+</header>
+
+<!-- Translation note -->
+<div class="translation-note">
+  本页面为 <a href="https://www.anthropic.com/news/claude-opus-4-6" target="_blank">Anthropic 官方博客文章</a> 的简体中文翻译。所有图片和视频均来自原文。
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="tag">新闻 · 公告</div>
+  <h1>介绍 Claude Opus 4.6</h1>
+  <div class="date">2026年2月5日</div>
+</div>
+
+<!-- Article -->
+<article>
+
+  <!-- Video 1 -->
+  <div class="video-wrapper">
+    <iframe src="https://www.youtube.com/embed/dPn3GBI8lII" title="Claude Opus 4.6 介绍视频" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <p><strong>我们正在升级我们最智能的模型。</strong></p>
+
+  <p>全新的 Claude Opus 4.6 在其前代产品的编程能力基础上进行了改进。它规划更加周密，能够持续更长时间的智能体任务，在更大的代码库中运行更加可靠，并且拥有更好的代码审查和调试能力来发现自身的错误。此外，作为我们 Opus 级别模型的首创，Opus 4.6 提供了 100 万 token 上下文窗口的测试版。</p>
+
+  <p>Opus 4.6 还可以将其增强的能力应用于各种日常工作任务：运行财务分析、进行研究，以及使用和创建文档、电子表格和演示文稿。在 <a href="https://claude.com/blog/cowork-research-preview" target="_blank">Cowork</a> 中，Claude 可以自主地进行多任务处理，Opus 4.6 能够代替您运用所有这些技能。</p>
+
+  <p>该模型在多项评估中达到了最先进的水平。例如，它在智能体编程评估 <a href="https://www.tbench.ai/news/announcement-2-0" target="_blank">Terminal-Bench 2.0</a> 上取得了最高分，并在 <a href="https://agi.safe.ai/" target="_blank">Humanity's Last Exam</a>（一项复杂的跨学科推理测试）中领先于所有其他前沿模型。在 <a href="https://artificialanalysis.ai/evaluations/gdpval-aa" target="_blank">GDPval-AA</a>——一项评估金融、法律和其他领域经济价值知识工作任务表现的测试<sup>1</sup>——中，Opus 4.6 以约 144 个 Elo 分的优势超过了行业次优模型（OpenAI 的 GPT-5.2）<sup>2</sup>，并以 190 分的优势超过了其前代产品（Claude Opus 4.5）。Opus 4.6 在 <a href="https://openai.com/index/browsecomp/" target="_blank">BrowseComp</a> 上的表现也优于所有其他模型，该测试衡量的是模型在网上定位难以找到的信息的能力。</p>
+
+  <p>正如我们在详尽的<a href="https://www.anthropic.com/claude-opus-4-6-system-card" target="_blank">系统卡片</a>中所展示的，Opus 4.6 还展现了与行业中任何其他前沿模型一样好甚至更好的整体安全特征，在各项安全评估中表现出较低的失配行为率。</p>
+
+  <!-- Carousel 1: Top benchmarks -->
+  <div class="tab-carousel" id="carousel1">
+    <div class="tab-nav">
+      <button class="active" onclick="showTab('carousel1', 0)">知识工作</button>
+      <button onclick="showTab('carousel1', 1)">智能体搜索</button>
+      <button onclick="showTab('carousel1', 2)">编程</button>
+      <button onclick="showTab('carousel1', 3)">推理</button>
+    </div>
+    <figure class="tab-content active">
+      <img src="https://cdn.sanity.io/images/4zrzovbb/website/6e29759b50e8b3a8363b38b1f573d854df968671-3840x2160.png" alt="GDPval-AA 上 Claude Opus 4.6 与其他模型的对比柱状图" loading="lazy">
+      <figcaption>Opus 4.6 在多个专业领域的真实工作任务中达到了最先进水平。</figcaption>
+    </figure>
+    <figure class="tab-content">
+      <img src="https://cdn.sanity.io/images/4zrzovbb/website/018d6d882034d50727948b22e3ad3844a43ee09c-3840x2160.png" alt="DeepSearchQA 上 Opus 4.6 与其他模型的对比柱状图" loading="lazy">
+      <figcaption>Opus 4.6 在深度多步骤智能体搜索方面获得了业界最高分。</figcaption>
+    </figure>
+    <figure class="tab-content">
+      <img src="https://cdn.sanity.io/images/4zrzovbb/website/b8cfd7ebd6c82febce5f428f519d68a5dcf5d16f-3840x2160.png" alt="Terminal-Bench 2 上 Opus 4.6 与其他模型的对比柱状图" loading="lazy">
+      <figcaption>Opus 4.6 在真实场景的智能体编程和系统任务中表现出色。</figcaption>
+    </figure>
+    <figure class="tab-content">
+      <img src="https://cdn.sanity.io/images/4zrzovbb/website/b8d511155f209c57e4d6a92ab115ebfc7c8832ff-3840x2160.png" alt="推理基准测试对比" loading="lazy">
+      <figcaption>Opus 4.6 将专家级推理推向了新前沿。</figcaption>
+    </figure>
+  </div>
+
+  <p>在 Claude Code 中，您现在可以组建<a href="https://code.claude.com/docs/en/agent-teams" target="_blank"><em>智能体团队</em></a>协同完成任务。在 API 上，Claude 可以使用<a href="https://platform.claude.com/docs/en/build-with-claude/compaction" target="_blank"><em>上下文压缩</em></a>来总结自身上下文，执行更长时间的任务而不会触及限制。我们还引入了<a href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" target="_blank"><em>自适应思考</em></a>，模型可以根据上下文线索判断需要多大程度地使用其扩展思考能力，以及新的<a href="https://platform.claude.com/docs/en/build-with-claude/effort" target="_blank"><em>努力程度</em></a>控制，让开发者在智能度、速度和成本之间获得更多控制权。</p>
+
+  <p>我们对 <a href="https://claude.com/claude-in-excel">Claude in Excel</a> 进行了大幅升级，并以研究预览的形式发布了 <a href="https://claude.com/claude-in-powerpoint">Claude in PowerPoint</a>。这使得 Claude 在日常工作中更加得力。</p>
+
+  <!-- Video 2 -->
+  <div class="video-wrapper">
+    <iframe src="https://www.youtube.com/embed/orTd3grSYsQ" title="Claude Opus 4.6 演示" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <p>Claude Opus 4.6 现已在 <a href="https://claude.ai" target="_blank">claude.ai</a>、我们的 API 以及所有主要云平台上提供。如果您是开发者，请通过 <a href="https://platform.claude.com/docs/en/about-claude/models/overview" target="_blank">Claude API</a> 使用 <code>claude-opus-4-6</code>。定价保持不变，为每百万 token 输入 $5 / 输出 $25；完整详情请参阅我们的<a href="https://claude.com/pricing#api" target="_blank">定价页面</a>。</p>
+
+  <p>下文将深入介绍该模型、我们的新产品更新、我们的评估以及我们详尽的安全测试。</p>
+
+  <!-- ==================== -->
+  <h2>初步印象</h2>
+
+  <p>我们用 Claude 构建 Claude。我们的工程师每天都使用 Claude Code 编写代码，每个新模型首先在我们自己的工作中进行测试。使用 Opus 4.6，我们发现模型无需指示就能将更多注意力集中在任务中最具挑战性的部分，快速处理较为简单的部分，以更好的判断力处理模糊问题，并在更长的会话中保持高效。</p>
+
+  <p>Opus 4.6 通常会进行更深入的思考，在给出答案之前更仔细地重新审视其推理过程。这在更难的问题上会产生更好的结果，但在较简单的问题上可能会增加成本和延迟。如果您发现模型在某个任务上过度思考，我们建议将努力程度从默认设置（高）调低到中等。您可以通过 <code>/effort</code> <a href="https://platform.claude.com/docs/en/build-with-claude/effort" target="_blank">参数</a>轻松控制。</p>
+
+  <p>以下是我们的早期访问合作伙伴对 Claude Opus 4.6 的一些评价，包括它自主工作而无需手把手指导的倾向、在前代模型失败之处的成功表现，以及它对团队工作方式的影响：</p>
+
+  <!-- Quote carousel -->
+  <div class="quote-section">
+    <div class="quote-carousel" id="quoteCarousel">
+
+      <div class="quote-card">
+        <div class="quote-text">Claude Opus 4.6 是 Anthropic 发布的最强模型。它接受复杂请求并真正付诸执行，将其分解为具体步骤、执行并产出精致的工作成果，即使任务非常宏大。对 Notion 用户来说，它感觉不像是一个工具，更像是一个能干的协作者。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/7cfef6cd8ce2515a6abd52560ac4189f89f9ad35-116x40.svg" alt="Notion">
+          <div class="speaker"><strong>Sarah Sachs</strong><br><span>AI 负责人，Notion</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">早期测试表明，Claude Opus 4.6 在开发者每天面对的复杂多步骤编程工作中表现出色——特别是在需要规划和工具调用的智能体工作流中。这开始解锁前沿的长期任务。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/7522fc92399dcb4a68f11c7e147e711fcadbe75b-126x36.svg" alt="GitHub">
+          <div class="speaker"><strong>Mario Rodriguez</strong><br><span>首席产品官，GitHub</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">Claude Opus 4.6 是智能体规划的一次巨大飞跃。它将复杂任务分解为独立的子任务，并行运行工具和子智能体，并以真正的精确性识别阻碍因素。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/ff1601aa704506064c9ddee37079f17f9b0799cd-150x48.svg" alt="Replit">
+          <div class="speaker"><strong>Michele Catasta</strong><br><span>总裁，Replit</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">Claude Opus 4.6 是我们测试过的最佳模型。它的推理和规划能力在驱动我们的 AI 队友方面表现卓越。它也是一个出色的编程模型——它在大型代码库中导航并识别正确修改的能力达到了最先进水平。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/6d031c0893b24dd00e9f207c7635d6b91d809729-124x24.svg" alt="Asana">
+          <div class="speaker"><strong>Amritansh Raghav</strong><br><span>临时 CTO，Asana</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">Claude Opus 4.6 以我们前所未见的水平推理复杂问题。它考虑到了其他模型遗漏的边缘情况，并始终得出更优雅、更周全的解决方案。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/da50e4c43d4b95fe1a2105c344050c6ba2397f3f-150x48.svg" alt="Cognition">
+          <div class="speaker"><strong>Scott Wu</strong><br><span>联合创始人，Cognition</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">Claude Opus 4.6 在 Windsurf 中的表现明显优于 Opus 4.5，特别是在需要仔细探索的任务上，如调试和理解不熟悉的代码库。我们注意到 Opus 4.6 思考时间更长，这在需要更深入推理时是值得的。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/7415f908eca858ec4c3453c5d8151e46a0fb1e6d-150x48.svg" alt="Windsurf">
+          <div class="speaker"><strong>Jeff Wang</strong><br><span>CEO，Windsurf</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">Claude Opus 4.6 在长上下文性能方面代表着一次有意义的飞跃。在我们的测试中，我们看到它以一种一致性水平处理了更大的信息量，这加强了我们设计和部署复杂研究工作流的方式。这一领域的进步为我们提供了更强大的构建模块，以交付专业人员可以信赖的真正专家级系统。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/ff031ea5953adc10e50782ff6c8124ad6ce28ba6-213x31.svg" alt="Thomson Reuters">
+          <div class="speaker"><strong>Joel Hron</strong><br><span>首席技术官，Thomson Reuters</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">在 40 次网络安全调查中，Claude Opus 4.6 在与 Claude 4.5 模型的盲评排名中有 38 次产出了最佳结果。每个模型在相同的智能体框架上端到端运行，最多使用 9 个子智能体和 100 多次工具调用。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/5d27d5fd738921411bb1e39bc27c396c6c075b4b-157x38.svg" alt="NBIM">
+          <div class="speaker"><strong>Stian Kirkeberg</strong><br><span>AI 与机器学习负责人，NBIM</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">Claude Opus 4.6 在我们的内部基准测试中是长时间运行任务的新前沿。它在代码审查方面也非常高效。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/d74b2a5f8dc7d22b0febb8c69feabff0999da79d-151x36.svg" alt="Cursor">
+          <div class="speaker"><strong>Michael Truell</strong><br><span>联合创始人 & CEO，Cursor</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">Claude Opus 4.6 在 BigLaw Bench 上取得了所有 Claude 模型中最高的 90.2% 分数。40% 的案例获得满分，84% 的案例超过 0.8 分，其法律推理能力令人瞩目。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/501ebc6538c68e98ae6cfab79a5747009700f4a1-100x30.svg" alt="Harvey">
+          <div class="speaker"><strong>Niko Grupen</strong><br><span>AI 研究负责人，Harvey</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">Claude Opus 4.6 在一天内自主关闭了 13 个议题，并将 12 个议题分配给了正确的团队成员，管理一个约 50 人的组织跨 6 个代码仓库。它同时处理了产品和组织决策，同时综合了多个领域的上下文，并且知道何时该升级给人类处理。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/652c487024ae6e67508571e7e5f64b7d482bdadd-150x48.svg" alt="Rakuten">
+          <div class="speaker"><strong>Yusuke Kaji</strong><br><span>AI 总经理，Rakuten</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">Claude Opus 4.6 在设计质量方面是一次提升。它与我们的设计系统完美配合，而且更加自主，这是 Lovable 价值观的核心。人们应该创造重要的东西，而不是事无巨细地管理 AI。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/96f4d2262959c4c1ecdc9dc2d93b9087115d789f-140x26.svg" alt="Lovable">
+          <div class="speaker"><strong>Fabian Hedin</strong><br><span>联合创始人，Lovable</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">Claude Opus 4.6 在高推理任务中表现出色，如跨法律、金融和技术内容的多源分析。Box 的评估显示性能提升了 10%，达到 68%（基线为 58%），在技术领域接近满分。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/49b99af78924f43f878d39a25d574da293c68596-60x32.svg" alt="Box">
+          <div class="speaker"><strong>Yashodha Bhavnani</strong><br><span>AI 负责人，Box</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">Claude Opus 4.6 在 Figma Make 中生成复杂的交互式应用和原型，具有令人印象深刻的创意范围。该模型在第一次尝试中就将详细设计和多层任务转化为代码，为团队探索和构建创意提供了强大的起点。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/eba077a5df68d0e74010602595c597520c850a0d-80x30.svg" alt="Figma">
+          <div class="speaker"><strong>Loredana Crisan</strong><br><span>首席设计官，Figma</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">Claude Opus 4.6 是我们测试过的最好的 Anthropic 模型。它以最少的提示理解意图，并超越预期，探索和创建了一些我不知道自己想要的细节，直到看到它们。感觉就像我在与模型协作，而不是在等待它。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/02dced142fb26d4a3441cad79f997a1fd6c9a8b0-150x48.svg" alt="Shopify">
+          <div class="speaker"><strong>Paulo Arruda</strong><br><span>高级工程师，Shopify</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">实际测试和评估都表明，Claude Opus 4.6 在设计系统和大型代码库方面有显著改进，这些用例驱动着巨大的企业价值。它还一次性完成了一个完整功能的物理引擎，在单次传递中处理了一个大型多范围任务。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/ade72922c1b58726e1b7c17f0e500054e3d74aa0-92x37.svg" alt="Bolt.new">
+          <div class="speaker"><strong>Eric Simons</strong><br><span>CEO，Bolt.new</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">Claude Opus 4.6 是我几个月来见过的最大飞跃。我更放心地给它分配一系列跨栈的任务并让它运行。它足够聪明，能够为各个部分使用子智能体。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/1919e4705bd67f47c2f5bfe4950d0d2969dfaf4d-118x32.svg" alt="Ramp">
+          <div class="speaker"><strong>Jerry Tsui</strong><br><span>高级软件工程师，Ramp</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">Claude Opus 4.6 处理了一个数百万行代码库的迁移，就像一位高级工程师一样。它提前规划，在学习过程中调整策略，并以一半的时间完成了任务。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/6e6ecfcd7c8ed79ef1c46cc27c4ecc4ab1ca7490-219x42.svg" alt="SentinelOne">
+          <div class="speaker"><strong>Gregor Stewart</strong><br><span>首席 AI 官，SentinelOne</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">我们只在开发者会真正感受到差异时才在 v0 中发布模型。Claude Opus 4.6 轻松通过了这个标准。它的前沿级推理能力，特别是在边缘情况方面，帮助 v0 实现我们的第一目标：让任何人都能将创意从原型提升到生产。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/23bd0e83f41047df414b1635b513d8f9e1c3c628-150x48.svg" alt="Vercel">
+          <div class="speaker"><strong>Zeb Hermann</strong><br><span>v0 总经理，Vercel</span></div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-text">Claude Opus 4.6 的性能飞跃几乎令人难以置信。对于 Opus [4.5] 来说具有挑战性的真实世界任务突然变得轻而易举。这对 Shortcut 上的电子表格智能体来说感觉是一个分水岭时刻。</div>
+        <div class="quote-footer">
+          <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/d7be9db28564ebd6a8e5241d3d4e34a031775e96-63x64.svg" alt="Shortcut.ai">
+          <div class="speaker"><strong>Nico Christie</strong><br><span>联合创始人 & CTO，Shortcut.ai</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== -->
+  <h2>评估 Claude Opus 4.6</h2>
+
+  <p>在智能体编程、计算机使用、工具使用、搜索和<a href="https://claude.com/blog/opus-4-6-finance" target="_blank">金融</a>方面，Opus 4.6 是一个行业领先的模型，通常领先幅度很大。下表展示了 Claude Opus 4.6 与我们之前的模型以及其他行业模型在多种基准测试上的对比。</p>
+
+  <!-- Benchmark table image -->
+  <div class="full-width-image">
+    <img src="https://cdn.sanity.io/images/4zrzovbb/website/0e5c55fa8fd05a893d11168654dc36999e90908b-2600x2968.png" alt="基准测试对比表：Opus 4.6 与其他模型" loading="lazy" style="border-radius: 10px;">
+  </div>
+
+  <p>Opus 4.6 在从大量文档集合中检索相关信息方面有了很大提升。这延伸到了长上下文任务，它能在数十万个 token 中保持和追踪信息，漂移更少，并且能发现即使 Opus 4.5 也会遗漏的埋藏细节。</p>
+
+  <p>对 AI 模型的一个常见抱怨是"<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank">上下文衰减</a>"，即当对话超过一定数量的 token 时性能会下降。Opus 4.6 的表现明显优于其前代产品：在 <a href="https://huggingface.co/datasets/openai/mrcr" target="_blank">MRCR v2</a> 的 8 针 100 万变体上——一个测试模型从大量文本中检索"隐藏"信息能力的大海捞针基准测试——Opus 4.6 得分为 76%，而 Sonnet 4.5 仅得分 18.5%。这是模型在保持峰值性能的同时能够实际使用多少上下文的质的飞跃。</p>
+
+  <p>总而言之，Opus 4.6 在长上下文中查找信息方面更出色，在吸收信息后的推理方面更出色，总体上具有显著提升的专家级推理能力。</p>
+
+  <!-- Carousel 2: Long-context -->
+  <div class="tab-carousel" id="carousel2">
+    <div class="tab-nav">
+      <button class="active" onclick="showTab('carousel2', 0)">长上下文检索</button>
+      <button onclick="showTab('carousel2', 1)">长上下文推理</button>
+    </div>
+    <figure class="tab-content active">
+      <img src="https://cdn.sanity.io/images/4zrzovbb/website/ae7ae61aefff3c9b059975957335785f8ebd59d6-3840x2160.png" alt="长上下文检索基准测试" loading="lazy">
+      <figcaption>Opus 4.6 在长上下文检索方面表现出显著提升。</figcaption>
+    </figure>
+    <figure class="tab-content">
+      <img src="https://cdn.sanity.io/images/4zrzovbb/website/9a32a76a983d4c8f709683b38ff3af6664b5128a-3840x2160.png" alt="长上下文推理基准测试" loading="lazy">
+      <figcaption>Opus 4.6 在长上下文中的深度推理方面表现出色。</figcaption>
+    </figure>
+  </div>
+
+  <p>最后，下面的图表展示了 Claude Opus 4.6 在各种基准测试上的表现，这些测试评估了其软件工程技能、多语言编程能力、长期一致性、网络安全能力以及生命科学知识。</p>
+
+  <!-- Carousel 3: More benchmarks -->
+  <div class="tab-carousel" id="carousel3">
+    <div class="tab-nav">
+      <button class="active" onclick="showTab('carousel3', 0)">根因分析</button>
+      <button onclick="showTab('carousel3', 1)">多语言编程</button>
+      <button onclick="showTab('carousel3', 2)">长期一致性</button>
+      <button onclick="showTab('carousel3', 3)">网络安全</button>
+      <button onclick="showTab('carousel3', 4)">生命科学</button>
+    </div>
+    <figure class="tab-content active">
+      <img src="https://cdn.sanity.io/images/4zrzovbb/website/653e04afc43612d3a0f8427da86b6549800005f9-3840x2160.png" alt="根因分析基准测试" loading="lazy">
+      <figcaption>Opus 4.6 在诊断复杂软件故障方面表现出色。</figcaption>
+    </figure>
+    <figure class="tab-content">
+      <img src="https://cdn.sanity.io/images/4zrzovbb/website/542044519014a793cf042a08a730ebd8977c57b0-3840x2160.png" alt="多语言编程基准测试" loading="lazy">
+      <figcaption>Opus 4.6 能跨编程语言解决软件工程问题。</figcaption>
+    </figure>
+    <figure class="tab-content">
+      <img src="https://cdn.sanity.io/images/4zrzovbb/website/6c1b33e985bcae9163b77bc25620e85abd5d9a7b-3840x2160.png" alt="长期一致性基准测试" loading="lazy">
+      <figcaption>Opus 4.6 能长时间保持专注，在 Vending-Bench 2 上比 Opus 4.5 多赚取 $3,050.53。</figcaption>
+    </figure>
+    <figure class="tab-content">
+      <img src="https://cdn.sanity.io/images/4zrzovbb/website/8a421f45125743fd9e9078aae992c6e5f236a3da-3840x2160.png" alt="网络安全基准测试" loading="lazy">
+      <figcaption>Opus 4.6 在代码库中发现真实漏洞的能力优于任何其他模型。</figcaption>
+    </figure>
+    <figure class="tab-content">
+      <img src="https://cdn.sanity.io/images/4zrzovbb/website/f7dff66d47d54dfaabddc82bf9b96658df00634a-3840x2160.png" alt="生命科学基准测试" loading="lazy">
+      <figcaption>Opus 4.6 在计算生物学、结构生物学、有机化学和系统发育学测试中的表现几乎是 Opus 4.5 的两倍。</figcaption>
+    </figure>
+  </div>
+
+  <!-- ==================== -->
+  <h2>安全方面的进步</h2>
+
+  <p>这些智能提升并非以牺牲安全为代价。在我们的自动化行为审计中，Opus 4.6 表现出较低的失配行为率，如欺骗、谄媚、鼓励用户幻想以及配合滥用。总体而言，它与其前代产品 Claude Opus 4.5 一样对齐良好，后者是我们迄今为止对齐最好的前沿模型。Opus 4.6 还展示了所有近期 Claude 模型中最低的过度拒绝率——即模型未能回答良性查询的情况。</p>
+
+  <figure class="article-image">
+    <img src="https://cdn.sanity.io/images/4zrzovbb/website/569d748607388e6ed42e3ff0ff245d9b0cde6878-3840x2160.png" alt="Opus 4.6 与其他 Claude 模型在整体失配行为方面的对比柱状图" loading="lazy">
+    <figcaption>每个近期 Claude 模型在我们自动化行为审计中的整体失配行为得分（详见 <a href="https://www.anthropic.com/claude-opus-4-6-system-card" target="_blank">Claude Opus 4.6 系统卡片</a>）。</figcaption>
+  </figure>
+
+  <p>对于 Claude Opus 4.6，我们运行了所有模型中最全面的安全评估集，首次应用了许多不同的测试，并升级了我们之前使用的几项测试。我们新增了用户福祉评估，设置了更复杂的模型拒绝潜在危险请求能力测试，并更新了模型秘密执行有害行为能力的评估。我们还实验了来自<a href="https://www.anthropic.com/research/team/interpretability" target="_blank">可解释性</a>（研究 AI 模型内部运作机制的科学）的新方法，以开始理解模型为什么以某些方式行事——并最终发现标准测试可能遗漏的问题。</p>
+
+  <p>所有能力和安全评估的详细描述可在 <a href="https://www.anthropic.com/claude-opus-4-6-system-card" target="_blank">Claude Opus 4.6 系统卡片</a>中找到。</p>
+
+  <p>我们还在 Opus 4.6 表现出特殊优势的领域应用了新的安全防护措施，这些优势可能被用于危险或有益的用途。特别是，由于该模型展示了增强的网络安全能力，我们开发了六个新的网络安全<a href="https://www.anthropic.com/research/next-generation-constitutional-classifiers" target="_blank">探针</a>——检测有害响应的方法——以帮助我们追踪不同形式的潜在滥用。</p>
+
+  <p>我们还在加速模型的网络<em>防御</em>用途，利用它帮助发现和修补开源软件中的漏洞（如我们在新的<a href="https://red.anthropic.com/2026/zero-days/" target="_blank">网络安全博客文章</a>中所述）。我们认为网络防御者使用像 Claude 这样的 AI 模型来帮助平衡力量对比至关重要。网络安全发展迅速，随着我们对潜在威胁了解更多，我们将不断调整和更新我们的安全防护措施；在不久的将来，我们可能会实施实时干预以阻止滥用。</p>
+
+  <!-- ==================== -->
+  <h2>产品和 API 更新</h2>
+
+  <p>我们在 Claude、Claude Code 和 Claude 开发者平台上进行了大量更新，以让 Opus 4.6 发挥最佳表现。</p>
+
+  <h3>Claude 开发者平台</h3>
+
+  <p>在 API 方面，我们为开发者提供了更好的模型努力程度控制和更灵活的长时间运行智能体支持。为此，我们引入了以下功能：</p>
+
+  <ul>
+    <li><strong>自适应思考。</strong>此前，开发者只能在启用或禁用扩展思考之间进行二选一。现在，通过<a href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" target="_blank">自适应思考</a>，Claude 可以自行决定何时更深入的推理会有所帮助。在默认努力级别（高）下，模型会在有用时使用扩展思考，但开发者可以调整努力级别使其更多或更少地选择性使用。</li>
+    <li><strong>努力程度。</strong>现在有四个<a href="https://platform.claude.com/docs/en/build-with-claude/effort" target="_blank">努力</a>级别可供选择：低、中、高（默认）和最大。我们鼓励开发者尝试不同的选项以找到最佳效果。</li>
+    <li><strong>上下文压缩（测试版）。</strong>长时间运行的对话和智能体任务经常触及上下文窗口。<a href="https://platform.claude.com/docs/en/build-with-claude/compaction" target="_blank">上下文压缩</a>在对话接近可配置阈值时自动总结和替换较旧的上下文，让 Claude 能够执行更长的任务而不会触及限制。</li>
+    <li><strong>100 万 token 上下文（测试版）。</strong>Opus 4.6 是我们第一个具有 100 万 token 上下文的 Opus 级别模型。超过 20 万 token 的提示适用高级定价（每百万输入/输出 token $10/$37.50）。</li>
+    <li><strong>128k 输出 token。</strong>Opus 4.6 支持高达 128k token 的输出，让 Claude 能够完成更大输出的任务而无需将其拆分为多个请求。</li>
+    <li><strong>仅美国推理。</strong>对于需要在美国运行的工作负载，<a href="https://platform.claude.com/docs/en/build-with-claude/data-residency" target="_blank">仅美国推理</a>可用，token 定价为 1.1 倍。</li>
+  </ul>
+
+  <h3>产品更新</h3>
+
+  <p>在 Claude 和 Claude Code 中，我们添加了功能，让知识工作者和开发者能够使用他们每天使用的更多工具来应对更难的任务。</p>
+
+  <p>我们在 Claude Code 中以研究预览的形式引入了<a href="https://code.claude.com/docs/en/agent-teams" target="_blank">智能体团队</a>。您现在可以启动多个智能体作为团队并行工作并自主协调——最适合可以拆分为独立的、读取密集型工作的任务，如代码库审查。您可以使用 Shift+Up/Down 或 <a href="https://github.com/tmux/tmux/wiki" target="_blank">tmux</a> 直接接管任何子智能体。</p>
+
+  <p>Claude 现在还能更好地与您已经使用的办公工具配合。Claude in Excel 以改进的性能处理长时间运行和更难的任务，可以在行动前进行规划，摄入非结构化数据并在无需指导的情况下推断正确的结构，以及在一次传递中处理多步骤更改。将其与 Claude in PowerPoint 配合使用，您可以先在 Excel 中处理和构建数据，然后在 PowerPoint 中将其可视化呈现。Claude 会读取您的布局、字体和幻灯片母版以保持品牌一致性，无论您是从模板构建还是从描述生成完整的演示文稿。Claude in PowerPoint 现已面向 Max、Team 和 Enterprise 计划以研究预览的形式提供。</p>
+
+  <!-- Footnotes -->
+  <div class="footnotes">
+    <h4>脚注</h4>
+    <p>[1] 由 Artificial Analysis 独立运行。<a href="https://artificialanalysis.ai/methodology/intelligence-benchmarking#gdpval-aa">点击此处</a>查看完整方法论详情。</p>
+    <p>[2] 这意味着 Claude Opus 4.6 在该评估中约有 70% 的时间获得比 GPT-5.2 更高的分数（50% 的时间意味着两者分数持平）。</p>
+    <ul>
+      <li>对于 GPT-5.2 和 Gemini 3 Pro 模型，我们在图表和表格中比较了最佳报告模型版本。</li>
+      <li><strong>Terminal-Bench 2.0</strong>：我们报告了在我们基础设施上复现的分数和其他实验室发布的分数。除 OpenAI 的 Codex CLI 外，所有运行均使用 Terminus-2 测试框架。所有实验使用 1× 保证 / 3× 上限资源分配和每个任务 5-15 个样本的交错批次。详情请参阅系统卡片。</li>
+      <li><strong>Humanity's Last Exam</strong>：Claude 模型"使用工具"运行时配备了网络搜索、网页获取、代码执行、程序化工具调用、在 50k token 处触发的上下文压缩（最多 300 万总 token）、最大推理努力和自适应思考。使用域名屏蔽列表来去污染评估结果。更多详情请参阅系统卡片。</li>
+      <li><strong>SWE-bench Verified：</strong>我们的分数取 25 次试验的平均值。通过提示修改，我们看到了 81.42% 的分数。</li>
+      <li><strong>MCP Atlas：</strong>Claude Opus 4.6 以最大努力运行。以高努力运行时，达到了行业领先的 62.7% 分数。</li>
+      <li><strong>BrowseComp</strong>：Claude 模型使用网络搜索、网页获取、程序化工具调用、在 50k token 处触发的上下文压缩（最多 1000 万总 token）、最大推理努力和无思考模式运行。添加多智能体框架后分数提升至 86.8%。更多详情请参阅系统卡片。</li>
+      <li><strong>ARC AGI 2：</strong>Claude Opus 4.6 以最大努力和 120k 思考预算分数运行。</li>
+      <li><strong>CyberGym</strong>：Claude 模型在无思考、默认努力、温度和 <code>top_p</code> 下运行。模型还被赋予了一个"think"工具，允许在多轮评估中进行交错思考。</li>
+      <li><strong>OpenRCA</strong>：对于 OpenRCA 中的每个故障案例，如果所有生成的根因要素与真实值匹配，Claude 获得 1 分；如果发现任何不匹配则获得 0 分。总体准确率是所有故障案例的平均分数。该基准测试在基准测试作者的框架上运行，使用其官方方法论评分，并已提交官方验证。</li>
+    </ul>
+  </div>
+
+</article>
+
+<!-- Related content -->
+<section class="related">
+  <h2>相关内容</h2>
+  <div class="related-grid">
+    <div class="related-card">
+      <h3>Claude 是一个思考的空间</h3>
+      <p>我们做出了一个选择：Claude 将保持无广告。我们解释了为什么广告激励机制与一个真正有用的 AI 助手不兼容，以及我们计划如何在不损害用户信任的情况下扩大访问范围。</p>
+      <a href="https://www.anthropic.com/news/claude-is-a-space-to-think" target="_blank">阅读更多 →</a>
+    </div>
+    <div class="related-card">
+      <h3>Apple 的 Xcode 现已支持 Claude Agent SDK</h3>
+      <a href="https://www.anthropic.com/news/apple-xcode-claude-agent-sdk" target="_blank">阅读更多 →</a>
+    </div>
+    <div class="related-card">
+      <h3>Anthropic 与 Allen 研究所和霍华德·休斯医学研究所合作加速科学发现</h3>
+      <a href="https://www.anthropic.com/news/anthropic-partners-with-allen-institute-and-howard-hughes-medical-institute" target="_blank">阅读更多 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <p>© 2026 Anthropic PBC · 本页面为社区翻译，非官方内容</p>
+</footer>
+
+<!-- Tab switching script -->
+<script>
+function showTab(carouselId, index) {
+  const carousel = document.getElementById(carouselId);
+  const tabs = carousel.querySelectorAll('.tab-content');
+  const buttons = carousel.querySelectorAll('.tab-nav button');
+  tabs.forEach((t, i) => {
+    t.classList.toggle('active', i === index);
+  });
+  buttons.forEach((b, i) => {
+    b.classList.toggle('active', i === index);
+  });
+}
+</script>
+
+</body>
+</html>

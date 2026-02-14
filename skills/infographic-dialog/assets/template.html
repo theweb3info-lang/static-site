@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TITLE}}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      color: #eee;
+      line-height: 1.8;
+      min-height: 100vh;
+      font-size: 26px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 690px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 50px 20px;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      font-family: 'ZCOOL KuaiLe', cursive;
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 18px;
+    }
+
+    .header .subtitle {
+      color: #a8edea;
+      font-size: 1.3rem;
+    }
+
+    /* Character Intro */
+    .character-intro {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 40px 0;
+      flex-wrap: wrap;
+    }
+
+    .char-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 24px;
+      padding: 32px;
+      text-align: center;
+      width: 240px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .char-card .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.2rem;
+      margin: 0 auto 18px;
+    }
+
+    .char-card.xiaobai .avatar {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    }
+
+    .char-card.dawei .avatar {
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    }
+
+    .char-card h3 {
+      font-family: 'ZCOOL KuaiLe', cursive;
+      font-size: 1.85rem;
+      margin-bottom: 12px;
+    }
+
+    .char-card.xiaobai h3 { color: #fcb69f; }
+    .char-card.dawei h3 { color: #a8edea; }
+
+    .char-card p {
+      font-size: 1.35rem;
+      color: #aaa;
+    }
+
+    /* Section Divider */
+    .section-divider {
+      text-align: center;
+      margin: 50px 0 30px;
+      position: relative;
+    }
+
+    .section-divider::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    }
+
+    .section-divider span {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 18px 40px;
+      border-radius: 30px;
+      font-family: 'ZCOOL KuaiLe', cursive;
+      font-size: 1.8rem;
+      position: relative;
+    }
+
+    /* Chat Section */
+    .chat-section {
+      margin: 30px 0;
+    }
+
+    /* NEW LAYOUT: Avatar + Name above message bubble */
+    .chat-row {
+      margin: 28px 0;
+      overflow: visible;
+    }
+
+    .chat-row.right .chat-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      padding-left: 6px;
+    }
+
+    .chat-row.right .chat-header {
+      flex-direction: row-reverse;
+      padding-left: 0;
+      padding-right: 6px;
+    }
+
+    .chat-avatar {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .chat-row.left .chat-avatar {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    }
+
+    .chat-row.right .chat-avatar {
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    }
+
+    .chat-content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .chat-name {
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .chat-row.left .chat-name { color: #fcb69f; }
+    .chat-row.right .chat-name { color: #a8edea; }
+
+    .chat-bubble {
+      padding: 20px 18px;
+      border-radius: 20px;
+      font-size: 1.75rem;
+      line-height: 1.9;
+      margin-left: 6px;
+      margin-right: 6px;
+      width: fit-content;
+      max-width: 100%;
+    }
+
+    .chat-row.left .chat-bubble {
+      background: linear-gradient(135deg, #434343 0%, #2c2c2c 100%);
+    }
+
+    .chat-row.right .chat-bubble {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .chat-bubble strong {
+      color: #ffeaa7;
+    }
+
+    .chat-row.left .chat-bubble strong {
+      color: #f5576c;
+    }
+
+    /* Demo Box */
+    .demo-box {
+      background: rgba(0,0,0,0.4);
+      border-radius: 15px;
+      padding: 24px;
+      margin: 18px 0;
+      border: 1px solid rgba(255,255,255,0.1);
+      overflow-x: auto;
+    }
+
+    .demo-box pre {
+      font-family: 'Courier New', monospace;
+      font-size: 1.05rem;
+      white-space: pre;
+      word-wrap: break-word;
+      overflow-x: auto;
+      line-height: 1.7;
+    }
+
+    /* Highlight Box */
+    .highlight-box {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      padding: 24px;
+      border-radius: 15px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.3rem;
+      margin: 22px 0;
+    }
+
+    /* Compare Grid */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: 15px 0;
+    }
+
+    .compare-card {
+      background: rgba(0,0,0,0.3);
+      padding: 18px;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .compare-card.bad {
+      border: 2px solid #e17055;
+    }
+
+    .compare-card.bad h4 {
+      color: #e17055;
+      margin-bottom: 10px;
+    }
+
+    .compare-card.good {
+      border: 2px solid #00cec9;
+    }
+
+    .compare-card.good h4 {
+      color: #00cec9;
+      margin-bottom: 10px;
+    }
+
+    .compare-card p {
+      font-size: 0.9rem;
+      text-align: left;
+    }
+
+    /* Knowledge Tags */
+    .knowledge-tags {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+
+    .knowledge-tag {
+      background: rgba(102, 126, 234, 0.3);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    /* Principle Card */
+    .principle-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 15px;
+      padding: 20px;
+      margin: 15px 0;
+      border-left: 4px solid #f5576c;
+    }
+
+    .principle-card h4 {
+      color: #f093fb;
+      margin-bottom: 10px;
+      font-family: 'ZCOOL KuaiLe', cursive;
+    }
+
+    /* Big Quote */
+    .big-quote {
+      font-family: 'ZCOOL KuaiLe', cursive;
+      font-size: 1.7rem;
+      text-align: center;
+      padding: 45px 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 25px;
+      margin: 45px 0;
+      position: relative;
+      line-height: 1.9;
+    }
+
+    .big-quote::before {
+      content: '"';
+      font-size: 4rem;
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      opacity: 0.3;
+    }
+
+    /* Summary Box */
+    .summary-box {
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 30px 0;
+    }
+
+    .summary-box h3 {
+      font-family: 'ZCOOL KuaiLe', cursive;
+      font-size: 1.6rem;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .summary-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin: 15px 0;
+    }
+
+    .summary-num {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    /* Fail Case */
+    .fail-case {
+      background: rgba(231, 76, 60, 0.15);
+      border: 2px solid rgba(231, 76, 60, 0.5);
+      border-radius: 15px;
+      padding: 18px;
+      margin: 15px 0;
+    }
+
+    .fail-case h4 {
+      color: #e74c3c;
+      margin-bottom: 12px;
+    }
+
+    /* Analogy Table */
+    .analogy-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 0.95rem;
+    }
+
+    .analogy-table th,
+    .analogy-table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .analogy-table th {
+      background: rgba(102, 126, 234, 0.3);
+      color: #a8edea;
+    }
+
+    .analogy-table tr:hover {
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    /* Watermark - Feishu/Lark style diagonal repeating */
+    .container {
+      position: relative;
+    }
+
+    .container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='240'%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle' fill='rgba(255,255,255,0.07)' font-size='16' font-family='sans-serif' transform='rotate(-20 150 120)'%3EAI 在西元潜%3C/text%3E%3C/svg%3E");
+      background-repeat: repeat;
+    }
+
+    /* Segment Break Marker - invisible but detectable */
+    .segment-break {
+      height: 0;
+      width: 100%;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* WeChat optimized - no responsive needed */
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1>{{HEADER_EMOJI}} {{TITLE_ZH}}</h1>
+      <p class="subtitle">{{SUBTITLE}}</p>
+    </header>
+
+    <!-- Character Intro -->
+    <div class="character-intro">
+      <div class="char-card xiaobai">
+        <div class="avatar">🐣</div>
+        <h3>小白</h3>
+        <p>对{{TOPIC}}充满好奇的萌新</p>
+      </div>
+      <div class="char-card dawei">
+        <div class="avatar">🦉</div>
+        <h3>大维</h3>
+        <p>资深专家，擅长深入浅出</p>
+      </div>
+    </div>
+
+    <!-- CONTENT SECTIONS GO HERE -->
+    <!--
+    NEW CHAT ROW STRUCTURE (Avatar + Name above bubble):
+
+    Left (Xiaobai):
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header">
+          <div class="chat-avatar">🐣</div>
+          <div class="chat-name">小白</div>
+        </div>
+        <div class="chat-bubble">Message content here</div>
+      </div>
+    </div>
+
+    Right (Dawei):
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header">
+          <div class="chat-avatar">🦉</div>
+          <div class="chat-name">大维</div>
+        </div>
+        <div class="chat-bubble">Message content here</div>
+      </div>
+    </div>
+    -->
+    {{CONTENT}}
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>{{HEADER_EMOJI}} {{TITLE_ZH}}</p>
+      <p>{{SUBTITLE}}</p>
+    </footer>
+  </div>
+</body>
+</html>

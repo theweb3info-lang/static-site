@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest",
+        "--extension"
+      ],
+      "env": {
+        "PLAYWRIGHT_MCP_EXTENSION_TOKEN": "Ri_fTF1RLgcHCSULcRwP0y7vCow7bSvA7eXezi5rrws"
+      }
+    },
+    "browser-mcp": {
+      "command": "node",
+      "args": [
+        "/Users/andy_crab/.openclaw/workspace/browser-mcp/src/index.js"
+      ],
+      "description": "Lightweight browser MCP server"
+    }
+  },
+  "imports": []
+}

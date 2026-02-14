@@ -1,0 +1,26 @@
+name: PDFPro
+options:
+  bundleIdPrefix: com.pdfpro
+  deploymentTarget:
+    macOS: "13.0"
+  xcodeVersion: "15.0"
+targets:
+  PDFPro:
+    type: application
+    platform: macOS
+    sources:
+      - PDFPro
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.pdfpro.app
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "5.9"
+        MACOSX_DEPLOYMENT_TARGET: "13.0"
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_NSMainStoryboardFile: ""
+        INFOPLIST_KEY_LSUIElement: NO
+        INFOPLIST_KEY_NSHumanReadableCopyright: "Copyright © 2025 PDF Pro. All rights reserved."
+        CODE_SIGN_ENTITLEMENTS: PDFPro/PDFPro.entitlements
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        SWIFT_EMIT_LOC_STRINGS: YES

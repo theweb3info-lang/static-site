@@ -1,0 +1,27 @@
+name: ScreenshotPro
+options:
+  bundleIdPrefix: com.screenshotpro
+  deploymentTarget:
+    macOS: "13.0"
+  xcodeVersion: "15.0"
+targets:
+  ScreenshotPro:
+    type: application
+    platform: macOS
+    sources:
+      - ScreenshotPro
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.screenshotpro.app
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "5.9"
+        MACOSX_DEPLOYMENT_TARGET: "13.0"
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_NSMainStoryboardFile: ""
+        INFOPLIST_KEY_LSUIElement: NO
+        INFOPLIST_KEY_CFBundleDisplayName: "ScreenshotPro"
+        CODE_SIGN_ENTITLEMENTS: ScreenshotPro/ScreenshotPro.entitlements
+        DEVELOPMENT_ASSET_PATHS: ""
+    entitlements:
+      path: ScreenshotPro/ScreenshotPro.entitlements

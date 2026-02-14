@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seedance 2.0</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { background: #24243e; }
+    body {
+      font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+      background: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      background-attachment: scroll;
+      color: #eee; line-height: 1.8; font-size: 26px; overflow-x: hidden;
+    }
+    .container { max-width: 690px; margin: 0 auto; padding: 24px; position: relative; }
+    .header { text-align: center; padding: 50px 20px; margin-bottom: 30px; }
+    .header h1 { font-size: 2.2rem; font-weight: 900; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 18px; line-height: 1.4; }
+    .header .subtitle { color: #a8edea; font-size: 1.3rem; }
+    .character-intro { display: flex; justify-content: center; gap: 30px; margin: 40px 0; flex-wrap: wrap; }
+    .char-card { background: rgba(255,255,255,0.05); border-radius: 24px; padding: 32px; text-align: center; width: 240px; border: 1px solid rgba(255,255,255,0.1); }
+    .char-card .avatar { width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3.2rem; margin: 0 auto 18px; }
+    .char-card.xiaobai .avatar { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+    .char-card.dawei .avatar { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+    .char-card h3 { font-size: 1.85rem; margin-bottom: 12px; font-weight: 900; }
+    .char-card.xiaobai h3 { color: #fcb69f; } .char-card.dawei h3 { color: #a8edea; }
+    .char-card p { font-size: 1.35rem; color: #aaa; }
+    .section-divider { text-align: center; margin: 50px 0 30px; position: relative; }
+    .section-divider::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); }
+    .section-divider span { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 18px 40px; border-radius: 30px; font-size: 1.7rem; position: relative; font-weight: 900; }
+    .chat-row { margin: 28px 0; overflow: visible; }
+    .chat-row.right .chat-content { display: flex; flex-direction: column; align-items: flex-end; }
+    .chat-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding-left: 6px; }
+    .chat-row.right .chat-header { flex-direction: row-reverse; padding-left: 0; padding-right: 6px; }
+    .chat-avatar { width: 44px; height: 44px; min-width: 44px; min-height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+    .chat-row.left .chat-avatar { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+    .chat-row.right .chat-avatar { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+    .chat-content { width: 100%; display: flex; flex-direction: column; align-items: flex-start; }
+    .chat-name { font-size: 1.1rem; font-weight: bold; }
+    .chat-row.left .chat-name { color: #fcb69f; } .chat-row.right .chat-name { color: #a8edea; }
+    .chat-bubble { padding: 20px 18px; border-radius: 20px; font-size: 1.75rem; line-height: 1.9; margin-left: 6px; margin-right: 6px; width: fit-content; max-width: 100%; }
+    .chat-row.left .chat-bubble { background: linear-gradient(135deg, #434343 0%, #2c2c2c 100%); }
+    .chat-row.right .chat-bubble { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .chat-bubble strong { color: #ffeaa7; } .chat-row.left .chat-bubble strong { color: #f5576c; }
+    .demo-box { background: rgba(0,0,0,0.4); border-radius: 15px; padding: 24px; margin: 18px 0; border: 1px solid rgba(255,255,255,0.1); overflow-x: auto; }
+    .demo-box pre { font-family: 'Courier New', monospace; font-size: 1.05rem; white-space: pre; line-height: 1.7; }
+    .highlight-box { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 24px; border-radius: 15px; text-align: center; font-weight: bold; font-size: 1.3rem; margin: 22px 0; }
+    .principle-card { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 20px; margin: 15px 0; border-left: 4px solid #f5576c; }
+    .principle-card h4 { color: #f093fb; margin-bottom: 10px; font-weight: 900; }
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
+    .compare-card { background: rgba(0,0,0,0.3); padding: 18px; border-radius: 15px; text-align: center; }
+    .compare-card.good { border: 2px solid #00cec9; } .compare-card.good h4 { color: #00cec9; margin-bottom: 10px; }
+    .compare-card.bad { border: 2px solid #e17055; } .compare-card.bad h4 { color: #e17055; margin-bottom: 10px; }
+    .big-quote { font-size: 1.7rem; font-weight: 900; text-align: center; padding: 45px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 25px; margin: 45px 0; position: relative; line-height: 1.9; }
+    .big-quote::before { content: '"'; font-size: 4rem; position: absolute; top: 10px; left: 20px; opacity: 0.3; }
+    .summary-box { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 30px; margin: 30px 0; }
+    .summary-box h3 { font-size: 1.6rem; margin-bottom: 24px; text-align: center; font-weight: 900; }
+    .summary-item { display: flex; align-items: flex-start; gap: 12px; margin: 15px 0; }
+    .summary-num { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; flex-shrink: 0; }
+    .analogy-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.95rem; }
+    .analogy-table th, .analogy-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .analogy-table th { background: rgba(102, 126, 234, 0.3); color: #a8edea; }
+    .analogy-table tr:hover { background: rgba(255,255,255,0.05); }
+    .container::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 9999; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='240'%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle' fill='rgba(255,255,255,0.07)' font-size='16' font-family='sans-serif' transform='rotate(-20 150 120)'%3E技术小黑屋%3C/text%3E%3C/svg%3E"); background-repeat: repeat; }
+    .footer { text-align: center; padding: 40px 20px; color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>🎬 字节跳动放了个大招——Seedance 2.0 凭什么叫板 Sora？</h1>
+      <p class="subtitle">AI 视频生成新王者全解 · 小白 🐣 × 大维 🦉</p>
+    </header>
+
+    <div class="character-intro">
+      <div class="char-card xiaobai">
+        <div class="avatar">🐣</div>
+        <h3>小白</h3>
+        <p>想用 AI 做视频却处处碰壁的创作者</p>
+      </div>
+      <div class="char-card dawei">
+        <div class="avatar">🦉</div>
+        <h3>大维</h3>
+        <p>各种 AI 视频工具都试过的老玩家</p>
+      </div>
+    </div>
+
+    <!-- Section 1 -->
+    <div class="section-divider"><span>🎬 AI 视频的痛点</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">大维，我之前看 Sora 的演示视频惊艳得不行，结果想用的时候……根本用不上？这也太离谱了。</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">哈哈，你不是一个人。Sora 就像一个传说中的餐厅——"听说很好吃"，但你永远订不到位。到了 2026 年 2 月，大部分人还是只能看看演示视频流口水。<br><br>而其他工具呢？Kling 和 Runway 能用，但有三个老大难问题：</div>
+      </div>
+    </div>
+
+    <div class="principle-card">
+      <h4>😩 AI 视频三大痛点</h4>
+      <p>❶ <strong>没有声音</strong> — 生成的视频是"高级 GIF"，还得另外用工具配音配乐<br>❷ <strong>不连贯</strong> — 角色第一个镜头金发，第二个镜头变棕发（角色漂移）<br>❸ <strong>分辨率低</strong> — 很多工具连 1080p 都勉强，放到大屏上糊成一片</p>
+    </div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">所以想用 AI 做一个有声音、多镜头、高清的短片，几乎不可能？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">以前是这样。但 2 月 9 号，字节跳动说：<strong>该我了</strong>。</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">🔥 2026.02.09 — 字节跳动正式发布 Seedance 2.0，AI 视频圈地震</div>
+
+    <!-- Section 2 -->
+    <div class="section-divider"><span>🚀 三大杀手锏</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">Seedance 2.0 到底牛在哪？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">三个词：<strong>看得清、听得见、记得住</strong>。<br><br>Seedance 2.0 用了一种叫"<strong>双分支扩散 Transformer</strong>"的新架构，让模型能同时思考画面和声音。来一个一个说：</div>
+      </div>
+    </div>
+
+    <div class="principle-card">
+      <h4>🔍 杀手锏一：原生 2K 分辨率</h4>
+      <p>不是 720p 放大的"假 2K"，而是<strong>原生渲染的真 2K</strong>。皮肤纹理、水面波光、头发丝——全都清清楚楚。大部分竞品还停留在 1080p，有些甚至 720p 都吃力。</p>
+    </div>
+
+    <div class="principle-card">
+      <h4>🔊 杀手锏二：原生音频同步</h4>
+      <p>视频和声音<strong>同时生成</strong>，不是后期拼接。车在跑→引擎声同步响起。玻璃碎→碎裂声精确到毫秒。角色说话→唇形同步，支持多语言。<br><br>以前你需要三个工具（生成视频→AI 配音→手动对齐），现在一步到位。</p>
+    </div>
+
+    <div class="principle-card">
+      <h4>🎬 杀手锏三：多镜头叙事一致性</h4>
+      <p>给一张参考图或一个提示词，AI 自动规划一组镜头序列——特写、全景、过肩——并且<strong>记住角色长什么样、灯光是什么色调</strong>。<br><br>不再出现"前一秒金发、后一秒棕发"的尴尬。这是 Sora 至今没完全开放的能力。</p>
+    </div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">等等，原生音频这个也太强了吧？以前不是还得手动配音吗？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">对，这可能是 Seedance 2.0 最大的突破。以前的 AI 视频本质上就是<strong>无声电影</strong>。你得：<br>① 用一个 AI 生成视频<br>② 用另一个 AI 生成音效<br>③ 用第三个工具对齐时间轴<br><br>现在全部在一个模型里完成。这就是"双分支扩散 Transformer"的威力——像素和音频同时计算。</div>
+      </div>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section-divider"><span>📊 对比 — 谁是真正的王者？</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">跟 Sora 和 Kling 比呢？</div>
+      </div>
+    </div>
+
+    <table class="analogy-table">
+      <tr><th>特性</th><th>🔥 Seedance 2.0</th><th>Sora</th><th>Kling AI</th></tr>
+      <tr><td>分辨率</td><td><strong>2K 原生</strong></td><td>1080p（估计）</td><td>1080p</td></tr>
+      <tr><td>音频</td><td><strong>原生内置</strong></td><td>有限/外部</td><td>外部</td></tr>
+      <tr><td>生成速度</td><td><strong>快 30%</strong></td><td>未知</td><td>中等</td></tr>
+      <tr><td>多镜头叙事</td><td><strong>内置</strong></td><td>单镜头为主</td><td>有改善</td></tr>
+      <tr><td>唇形同步</td><td><strong>多语言支持</strong></td><td>有限</td><td>基础</td></tr>
+      <tr><td>可用性</td><td><strong>立即可用</strong></td><td>极度受限</td><td>可用</td></tr>
+    </table>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">而且字节跳动有一个其他公司都没有的杀手锏——<strong>TikTok 生态</strong>。它可以让几亿用户立刻测试这个模型，快速迭代。别人还在实验室调参数，它已经在收集真实用户反馈了。<br><br>CNBC 报道说字节跳动的股价因为这个发布<strong>大幅上涨</strong>，市场是真的看好。</div>
+      </div>
+    </div>
+
+    <!-- Section 4 -->
+    <div class="section-divider"><span>🎯 谁该用？怎么用？</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">听起来很厉害，但具体能干嘛？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">两个最大的受益群体：</div>
+      </div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card good">
+        <h4>📱 营销/广告人</h4>
+        <p>一张产品图 → 15 秒大片级广告<br>2K 画质让品牌看起来高端<br>原生音频省去配乐成本<br>不需要摄影团队</p>
+      </div>
+      <div class="compare-card good">
+        <h4>🎥 独立创作者</h4>
+        <p>两张照片 → 完整短片<br>多镜头功能 = 自动分镜<br>专注故事和情感<br>以前要做几个月，现在几分钟</p>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">速度也是关键——比 Kling 快约 <strong>30%</strong>。创作讲究心流，如果等一个片段要 20 分钟，灵感早跑了。Seedance 2.0 让你在别人出一条的时间里迭代三个版本。</div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="section-divider"><span>📝 总结</span></div>
+
+    <div class="summary-box">
+      <h3>🎬 Seedance 2.0 核心要点</h3>
+      <div class="summary-item">
+        <span class="summary-num">1</span>
+        <span><strong>字节跳动出品</strong> — TikTok 母公司的 AI 视频大模型，2026 年 2 月 9 日正式发布</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">2</span>
+        <span><strong>原生 2K</strong> — 真正的高分辨率渲染，不是放大的假 2K</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">3</span>
+        <span><strong>声画同生</strong> — 视频和音频同时生成，告别无声电影时代</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">4</span>
+        <span><strong>多镜头一致</strong> — 角色/场景/光线跨镜头保持一致，像真正的导演</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">5</span>
+        <span><strong>生态优势</strong> — TikTok 数亿用户 = 最快的反馈循环和迭代速度</span>
+      </div>
+    </div>
+
+    <div class="big-quote">AI 视频正在从"看 AI 能做什么"进化到"看我能用 AI 做什么"。Seedance 2.0 就是这个转折点。</div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">所以 Sora 杀手这次是真的来了？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">至少在"能用"这一点上，Seedance 2.0 已经赢了。Sora 再强，用不到就是零。而 Seedance 2.0 今天就能打开浏览器开始创作。<br><br>2026 年注定是 AI 视频爆发的一年 🦉</div>
+      </div>
+    </div>
+
+    <!-- WeChat QR -->
+    <div style="margin: 20px 0; text-align: center;">
+      <img src="/Users/andy_crab/.openclaw/workspace/skills/infographic-dialog/assets/wechat_xiaoheiwu.png" 
+           style="width: 100%; max-width: 690px; border-radius: 15px;" 
+           alt="技术小黑屋 公众号" />
+    </div>
+
+    <footer class="footer">
+      <p>🎬 字节跳动放了个大招——Seedance 2.0 凭什么叫板 Sora？</p>
+      <p>技术小黑屋 · droidyue.com</p>
+    </footer>
+  </div>
+</body>
+</html>

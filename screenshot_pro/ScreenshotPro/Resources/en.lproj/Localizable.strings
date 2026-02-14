@@ -1,0 +1,36 @@
+/* Permission */
+"permission.title" = "Screen Recording Permission Required";
+"permission.message" = "ScreenshotPro needs screen recording permission to capture screenshots. Please grant permission in System Settings > Privacy & Security > Screen Recording.";
+"permission.openSettings" = "Open System Settings";
+"permission.later" = "Later";
+
+/* Error */
+"error.title" = "Error";
+
+/* Welcome */
+"welcome.title" = "Welcome to ScreenshotPro";
+"welcome.subtitle" = "Beautiful screenshots, effortlessly";
+"welcome.getStarted" = "Get Started";
+
+/* Menu Bar */
+"menu.history" = "History";
+"menu.paste" = "Paste from Clipboard";
+"menu.settings" = "Settings";
+"menu.quit" = "Quit";
+
+/* Capture Modes */
+"capture.region" = "Region";
+"capture.window" = "Window";
+"capture.fullscreen" = "Fullscreen";
+"capture.menubar" = "Menu Bar";
+
+/* Editor */
+"editor.copy" = "Copy to Clipboard";
+"editor.save" = "Save As…";
+"editor.beautify" = "Beautify";
+
+/* History */
+"history.title" = "Screenshot History";
+"history.empty" = "No Screenshots Yet";
+"history.emptyDescription" = "Captured screenshots will appear here";
+"history.search" = "Search…";

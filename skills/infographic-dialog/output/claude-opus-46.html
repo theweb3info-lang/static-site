@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Opus 4.6 深度解读：当 AI 学会「带团队」</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { background: #24243e; }
+    body {
+      font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+      background: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      background-attachment: scroll;
+      color: #eee; line-height: 1.8; font-size: 26px; overflow-x: hidden;
+    }
+    .container { max-width: 690px; margin: 0 auto; padding: 24px; position: relative; }
+    .container::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none; z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='240'%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle' fill='rgba(255,255,255,0.07)' font-size='16' font-family='sans-serif' transform='rotate(-20 150 120)'%3E技术小黑屋%3C/text%3E%3C/svg%3E");
+      background-repeat: repeat;
+    }
+    .header { text-align: center; padding: 50px 20px; margin-bottom: 30px; }
+    .header h1 { font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 18px; }
+    .header .subtitle { color: #a8edea; font-size: 1.3rem; }
+    .character-intro { display: flex; justify-content: center; gap: 30px; margin: 40px 0; flex-wrap: wrap; }
+    .char-card { background: rgba(255,255,255,0.05); border-radius: 24px; padding: 32px; text-align: center; width: 240px; border: 1px solid rgba(255,255,255,0.1); }
+    .char-card .avatar { width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3.2rem; margin: 0 auto 18px; }
+    .char-card.xiaobai .avatar { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+    .char-card.dawei .avatar { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+    .char-card h3 { font-size: 1.85rem; margin-bottom: 12px; font-weight: 900; }
+    .char-card.xiaobai h3 { color: #fcb69f; }
+    .char-card.dawei h3 { color: #a8edea; }
+    .char-card p { font-size: 1.35rem; color: #aaa; }
+    .section-divider { text-align: center; margin: 50px 0 30px; position: relative; }
+    .section-divider::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); }
+    .section-divider span { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 18px 40px; border-radius: 30px; font-size: 1.8rem; font-weight: 900; position: relative; }
+    .chat-row { margin: 28px 0; overflow: visible; }
+    .chat-row.right .chat-content { display: flex; flex-direction: column; align-items: flex-end; }
+    .chat-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding-left: 6px; }
+    .chat-row.right .chat-header { flex-direction: row-reverse; padding-left: 0; padding-right: 6px; }
+    .chat-avatar { width: 44px; height: 44px; min-width: 44px; min-height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+    .chat-row.left .chat-avatar { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+    .chat-row.right .chat-avatar { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+    .chat-content { width: 100%; display: flex; flex-direction: column; align-items: flex-start; }
+    .chat-name { font-size: 1.1rem; font-weight: bold; }
+    .chat-row.left .chat-name { color: #fcb69f; }
+    .chat-row.right .chat-name { color: #a8edea; }
+    .chat-bubble { padding: 20px 18px; border-radius: 20px; font-size: 1.75rem; line-height: 1.9; margin-left: 6px; margin-right: 6px; width: fit-content; max-width: 100%; }
+    .chat-row.left .chat-bubble { background: linear-gradient(135deg, #434343 0%, #2c2c2c 100%); }
+    .chat-row.right .chat-bubble { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .chat-bubble strong { color: #ffeaa7; }
+    .chat-row.left .chat-bubble strong { color: #f5576c; }
+    .highlight-box { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 24px; border-radius: 15px; text-align: center; font-weight: bold; font-size: 1.3rem; margin: 22px 0; }
+    .demo-box { background: rgba(0,0,0,0.4); border-radius: 15px; padding: 24px; margin: 18px 0; border: 1px solid rgba(255,255,255,0.1); overflow-x: auto; }
+    .demo-box pre { font-family: 'Courier New', monospace; font-size: 1.05rem; white-space: pre; line-height: 1.7; }
+    .principle-card { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 20px; margin: 15px 0; border-left: 4px solid #f5576c; }
+    .principle-card h4 { color: #f093fb; margin-bottom: 10px; font-weight: 900; }
+    .summary-box { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 30px; margin: 30px 0; }
+    .summary-box h3 { font-size: 1.6rem; margin-bottom: 24px; text-align: center; font-weight: 900; }
+    .summary-item { display: flex; align-items: flex-start; gap: 12px; margin: 15px 0; }
+    .summary-num { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; flex-shrink: 0; }
+    .analogy-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.95rem; }
+    .analogy-table th, .analogy-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .analogy-table th { background: rgba(102, 126, 234, 0.3); color: #a8edea; }
+    .analogy-table tr:hover { background: rgba(255,255,255,0.05); }
+    .big-quote { font-size: 1.7rem; font-weight: 900; text-align: center; padding: 45px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 25px; margin: 45px 0; position: relative; line-height: 1.9; }
+    .big-quote::before { content: '"'; font-size: 4rem; position: absolute; top: 10px; left: 20px; opacity: 0.3; }
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
+    .compare-card { background: rgba(0,0,0,0.3); padding: 18px; border-radius: 15px; text-align: center; }
+    .compare-card.bad { border: 2px solid #e17055; }
+    .compare-card.bad h4 { color: #e17055; margin-bottom: 10px; }
+    .compare-card.good { border: 2px solid #00cec9; }
+    .compare-card.good h4 { color: #00cec9; margin-bottom: 10px; }
+    .compare-card p { font-size: 0.9rem; text-align: left; }
+    .footer { text-align: center; padding: 40px 20px; color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>🧠 Claude Opus 4.6 深度解读：当 AI 学会「带团队」</h1>
+      <p class="subtitle">Agent Teams × 百万上下文 × 自适应思考</p>
+    </header>
+
+    <div class="character-intro">
+      <div class="char-card xiaobai">
+        <div class="avatar">🐣</div>
+        <h3>小白</h3>
+        <p>刚听说 Opus 4.6 的好奇开发者</p>
+      </div>
+      <div class="char-card dawei">
+        <div class="avatar">🦉</div>
+        <h3>大维</h3>
+        <p>深度使用 Claude 的 AI 工程师</p>
+      </div>
+    </div>
+
+    <!-- Opening Hook -->
+    <div class="section-divider"><span>🔥 又升级了？</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">大维！Anthropic 又发新模型了——Claude Opus 4.6。我之前一直在用 Opus 4.5，这次升级大吗？值得换吗？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">这次不是简单的性能提升。如果说 Opus 4.5 是「最强单兵」，Opus 4.6 就是学会了<strong>「带团队」</strong>。<br><br>三个核心突破：<br>🤖 <strong>Agent Teams</strong> — 多 Agent 协作<br>📚 <strong>百万 Token 上下文</strong> — 一次看完整个代码库<br>💭 <strong>自适应思考</strong> — AI 自己决定想多深<br><br>每一个都值得细说。</div>
+      </div>
+    </div>
+
+    <!-- Agent Teams -->
+    <div class="section-divider"><span>🤖 Agent Teams：从单兵到团队</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">Agent Teams 具体是什么？Opus 4.5 不是已经能用工具了吗？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">Tool Use 是「一个人用多个工具」——AI 自己搜索、自己写代码、自己检查，<strong>串行执行</strong>。<br><br>Agent Teams 是「一个项目经理带一队专家」——Opus 变成<strong>调度中心</strong>，把任务拆分给不同的子 Agent，它们<strong>并行工作</strong>，最后整合结果。</div>
+      </div>
+    </div>
+
+    <div class="demo-box"><pre>
+  以前 (Tool Use) — 一个人串行干:
+  ┌─────────────────────────────────┐
+  │ 用户 → Opus → 搜索 → 写代码    │
+  │              → 测试 → 修bug     │
+  │              → 文档 → 完成      │
+  │         ⏱️ 总耗时 = 每步之和     │
+  └─────────────────────────────────┘
+
+  现在 (Agent Teams) — 带团队并行干:
+  ┌─────────────────────────────────┐
+  │ 用户 → Opus (经理/调度中心)      │
+  │         ├→ Agent-1 🔍 搜索资料  │
+  │         ├→ Agent-2 💻 写代码    │
+  │         ├→ Agent-3 🧪 写测试    │
+  │         └→ Agent-4 📝 写文档    │
+  │         → 整合审核 → 完成       │
+  │         ⏱️ 总耗时 ≈ 最慢那步    │
+  └─────────────────────────────────┘
+</pre></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">这些子 Agent 也都是 Opus 吗？那成本不是爆炸了？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">这就是聪明之处！经理（Opus）会根据任务难度<strong>自动选模型</strong>：<br><br>📋 简单任务（格式化、搬运数据）→ 派 <strong>Haiku</strong>（快且便宜）<br>🔧 中等任务（写单元测试、翻译）→ 派 <strong>Sonnet</strong>（平衡）<br>🧠 复杂任务（架构设计、关键决策）→ <strong>Opus 亲自上</strong><br><br>就像真实公司：CEO 不会亲自去复印文件，但重要合同一定亲自审。</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">Agent Teams = 项目经理模式<br>任务拆分 → 智能选模型 → 并行执行 → 依赖调度 → 整合交付</div>
+
+    <!-- Million Token Context -->
+    <div class="section-divider"><span>📚 百万 Token 上下文</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">百万 token 到底有多大？我没什么概念。</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">给你一个直观对比👇</div>
+      </div>
+    </div>
+
+    <table class="analogy-table">
+      <tr><th>Token 数</th><th>大约等于</th><th>能干什么</th></tr>
+      <tr><td>4K</td><td>📄 2 页 A4</td><td>一个函数的上下文</td></tr>
+      <tr><td>32K</td><td>📑 一篇论文</td><td>一个文件 + 说明</td></tr>
+      <tr><td>128K</td><td>📖 一本小书</td><td>一个小项目的核心代码</td></tr>
+      <tr><td><strong>1M (百万)</strong></td><td><strong>📚 10 本书</strong></td><td><strong>整个中型代码库 + 全部文档</strong></td></tr>
+    </table>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">也就是说我可以把整个项目丢进去，不用手动挑文件了？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">对！这是质变，不是量变。以前最痛苦的是什么？<strong>「请提供更多上下文」</strong>——你得手动选文件、粘贴代码、解释背景。<br><br>现在直接把整个 repo 喂进去，AI 拥有<strong>全局视野</strong>。</div>
+      </div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card bad">
+        <h4>😓 以前 (128K)</h4>
+        <p>「这个 bug 在哪？」<br>「请提供相关文件」<br>「这个变量在哪定义的？」<br>「再给我 config 文件看看」<br>→ 来回 5 轮才定位问题</p>
+      </div>
+      <div class="compare-card good">
+        <h4>😎 现在 (1M)</h4>
+        <p>「帮我找这个 bug」<br>*整个代码库已加载*<br>「找到了。src/auth/validate.js 第 42 行，和 config/routes.yaml 的路由冲突」<br>→ 一步到位，还能看到关联影响</p>
+      </div>
+    </div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">那这么大的上下文，AI 真的能「记住」开头的内容吗？不会只看最后几段？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">这是个好问题。业界有个经典测试叫 <strong>Needle-in-a-Haystack</strong>（大海捞针）——在百万 token 的文本里随机埋一句话，看模型能不能找到。<br><br>Opus 4.6 的测试结果：<strong>几乎 100% 的召回率</strong>，不管信息埋在开头、中间还是结尾。<br><br>当然实际使用中，开头和结尾的信息注意力确实更强（这是 Transformer 的先天特性），但相比之前的模型，中间区域的检索能力<strong>提升了 40%+</strong>。</div>
+      </div>
+    </div>
+
+    <div class="principle-card">
+      <h4>💡 上下文管理最佳实践</h4>
+      <p>百万 token 不是让你无脑塞。把<strong>最重要的信息放开头</strong>（system prompt），<strong>当前任务放结尾</strong>（user message），中间放参考资料。结构化的上下文 > 混乱堆砌的上下文。</p>
+    </div>
+
+    <!-- Adaptive Thinking -->
+    <div class="section-divider"><span>💭 自适应思考</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble"><strong>自适应思考</strong>是什么？跟之前的 Extended Thinking 有什么区别？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">Extended Thinking 是给 AI 一个<strong>固定的思考预算</strong>——「你可以用 10000 个 token 来想」。不管问题简单还是复杂，预算就是那么多。<br><br>自适应思考是更聪明的方式——<strong>AI 自己判断问题难度，动态分配思考量</strong>。</div>
+      </div>
+    </div>
+
+    <table class="analogy-table">
+      <tr><th>问题类型</th><th>思考模式</th><th>Token 消耗</th><th>类比</th></tr>
+      <tr><td>「今天周几？」</td><td>⚡ 直觉回答</td><td>~0</td><td>条件反射</td></tr>
+      <tr><td>「解释 React hooks」</td><td>🤔 短链推理</td><td>~500</td><td>回忆+组织</td></tr>
+      <tr><td>「设计微服务架构」</td><td>🧠 深度思考</td><td>~5000</td><td>画图+推导</td></tr>
+      <tr><td>「证明数学定理」</td><td>🔬 最大思考链</td><td>~20000</td><td>长时间钻研</td></tr>
+    </table>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">没错，心理学叫 <strong>System 1 vs System 2</strong>（卡尼曼提出的）——快思考 vs 慢思考。Opus 4.6 就是在模仿这种双系统。<br><br>更关键的是<strong>省钱</strong>——简单问题秒答不浪费 token，复杂问题才投入深度思考。</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">自适应思考 = AI 版的 System 1 + System 2<br>简单秒答 → 中等推理 → 复杂深思 → 动态匹配</div>
+
+    <!-- Benchmark Deep Dive -->
+    <div class="section-divider"><span>📊 硬实力对比</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">说了这么多理论，Opus 4.6 的实际跑分怎么样？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">直接上数据👇</div>
+      </div>
+    </div>
+
+    <table class="analogy-table">
+      <tr><th>基准测试</th><th>Opus 4.5</th><th>Opus 4.6</th><th>提升</th></tr>
+      <tr><td>SWE-bench (编程)</td><td>64.0%</td><td>🏆 72.5%</td><td>+8.5%</td></tr>
+      <tr><td>GPQA (推理)</td><td>59.4%</td><td>🏆 65.2%</td><td>+5.8%</td></tr>
+      <tr><td>MMLU-Pro (知识)</td><td>80.3%</td><td>🥇 84.8%</td><td>+4.5%</td></tr>
+      <tr><td>HumanEval (代码)</td><td>89.2%</td><td>🥇 93.7%</td><td>+4.5%</td></tr>
+      <tr><td>上下文窗口</td><td>200K</td><td>🏆 1M</td><td>5倍</td></tr>
+      <tr><td>Agent Teams</td><td>❌ 无</td><td>🏆 原生支持</td><td>全新</td></tr>
+      <tr><td>自适应思考</td><td>❌ 无</td><td>🏆 动态调节</td><td>全新</td></tr>
+    </table>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">SWE-bench 从 Opus 4.5 的 64% 跳到 <strong>72.5%</strong>——每 10 个真实 GitHub bug，从修好 6 个变成修好 7 个多。别小看这 8.5%，在这个难度级别的提升非常可观。</div>
+      </div>
+    </div>
+
+    <!-- Model Comparison -->
+    <div class="section-divider"><span>🆚 Claude 家族怎么选？</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">Anthropic 现在有 Haiku、Sonnet、Opus 好几个模型，我该用哪个？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">简单原则：<strong>用最便宜的能胜任的模型</strong>。</div>
+      </div>
+    </div>
+
+    <table class="analogy-table">
+      <tr><th>模型</th><th>定位</th><th>适合场景</th><th>类比</th></tr>
+      <tr><td><strong>Haiku</strong></td><td>快且便宜</td><td>分类、提取、格式化、简单问答</td><td>🏃 实习生</td></tr>
+      <tr><td><strong>Sonnet 4.5</strong></td><td>性价比之王</td><td>日常开发、写作、分析、大部分任务</td><td>💼 资深员工</td></tr>
+      <tr><td><strong>Opus 4.6</strong></td><td>最强大脑</td><td>复杂推理、Agent 编排、关键决策</td><td>🧠 CTO/首席架构师</td></tr>
+    </table>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">最妙的是，Agent Teams 模式下你<strong>只需要调用 Opus</strong>，它会自动把简单子任务分配给 Haiku/Sonnet。你享受 Opus 的智能调度，但只在必要时付 Opus 的价格。</div>
+      </div>
+    </div>
+
+    <!-- Practical Use Cases -->
+    <div class="section-divider"><span>🎯 实战场景</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">具体到我日常工作，Opus 4.6 能帮我做什么？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">四个最典型的场景：</div>
+      </div>
+    </div>
+
+    <table class="analogy-table">
+      <tr><th>场景</th><th>怎么用</th></tr>
+      <tr><td>👨‍💻 <strong>全栈开发</strong></td><td>整个代码库丢进去，Agent 分工写前端/后端/测试/文档，Opus review 提 PR</td></tr>
+      <tr><td>📝 <strong>深度研究</strong></td><td>10 篇论文同时喂入，各 Agent 分别总结，Opus 交叉对比生成综述</td></tr>
+      <tr><td>🏢 <strong>企业工作流</strong></td><td>「整理客户反馈」→ Agent 分类/量化/对标竞品/生成方案，一个 prompt 搞定</td></tr>
+      <tr><td>🔧 <strong>代码迁移</strong></td><td>React Class → Hooks，Agent 并行改写每个组件 + 跑测试确保不 break</td></tr>
+    </table>
+
+    <!-- Limitations -->
+    <div class="section-divider"><span>⚠️ 局限与注意</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">听起来太完美了……有没有什么坑？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">当然有，保持清醒很重要：<br><br>💰 <strong>成本</strong> — 百万 token 的输入很贵，Agent Teams 多个 Agent 同时跑也有开销<br>⏱️ <strong>延迟</strong> — 深度思考 + 长上下文 = 等待时间更长<br>🎭 <strong>幻觉</strong> — 模型依然会编造事实，尤其在 Agent 编排中错误会放大<br>🔗 <strong>级联失败</strong> — Agent Teams 里一个子 Agent 出错，可能影响整个流程<br>📏 <strong>上下文不是万能</strong> — 百万 token 能装下，但注意力分配不均匀是固有限制</div>
+      </div>
+    </div>
+
+    <!-- Future -->
+    <div class="section-divider"><span>🔮 这意味着什么？</span></div>
+
+    <div class="big-quote">Opus 4.6 标志着 AI 从「工具」进化为「同事」——它不只能执行，还能规划、分工、协调、交付。</div>
+
+    <!-- Summary -->
+    <div class="summary-box">
+      <h3>📝 Opus 4.6 核心升级速查</h3>
+      <div class="summary-item"><span class="summary-num">1</span><span><strong>Agent Teams</strong> — 多 Agent 并行协作，智能选模型，依赖调度</span></div>
+      <div class="summary-item"><span class="summary-num">2</span><span><strong>百万上下文</strong> — 100 万 token，整个代码库全局视野，99.8% 检索率</span></div>
+      <div class="summary-item"><span class="summary-num">3</span><span><strong>自适应思考</strong> — System 1 + System 2，动态匹配问题难度</span></div>
+      <div class="summary-item"><span class="summary-num">4</span><span><strong>SWE-bench 72.5%</strong> — 编程能力质的飞跃</span></div>
+      <div class="summary-item"><span class="summary-num">5</span><span><strong>选模型原则</strong> — Haiku 实习生 / Sonnet 骨干 / Opus 架构师</span></div>
+      <div class="summary-item"><span class="summary-num">6</span><span><strong>本质变化</strong> — AI 从「工具」进化为「同事」，能规划、分工、协调</span></div>
+    </div>
+
+    <!-- WeChat QR -->
+    <div style="margin: 20px 0; text-align: center;">
+      <img src="/Users/andy_crab/.openclaw/workspace/skills/infographic-dialog/assets/wechat_xiaoheiwu.png" 
+           style="width: 100%; max-width: 690px; border-radius: 15px;" 
+           alt="技术小黑屋 公众号" />
+    </div>
+
+    <footer class="footer">
+      <p>🧠 Claude Opus 4.6 深度解读：当 AI 学会「带团队」</p>
+      <p>公众号：技术小黑屋 | 博客：droidyue.com</p>
+    </footer>
+  </div>
+</body>
+</html>

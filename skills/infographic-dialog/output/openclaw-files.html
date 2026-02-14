@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>装完 OpenClaw，冒出来 8 个文件，都是干嘛的？</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { background: #24243e; }
+    body {
+      font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+      background: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      background-attachment: scroll;
+      color: #eee; line-height: 1.8; font-size: 26px; overflow-x: hidden;
+    }
+    .container { max-width: 690px; margin: 0 auto; padding: 24px; position: relative; }
+    .container::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none; z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='240'%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle' fill='rgba(255,255,255,0.07)' font-size='16' font-family='sans-serif' transform='rotate(-20 150 120)'%3E技术小黑屋%3C/text%3E%3C/svg%3E");
+      background-repeat: repeat;
+    }
+    .header { text-align: center; padding: 50px 20px; margin-bottom: 30px; }
+    .header h1 { font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 18px; }
+    .header .subtitle { color: #a8edea; font-size: 1.3rem; }
+    .character-intro { display: flex; justify-content: center; gap: 30px; margin: 40px 0; flex-wrap: wrap; }
+    .char-card { background: rgba(255,255,255,0.05); border-radius: 24px; padding: 32px; text-align: center; width: 240px; border: 1px solid rgba(255,255,255,0.1); }
+    .char-card .avatar { width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3.2rem; margin: 0 auto 18px; }
+    .char-card.xiaobai .avatar { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+    .char-card.dawei .avatar { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+    .char-card h3 { font-size: 1.85rem; margin-bottom: 12px; font-weight: 900; }
+    .char-card.xiaobai h3 { color: #fcb69f; }
+    .char-card.dawei h3 { color: #a8edea; }
+    .char-card p { font-size: 1.35rem; color: #aaa; }
+    .section-divider { text-align: center; margin: 50px 0 30px; position: relative; }
+    .section-divider::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); }
+    .section-divider span { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 18px 40px; border-radius: 30px; font-size: 1.8rem; font-weight: 900; position: relative; }
+    .chat-row { margin: 28px 0; overflow: visible; }
+    .chat-row.right .chat-content { display: flex; flex-direction: column; align-items: flex-end; }
+    .chat-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding-left: 6px; }
+    .chat-row.right .chat-header { flex-direction: row-reverse; padding-left: 0; padding-right: 6px; }
+    .chat-avatar { width: 44px; height: 44px; min-width: 44px; min-height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+    .chat-row.left .chat-avatar { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+    .chat-row.right .chat-avatar { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+    .chat-content { width: 100%; display: flex; flex-direction: column; align-items: flex-start; }
+    .chat-name { font-size: 1.1rem; font-weight: bold; }
+    .chat-row.left .chat-name { color: #fcb69f; }
+    .chat-row.right .chat-name { color: #a8edea; }
+    .chat-bubble { padding: 20px 18px; border-radius: 20px; font-size: 1.75rem; line-height: 1.9; margin-left: 6px; margin-right: 6px; width: fit-content; max-width: 100%; }
+    .chat-row.left .chat-bubble { background: linear-gradient(135deg, #434343 0%, #2c2c2c 100%); }
+    .chat-row.right .chat-bubble { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .chat-bubble strong { color: #ffeaa7; }
+    .chat-row.left .chat-bubble strong { color: #f5576c; }
+    .highlight-box { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 24px; border-radius: 15px; text-align: center; font-weight: bold; font-size: 1.3rem; margin: 22px 0; }
+    .demo-box { background: rgba(0,0,0,0.4); border-radius: 15px; padding: 24px; margin: 18px 0; border: 1px solid rgba(255,255,255,0.1); overflow-x: auto; }
+    .demo-box pre { font-family: 'Courier New', monospace; font-size: 1.05rem; white-space: pre; line-height: 1.7; }
+    .principle-card { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 20px; margin: 15px 0; border-left: 4px solid #f5576c; }
+    .principle-card h4 { color: #f093fb; margin-bottom: 10px; font-weight: 900; }
+    .summary-box { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 30px; margin: 30px 0; }
+    .summary-box h3 { font-size: 1.6rem; margin-bottom: 24px; text-align: center; font-weight: 900; }
+    .summary-item { display: flex; align-items: flex-start; gap: 12px; margin: 15px 0; }
+    .summary-num { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; flex-shrink: 0; }
+    .analogy-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.95rem; }
+    .analogy-table th, .analogy-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .analogy-table th { background: rgba(102, 126, 234, 0.3); color: #a8edea; }
+    .analogy-table tr:hover { background: rgba(255,255,255,0.05); }
+    .big-quote { font-size: 1.7rem; font-weight: 900; text-align: center; padding: 45px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 25px; margin: 45px 0; position: relative; line-height: 1.9; }
+    .big-quote::before { content: '"'; font-size: 4rem; position: absolute; top: 10px; left: 20px; opacity: 0.3; }
+    .footer { text-align: center; padding: 40px 20px; color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>📂 装完 OpenClaw，冒出来 8 个文件，都是干嘛的？</h1>
+      <p class="subtitle">一次搞懂 AI 助手的「工作区全家福」</p>
+    </header>
+
+    <div class="character-intro">
+      <div class="char-card xiaobai">
+        <div class="avatar">🐣</div>
+        <h3>小白</h3>
+        <p>刚装完 OpenClaw 的好奇萌新</p>
+      </div>
+      <div class="char-card dawei">
+        <div class="avatar">🦉</div>
+        <h3>大维</h3>
+        <p>OpenClaw 资深玩家</p>
+      </div>
+    </div>
+
+    <!-- Opening Hook -->
+    <div class="section-divider"><span>🤯 这都是啥？</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">大维！最近 OpenClaw 好火啊，我跟着教程装完了，结果打开工作区一看——冒出来一堆 <strong>.md 文件</strong>，AGENTS、SOUL、IDENTITY…… 看得我头大，这都是干嘛的？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">哈哈，别慌！这些文件其实就是 AI 助手的<strong>「人生档案」</strong>。人靠记忆和性格活着，AI 靠这些文件。我给你一个个说。</div>
+      </div>
+    </div>
+
+    <!-- Section 1: 灵魂三件套 -->
+    <div class="section-divider"><span>🧠 灵魂三件套</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">灵魂三件套？听起来好中二😂</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">没毛病！这三个文件决定了 AI 助手<strong>「是谁」</strong>👇</div>
+      </div>
+    </div>
+
+    <table class="analogy-table">
+      <tr><th>文件</th><th>用途</th><th>类比</th></tr>
+      <tr><td><strong>AGENTS.md</strong></td><td>启动规则、行为准则、记忆管理</td><td>📋 公司规章制度</td></tr>
+      <tr><td><strong>SOUL.md</strong></td><td>AI 的性格和价值观</td><td>💫 性格 DNA</td></tr>
+      <tr><td><strong>IDENTITY.md</strong></td><td>AI 的身份（名字、emoji、头像）</td><td>🪪 身份证</td></tr>
+    </table>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">等等，AGENTS 和 SOUL 有什么区别？感觉都在说「AI 该怎么做」。</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">好问题！打个比方——<br><br><strong>AGENTS.md</strong> 像「员工手册」：几点上班、怎么写周报、哪些事要请示。<br><br><strong>SOUL.md</strong> 像「这个人的性格」：是幽默还是严肃、直来直去还是委婉、什么时候该闭嘴。<br><br>一个管<strong>行为</strong>，一个管<strong>灵魂</strong>。</div>
+      </div>
+    </div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">那 IDENTITY.md 呢？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">最简单——名字叫什么、用什么 emoji 代表自己、头像长什么样。第一次对话时你和 AI 一起取的，就像给新宠物取名🐱</div>
+      </div>
+    </div>
+
+    <!-- Section 2: 了解主人 -->
+    <div class="section-divider"><span>👤 了解主人</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble"><strong>USER.md</strong> 是记我的信息的？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">对！你的名字、时区、联系方式、偏好——就像你给新助理准备的<strong>「入职资料」</strong>。AI 看了就知道该叫你什么、你在哪个时区、怎么联系你。</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">USER.md = 你给 AI 的「入职资料」——让它从第一天就知道怎么配合你</div>
+
+    <!-- Section 3: 记忆系统 -->
+    <div class="section-divider"><span>🧩 记忆系统</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">AI 不是每次聊完就忘了吗？MEMORY.md 能让它「记住」？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">没错，AI 每次醒来都是一张白纸。<strong>MEMORY.md</strong> 就是它的<strong>「长期记忆」</strong>——经过整理的重要决策、经验教训、关键信息。<br><br>每次启动，AI 先翻一遍这个文件，就像你早上起来看一眼备忘录。</div>
+      </div>
+    </div>
+
+    <div class="principle-card">
+      <h4>🔒 安全设计</h4>
+      <p>MEMORY.md 只在<strong>私聊</strong>中加载。群聊里不会加载——防止你的隐私信息被其他人看到。</p>
+    </div>
+
+    <!-- Section 4: 工具与自动化 -->
+    <div class="section-divider"><span>⚙️ 工具与自动化</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">还有 <strong>TOOLS.md</strong> 和 <strong>HEARTBEAT.md</strong>，这两个看名字就很「工具人」😂</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">哈哈确实！<br><br><strong>TOOLS.md</strong> 是 AI 的<strong>「小抄本」</strong>——本地工具怎么用、服务器地址多少、摄像头叫什么名。环境相关的信息都记在这。<br><br><strong>HEARTBEAT.md</strong> 是<strong>「值班表」</strong>——AI 每隔一段时间会「醒来」看一眼，决定要不要查邮件、看天气、报告系统状态。</div>
+      </div>
+    </div>
+
+    <table class="analogy-table">
+      <tr><th>文件</th><th>用途</th><th>类比</th></tr>
+      <tr><td><strong>TOOLS.md</strong></td><td>本地工具配置（Caddy、SSH 等）</td><td>📒 小抄本</td></tr>
+      <tr><td><strong>HEARTBEAT.md</strong></td><td>定时任务清单</td><td>⏰ 值班表</td></tr>
+    </table>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">所以我可以让 AI 每小时自动帮我查邮件？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">完全可以！在 HEARTBEAT.md 里写上就行。AI 会像一个靠谱的值班员一样，定时检查、有事汇报、没事不打扰。</div>
+      </div>
+    </div>
+
+    <!-- Section 5: 启动引导 -->
+    <div class="section-divider"><span>🚀 出生指南</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">最后一个——<strong>BOOTSTRAP.md</strong>，bootstrap 不是前端框架吗？😅</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">这里的 bootstrap 是「引导启动」的意思。这个文件是 AI 的<strong>「出生指南」</strong>——第一次上线时，引导你们互相认识、取名字、确定风格。<br><br>用完就可以删掉了，就像拆完的快递包装📦</div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="big-quote">8 个文件 = AI 的人生档案<br>灵魂、身份、记忆、工具，各司其职</div>
+
+    <div class="summary-box">
+      <h3>📝 一图速查</h3>
+      <div class="summary-item"><span class="summary-num">1</span><span><strong>AGENTS.md</strong> — 启动规则、行为准则、记忆管理</span></div>
+      <div class="summary-item"><span class="summary-num">2</span><span><strong>SOUL.md</strong> — AI 的性格和价值观</span></div>
+      <div class="summary-item"><span class="summary-num">3</span><span><strong>IDENTITY.md</strong> — AI 的身份（名字、emoji、头像）</span></div>
+      <div class="summary-item"><span class="summary-num">4</span><span><strong>USER.md</strong> — 你的信息（名字、时区、联系方式）</span></div>
+      <div class="summary-item"><span class="summary-num">5</span><span><strong>MEMORY.md</strong> — 长期记忆</span></div>
+      <div class="summary-item"><span class="summary-num">6</span><span><strong>TOOLS.md</strong> — 本地工具配置</span></div>
+      <div class="summary-item"><span class="summary-num">7</span><span><strong>HEARTBEAT.md</strong> — 定时任务清单</span></div>
+      <div class="summary-item"><span class="summary-num">8</span><span><strong>BOOTSTRAP.md</strong> — 首次启动引导（用完即删）</span></div>
+    </div>
+
+    <!-- WeChat QR -->
+    <div style="margin: 20px 0; text-align: center;">
+      <img src="/Users/andy_crab/.openclaw/workspace/skills/infographic-dialog/assets/wechat_xiaoheiwu.png" 
+           style="width: 100%; max-width: 690px; border-radius: 15px;" 
+           alt="技术小黑屋 公众号" />
+    </div>
+
+    <footer class="footer">
+      <p>📂 装完 OpenClaw，冒出来 8 个文件，都是干嘛的？</p>
+      <p>公众号：技术小黑屋 | 博客：droidyue.com</p>
+    </footer>
+  </div>
+</body>
+</html>

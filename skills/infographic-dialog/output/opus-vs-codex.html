@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opus 4.6 vs Codex 5.3 全面对决</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { background: #24243e; }
+    body {
+      font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+      background: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      background-attachment: scroll;
+      color: #eee;
+      line-height: 1.8;
+      font-size: 26px;
+      overflow-x: hidden;
+    }
+    .container { max-width: 690px; margin: 0 auto; padding: 24px; position: relative; }
+    .header { text-align: center; padding: 50px 20px; margin-bottom: 30px; }
+    .header h1 {
+      font-size: 2.2rem; font-weight: 900;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 18px; line-height: 1.4;
+    }
+    .header .subtitle { color: #a8edea; font-size: 1.3rem; }
+    .character-intro { display: flex; justify-content: center; gap: 30px; margin: 40px 0; flex-wrap: wrap; }
+    .char-card {
+      background: rgba(255,255,255,0.05); border-radius: 24px; padding: 32px;
+      text-align: center; width: 240px; border: 1px solid rgba(255,255,255,0.1);
+    }
+    .char-card .avatar {
+      width: 90px; height: 90px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.2rem; margin: 0 auto 18px;
+    }
+    .char-card.xiaobai .avatar { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+    .char-card.dawei .avatar { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+    .char-card h3 { font-size: 1.85rem; margin-bottom: 12px; font-weight: 900; }
+    .char-card.xiaobai h3 { color: #fcb69f; }
+    .char-card.dawei h3 { color: #a8edea; }
+    .char-card p { font-size: 1.35rem; color: #aaa; }
+    .section-divider { text-align: center; margin: 50px 0 30px; position: relative; }
+    .section-divider::before {
+      content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    }
+    .section-divider span {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 18px 40px; border-radius: 30px; font-size: 1.7rem; position: relative; font-weight: 900;
+    }
+    .chat-row { margin: 28px 0; overflow: visible; }
+    .chat-row.right .chat-content { display: flex; flex-direction: column; align-items: flex-end; }
+    .chat-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding-left: 6px; }
+    .chat-row.right .chat-header { flex-direction: row-reverse; padding-left: 0; padding-right: 6px; }
+    .chat-avatar {
+      width: 44px; height: 44px; min-width: 44px; min-height: 44px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; flex-shrink: 0;
+    }
+    .chat-row.left .chat-avatar { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+    .chat-row.right .chat-avatar { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+    .chat-content { width: 100%; display: flex; flex-direction: column; align-items: flex-start; }
+    .chat-name { font-size: 1.1rem; font-weight: bold; }
+    .chat-row.left .chat-name { color: #fcb69f; }
+    .chat-row.right .chat-name { color: #a8edea; }
+    .chat-bubble {
+      padding: 20px 18px; border-radius: 20px; font-size: 1.75rem; line-height: 1.9;
+      margin-left: 6px; margin-right: 6px; width: fit-content; max-width: 100%;
+    }
+    .chat-row.left .chat-bubble { background: linear-gradient(135deg, #434343 0%, #2c2c2c 100%); }
+    .chat-row.right .chat-bubble { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .chat-bubble strong { color: #ffeaa7; }
+    .chat-row.left .chat-bubble strong { color: #f5576c; }
+    .demo-box {
+      background: rgba(0,0,0,0.4); border-radius: 15px; padding: 24px; margin: 18px 0;
+      border: 1px solid rgba(255,255,255,0.1); overflow-x: auto;
+    }
+    .demo-box pre { font-family: 'Courier New', monospace; font-size: 1.05rem; white-space: pre; line-height: 1.7; }
+    .highlight-box {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      padding: 24px; border-radius: 15px; text-align: center; font-weight: bold; font-size: 1.3rem; margin: 22px 0;
+    }
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
+    .compare-card { background: rgba(0,0,0,0.3); padding: 18px; border-radius: 15px; text-align: center; }
+    .compare-card.bad { border: 2px solid #e17055; }
+    .compare-card.bad h4 { color: #e17055; margin-bottom: 10px; }
+    .compare-card.good { border: 2px solid #00cec9; }
+    .compare-card.good h4 { color: #00cec9; margin-bottom: 10px; }
+    .compare-card p { font-size: 0.9rem; text-align: left; }
+    .principle-card {
+      background: rgba(255,255,255,0.05); border-radius: 15px; padding: 20px; margin: 15px 0;
+      border-left: 4px solid #f5576c;
+    }
+    .principle-card h4 { color: #f093fb; margin-bottom: 10px; font-weight: 900; }
+    .big-quote {
+      font-size: 1.7rem; font-weight: 900; text-align: center; padding: 45px 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 25px; margin: 45px 0; position: relative; line-height: 1.9;
+    }
+    .big-quote::before { content: '"'; font-size: 4rem; position: absolute; top: 10px; left: 20px; opacity: 0.3; }
+    .summary-box { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 30px; margin: 30px 0; }
+    .summary-box h3 { font-size: 1.6rem; margin-bottom: 24px; text-align: center; font-weight: 900; }
+    .summary-item { display: flex; align-items: flex-start; gap: 12px; margin: 15px 0; }
+    .summary-num {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: bold; font-size: 0.9rem; flex-shrink: 0;
+    }
+    .analogy-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.95rem; }
+    .analogy-table th, .analogy-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .analogy-table th { background: rgba(102, 126, 234, 0.3); color: #a8edea; }
+    .analogy-table tr:hover { background: rgba(255,255,255,0.05); }
+    .container::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none; z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='240'%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle' fill='rgba(255,255,255,0.07)' font-size='16' font-family='sans-serif' transform='rotate(-20 150 120)'%3E技术小黑屋%3C/text%3E%3C/svg%3E");
+      background-repeat: repeat;
+    }
+    .footer { text-align: center; padding: 40px 20px; color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>⚔️ 27 分钟之差，两大 AI 巨头同日亮剑</h1>
+      <p class="subtitle">Claude Opus 4.6 vs GPT-5.3 Codex 全面对决 · 小白 🐣 × 大维 🦉</p>
+    </header>
+
+    <div class="character-intro">
+      <div class="char-card xiaobai">
+        <div class="avatar">🐣</div>
+        <h3>小白</h3>
+        <p>被 AI 大战刷屏的吃瓜群众</p>
+      </div>
+      <div class="char-card dawei">
+        <div class="avatar">🦉</div>
+        <h3>大维</h3>
+        <p>两个模型都深度测试过的老鸟</p>
+      </div>
+    </div>
+
+    <!-- Section 1: 27 分钟之争 -->
+    <div class="section-divider"><span>⚔️ 27 分钟之争</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">大维，2 月 5 号那天我手机直接被推送轰炸了——Anthropic 发了新模型，OpenAI 也发了新模型，两家几乎是同时？这也太巧了吧？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">不是"几乎同时"，是<strong>真的同时</strong>。2026 年 2 月 5 日，Anthropic 发布 Claude Opus 4.6，OpenAI 紧跟着发布 GPT-5.3 Codex——两者相隔仅 <strong>27 分钟</strong>。<br><br>AI 圈当场炸锅，所有人都在比较、选边站。这是有史以来竞争最激烈的一次模型发布。</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">🔥 2026.02.05 — AI 史上最戏剧性的一天：两大巨头相隔 27 分钟同时亮剑</div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">那这两个模型各自有什么"杀手锏"？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">来，一张表看清：</div>
+      </div>
+    </div>
+
+    <table class="analogy-table">
+      <tr><th>特性</th><th>🟠 Opus 4.6</th><th>🟢 Codex 5.3</th></tr>
+      <tr><td>上下文窗口</td><td><strong>100 万 tokens</strong>（beta）</td><td>标准窗口</td></tr>
+      <tr><td>核心卖点</td><td>Agent Teams 多智能体协作</td><td>"帮助创造了自己"的模型</td></tr>
+      <tr><td>客户端</td><td>Claude Code + API</td><td>Codex App (macOS)</td></tr>
+      <tr><td>API 可用</td><td>✅ 立即可用</td><td>❌ 还在灰度</td></tr>
+      <tr><td>定价</td><td>$5/$25 per M tokens</td><td>未公布 API 价格</td></tr>
+      <tr><td>新集成</td><td>PowerPoint + Excel</td><td>终端操作 + 部署</td></tr>
+    </table>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">100 万 token 上下文？那是多大？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">大概相当于<strong>一整本《哈利·波特》全集</strong>——7 本书全塞进去，它还能记住第一本里的细节。这解决了一个老大难问题："上下文遗忘"——以前模型聊多了就忘前面说啥了，现在不会了。</div>
+      </div>
+    </div>
+
+    <!-- Section 2: 基准测试 -->
+    <div class="section-divider"><span>📊 基准测试 — 数据说了什么？</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">跑分谁赢了？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">看你比什么。这次最有趣的是——<strong>没有绝对的赢家</strong>，两家在不同赛道各有胜场：</div>
+      </div>
+    </div>
+
+    <table class="analogy-table">
+      <tr><th>基准测试</th><th>Codex 5.3</th><th>Opus 4.6</th><th>🏆</th></tr>
+      <tr><td>Terminal-Bench 2.0</td><td><strong>77.3%</strong></td><td>65.4%</td><td>Codex</td></tr>
+      <tr><td>SWE-Bench Pro</td><td><strong>56.8%</strong></td><td>未公布</td><td>Codex</td></tr>
+      <tr><td>SWE-Bench Verified</td><td>80.0%</td><td><strong>81.42%</strong></td><td>Opus</td></tr>
+      <tr><td>OSWorld-Verified</td><td>64.7%</td><td><strong>72.7%</strong></td><td>Opus</td></tr>
+      <tr><td>GDPval-AA</td><td>较低</td><td><strong>行业领先</strong></td><td>Opus</td></tr>
+      <tr><td>BrowseComp</td><td>未公布</td><td><strong>行业领先</strong></td><td>Opus</td></tr>
+    </table>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">简单来说：<br>🟢 <strong>Codex 赢在终端/编程速度赛道</strong><br>🟠 <strong>Opus 赢在深度推理/大上下文赛道</strong><br><br>但这只是纸面数据。真正有趣的在后面——有人花了 48 小时做了实战测试。</div>
+      </div>
+    </div>
+
+    <!-- Section 3: 实战测试 -->
+    <div class="section-divider"><span>🔨 实战测试 — 但真的好用吗？</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">跑分高就好用吗？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">这就是最打脸的部分了。有个叫 Alex Carter 的开发者，花了 48 小时用两个模型各做了 18 个应用——从手机 App 到 3D 模拟器。<br><br>先说非 Agent 测试（单次生成，不允许迭代）：Opus 4.6 拿了 <strong>220/220 满分</strong>，11 项挑战全部完美通过。这是他测过所有模型的历史最高分。</div>
+      </div>
+    </div>
+
+    <div class="principle-card">
+      <h4>🏆 Opus 4.6 的高光时刻</h4>
+      <p>• 3D 户型图：自动生成精确到平方英尺的两室两卫布局<br>• SVG 熊猫拿汉堡：真的"拿着"，不是放旁边<br>• 国际象棋：自我对弈整局不犯一次违规<br>• 3D 打印模拟器：能导入 STL 文件并真实打印</p>
+    </div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">那 Codex 呢？不是跑分更高吗？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">这就尴尬了。在 Agent 测试（构建完整应用）中，7 轮对比：<br><br><strong>Opus 赢 5 轮，平 2 轮。Codex 赢 0 轮。</strong><br><br>Codex 每次生成的代码看着很漂亮，但一跑就出问题——登录系统报 CSRF 错误、认证崩溃、所有功能塞到单文件里……</div>
+      </div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card good">
+        <h4>🟠 Opus 实战表现</h4>
+        <p>✅ 首次运行即可用<br>✅ 认证系统正常<br>✅ 多文件结构清晰<br>✅ UI 精美</p>
+      </div>
+      <div class="compare-card bad">
+        <h4>🟢 Codex 实战表现</h4>
+        <p>❌ 认证频繁崩溃<br>❌ CSRF token 错误<br>❌ 代码塞到单文件<br>❌ CAT 命令 bug 4 个月未修</p>
+      </div>
+    </div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">CAT 命令 bug 是什么意思？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">正常 AI 写代码应该直接操作文件，但 Codex 居然用 <strong>CAT 命令</strong>往文件里写内容——就像盖房子不是自己搬砖，而是打电话告诉别人每块砖放哪里。<br><br>效率低、容易出错。GitHub 上用户已经反馈了 3-4 个月，至今没修。这是架构层面的问题，不是小 bug。</div>
+      </div>
+    </div>
+
+    <div class="big-quote">基准测试衡量的是容易量化的东西，而不是真正重要的东西。——Alex Carter</div>
+
+    <!-- Section 4: 定价与生态 -->
+    <div class="section-divider"><span>💰 定价与生态</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">贵不贵？普通开发者用得起吗？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">两家的商业模式完全不同：</div>
+      </div>
+    </div>
+
+    <table class="analogy-table">
+      <tr><th></th><th>🟠 Opus 4.6</th><th>🟢 Codex 5.3</th></tr>
+      <tr><td>API 定价</td><td>$5 输入 / $25 输出 (per M)</td><td>未公布</td></tr>
+      <tr><td>订阅价</td><td>Claude Pro $20/月</td><td>ChatGPT Plus $20/月</td></tr>
+      <tr><td>API 状态</td><td>✅ 即刻可用</td><td>⏳ 逐步开放中</td></tr>
+      <tr><td>IDE 集成</td><td>Claude Code / Windsurf / Cursor</td><td>Codex App</td></tr>
+    </table>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">Alex 测完 18 个应用，Opus 总共花了约 <strong>$45 API 费用</strong>。而 Codex 虽然送了免费试用，但没有 API——你没法自动化、没法集成到工作流。<br><br>而且最关键的区别是<strong>理念不同</strong>：<br>• Opus 的 Agent Teams 让多个 AI 自己分工协作<br>• Codex 的 App 是一个人指挥多个 AI 干活<br>一个像团队，一个像乐队指挥。</div>
+      </div>
+    </div>
+
+    <!-- Section 5: 怎么选 -->
+    <div class="section-divider"><span>🎯 到底该选谁？</span></div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">说了这么多，我到底该用哪个？</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">没有"最好的"，只有"最适合的"：</div>
+      </div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card good">
+        <h4>选 Opus 4.6 如果你……</h4>
+        <p>✅ 需要交付生产级代码<br>✅ 处理超长上下文/大代码库<br>✅ 要 API 集成到工作流<br>✅ 重视可靠性胜过跑分<br>✅ 需要多 Agent 协作</p>
+      </div>
+      <div class="compare-card good">
+        <h4>选 Codex 5.3 如果你……</h4>
+        <p>✅ 主要做终端/命令行任务<br>✅ 想体验最前沿 AI 能力<br>✅ 不依赖 API 集成<br>✅ 对 OpenAI 生态依赖深<br>✅ 可以等它修 bug</p>
+      </div>
+    </div>
+
+    <div class="summary-box">
+      <h3>📝 一句话总结</h3>
+      <div class="summary-item">
+        <span class="summary-num">1</span>
+        <span><strong>发布</strong> — 2 月 5 日同日发布，相隔仅 27 分钟，AI 史上最激烈竞争</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">2</span>
+        <span><strong>基准</strong> — Codex 赢终端测试，Opus 赢推理和大上下文测试，各有胜场</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">3</span>
+        <span><strong>实战</strong> — 48 小时 18 个应用实测，Opus 全面领先，Codex 认证频繁崩溃</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">4</span>
+        <span><strong>生态</strong> — Opus API 即刻可用 + 多 IDE 支持，Codex API 未开放</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">5</span>
+        <span><strong>结论</strong> — 跑分不等于好用。代码不会说谎，基准测试会。</span>
+      </div>
+    </div>
+
+    <div class="big-quote">AI 编程之战的胜负不在跑分，而在于谁能真正帮开发者把代码跑起来。</div>
+
+    <div class="chat-row left">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🐣</div><div class="chat-name">小白</div></div>
+        <div class="chat-bubble">懂了！跑分高不一定好用，实战才见真章。那我先从 Opus 开始用起！</div>
+      </div>
+    </div>
+
+    <div class="chat-row right">
+      <div class="chat-content">
+        <div class="chat-header"><div class="chat-avatar">🦉</div><div class="chat-name">大维</div></div>
+        <div class="chat-bubble">对，而且记住——这只是 2 月 5 号的快照。AI 的世界，下个月可能又会天翻地覆。保持关注就好 🦉</div>
+      </div>
+    </div>
+
+    <!-- WeChat QR -->
+    <div style="margin: 20px 0; text-align: center;">
+      <img src="/Users/andy_crab/.openclaw/workspace/skills/infographic-dialog/assets/wechat_xiaoheiwu.png" 
+           style="width: 100%; max-width: 690px; border-radius: 15px;" 
+           alt="技术小黑屋 公众号" />
+    </div>
+
+    <footer class="footer">
+      <p>⚔️ 27 分钟之差，两大 AI 巨头同日亮剑</p>
+      <p>Claude Opus 4.6 vs GPT-5.3 Codex · 技术小黑屋 · droidyue.com</p>
+    </footer>
+  </div>
+</body>
+</html>
