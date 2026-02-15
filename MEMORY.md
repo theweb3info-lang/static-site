@@ -14,6 +14,7 @@
 - 07:00 Elon summary → g-elonmusk
 - 07:30 AI 厂商研究报告
 - 08:00 AI Hot Topics 早报 → g-ideas
+- 08:30 每日3个App创意（job fe3b5e42, isolated, Sonnet）→ 私聊Andy
 - 09:00 OpenClaw Best Practices
 - 09:30 Daily TODO Reminder
 - 10:00 AI Money Stories → g-money
