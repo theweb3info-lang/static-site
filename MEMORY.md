@@ -2,14 +2,15 @@
 
 ## Andy
 - TZ: Asia/Singapore | Blog: droidyue.com | Email test: andytest919@gmail.com
-- Focus: AI content creation | 公众号 2400+ followers
+- Focus: AI content creation | 公众号 ~2700 followers (2026-02-15)
+- 2026春节 = 马年（丙午），注意不要用蛇年内容
 
 ## Infra
 - Mac mini (Apple Silicon, 24GB) | Claude CLI (separate account) | Qwen (free)
 - Static hosting: GitHub Pages (theweb3info-lang.github.io/static-site/)
 
 ## Cron Jobs (错开并发)
-- 06:00 每日热点深度文章（viral-tech）
+- 06:00 每日热点深度文章（viral-tech skill, job b9ea562a, isolated sub-agent Opus 4.6）
 - 07:00 Elon summary → g-elonmusk
 - 07:30 AI 厂商研究报告
 - 08:00 AI Hot Topics 早报 → g-ideas
@@ -17,6 +18,7 @@
 - 09:30 Daily TODO Reminder
 - 10:00 AI Money Stories → g-money
 - 22:00 AI Hot Topics 晚报 → g-ideas
+- 21:00 每日Agent日报（私聊Andy，Sonnet，job 6568ed14）
 - 23:00 Medium AI Top 10 → g-medium
 - 每1.5h 明治人物篇配图
 - 每2h 明治藩篇写作
@@ -32,6 +34,12 @@
 - 轻量搜索用 LiteBrowse（browser-mcp），替代 Brave Search API
 - 深度浏览/复杂操作用 Playwright MCP + Chrome（mcporter call playwright.*）
 
+## viral-tech Skill
+- 路径: skills/viral-tech/SKILL.md
+- 爆款公式：选题筛选→标题公式→结构模板→校对清单
+- 不要用 Part 1/Part 2 编号
+- 校对：事实核查+类比审核，修复后才能保存
+
 ## Article Quality Rules (Andy feedback 2026-02-13)
 - 先介绍主题是什么，不要假设读者知道
 - 写作指令（角度一/二）不要出现在正文
@@ -39,6 +47,7 @@
 - 事实核查：不过度引申
 - Benchmark数据用最新的
 - 论证严谨，分析别人言论时要有来源
+- 不要用 Part 1/Part 2 等标记，直接用标题
 
 ## Lessons
 - Heavy tasks → spawn sub-agent, don't do in main session

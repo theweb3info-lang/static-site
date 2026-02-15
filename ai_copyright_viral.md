@@ -1,5 +1,7 @@
 # 枪打出头鸟：春节刷屏的Seedance 2.0，直接被迪士尼告了
 
+![封面](https://theweb3info-lang.github.io/static-site/images/seedance-copyright/cover.jpg)
+
 2月12号，字节跳动发了个新产品。
 
 两天后，迪士尼的律师函就到了。
@@ -26,6 +28,8 @@
 如果你是第三种，恭喜你，你可能是对的。
 
 ---
+
+![AI视频生成](https://theweb3info-lang.github.io/static-site/images/seedance-copyright/video-edit.jpg)
 
 ## 先说说 Seedance 2.0 到底是什么
 
@@ -99,6 +103,8 @@ AI"学习"的过程中吃掉的那些数据——电影、图片、小说、音�
 The Guardian 在报道中写道：AI系统——包括聊天机器人、图像生成器和视频制作工具——都是在从开放网络获取的数据上训练的，其中包括受版权保护的材料，如小说、艺术作品和电影片段。
 
 ---
+
+![法律与版权](https://theweb3info-lang.github.io/static-site/images/seedance-copyright/gavel.jpg)
 
 ## 迪士尼到底在气什么？
 
@@ -192,6 +198,8 @@ Seedance 2.0 只不过做得太明显了——你输入"蜘蛛侠"，它真的�
 
 ---
 
+![AI与数字世界](https://theweb3info-lang.github.io/static-site/images/seedance-copyright/matrix.jpg)
+
 ## 最魔幻的部分
 
 迪士尼一边告字节跳动，一边——
@@ -209,6 +217,8 @@ Seedance 2.0 只不过做得太明显了——你输入"蜘蛛侠"，它真的�
 迪士尼不反对AI。迪士尼反对的是白嫖。
 
 ---
+
+![AI与创作](https://theweb3info-lang.github.io/static-site/images/seedance-copyright/ai-brain.jpg)
 
 ## 这件事的本质：谁来定义"创作"？
 
