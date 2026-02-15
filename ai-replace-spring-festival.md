@@ -1,3 +1,5 @@
+![春节AI封面](https://theweb3info-lang.github.io/static-site/images/spring-festival-ai-cover.png)
+
 # 春节回家被亲戚问"AI会不会取代你"，我是这样回答的
 
 > 大年三十，饭桌上，二姨夫放下筷子，意味深长地看着你：
