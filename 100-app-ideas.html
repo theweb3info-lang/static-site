@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>100个海外App创业机会（2026）</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #e2e8f0; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { text-align: center; font-size: 2em; margin: 30px 0 10px; background: linear-gradient(135deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { text-align: center; color: #94a3b8; margin-bottom: 30px; font-size: 0.95em; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 24px; }
+.filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid #334155; background: #1e293b; color: #94a3b8; cursor: pointer; font-size: 0.85em; transition: all 0.2s; }
+.filter-btn:hover, .filter-btn.active { background: #3b82f6; color: white; border-color: #3b82f6; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 30px; }
+.stat-card { background: #1e293b; border-radius: 12px; padding: 16px; text-align: center; }
+.stat-card .num { font-size: 1.8em; font-weight: 700; color: #60a5fa; }
+.stat-card .label { font-size: 0.8em; color: #94a3b8; }
+.card { background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 16px; border-left: 4px solid #3b82f6; transition: transform 0.2s; }
+.card:hover { transform: translateY(-2px); }
+.card.star5 { border-left-color: #22c55e; }
+.card.star4 { border-left-color: #60a5fa; }
+.card.star3 { border-left-color: #f59e0b; }
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+.card-title { font-size: 1.15em; font-weight: 600; color: #f1f5f9; }
+.card-rank { background: #334155; color: #94a3b8; padding: 2px 10px; border-radius: 12px; font-size: 0.8em; white-space: nowrap; }
+.card-rank.top10 { background: #22c55e; color: #fff; }
+.badge-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.badge { padding: 3px 10px; border-radius: 10px; font-size: 0.75em; font-weight: 500; }
+.badge.feasibility { background: #064e3b; color: #6ee7b7; }
+.badge.competition-low { background: #14532d; color: #86efac; }
+.badge.competition-mid { background: #713f12; color: #fde047; }
+.badge.competition-high { background: #7f1d1d; color: #fca5a5; }
+.badge.category { background: #1e1b4b; color: #a5b4fc; }
+.badge.revenue { background: #3b0764; color: #d8b4fe; }
+.badge.timeline { background: #164e63; color: #67e8f9; }
+.card-pain { color: #cbd5e1; margin-bottom: 8px; font-size: 0.92em; }
+.card-details { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.85em; color: #94a3b8; }
+.card-details dt { color: #64748b; }
+.card-details dd { color: #cbd5e1; }
+.highlight { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); }
+.search-box { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #334155; background: #1e293b; color: #e2e8f0; font-size: 1em; margin-bottom: 16px; }
+.search-box:focus { outline: none; border-color: #3b82f6; }
+.sort-label { color: #94a3b8; font-size: 0.85em; margin-bottom: 8px; text-align: center; }
+.count { text-align: center; color: #64748b; margin-bottom: 16px; font-size: 0.85em; }
+@media (max-width: 600px) {
+  .card-details { grid-template-columns: 1fr; }
+  h1 { font-size: 1.4em; }
+  .container { padding: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🚀 100个海外App创业机会</h1>
+<p class="subtitle">2026年2月调研 · 按可行性排序 · Flutter + AI/LLM 技术栈</p>
+
+<div class="stats">
+<div class="stat-card"><div class="num">100</div><div class="label">App创意</div></div>
+<div class="stat-card"><div class="num">15</div><div class="label">行业分类</div></div>
+<div class="stat-card"><div class="num">35</div><div class="label">五星可行性</div></div>
+<div class="stat-card"><div class="num">$1K-50K</div><div class="label">月收入范围</div></div>
+</div>
+
+<input type="text" class="search-box" placeholder="🔍 搜索关键词..." id="searchBox">
+
+<div class="filters" id="filters">
+<button class="filter-btn active" data-cat="all">全部</button>
+<button class="filter-btn" data-cat="开发者工具">开发者工具</button>
+<button class="filter-btn" data-cat="小微企业">小微企业</button>
+<button class="filter-btn" data-cat="健康医疗">健康医疗</button>
+<button class="filter-btn" data-cat="金融理财">金融理财</button>
+<button class="filter-btn" data-cat="饮食食品">饮食食品</button>
+<button class="filter-btn" data-cat="社交关系">社交关系</button>
+<button class="filter-btn" data-cat="教育学习">教育学习</button>
+<button class="filter-btn" data-cat="生活消费">生活消费</button>
+<button class="filter-btn" data-cat="房产汽车">房产汽车</button>
+<button class="filter-btn" data-cat="宗教文化">宗教文化</button>
+<button class="filter-btn" data-cat="残障辅助">残障辅助</button>
+<button class="filter-btn" data-cat="职场求职">职场求职</button>
+<button class="filter-btn" data-cat="育儿家庭">育儿家庭</button>
+<button class="filter-btn" data-cat="农业环保">农业环保</button>
+<button class="filter-btn" data-cat="法律安全">法律安全</button>
+</div>
+
+<div class="sort-label">📊 按可行性从高到低排序（⭐⭐⭐⭐⭐ → ⭐⭐⭐）</div>
+<div class="count" id="countLabel">显示 100 / 100</div>
+
+<div id="cards"></div>
+</div>
+
+<script>
+const ideas = [
+  {id:1,name:"MCP Server 管理器/Hub",cat:"开发者工具",pain:"MCP生态爆发但无好用的管理工具，发现/安装/配置server全靠手动编辑JSON",audience:"百万级（Claude/Cursor/Windsurf用户）",competition:"low",monetize:"Freemium，Pro $9.99/月",revenue:"$5K-20K",feasibility:5,timeline:"2-3周",advantage:"Andy深度理解MCP协议，时机窗口6-12个月",top10:1},
+  {id:3,name:"MCP Server代码生成器",cat:"开发者工具",pain:"写MCP server重复劳动多，输入OpenAPI spec应能自动生成",audience:"数十万MCP生态开发者",competition:"low",monetize:"免费开源+Pro $9.99/月",revenue:"$2K-8K",feasibility:5,timeline:"1-2周",advantage:"与管理器互补，形成工具链生态",top10:0},
+  {id:7,name:"蓝领小生意管理App",cat:"小微企业",pain:"Jobber/Housecall Pro月费$50-200太贵，小商户用不起",audience:"美国3000万+个体经营者",competition:"mid",monetize:"$9.99/月（Jobber的1/5）",revenue:"$10K-50K",feasibility:5,timeline:"4-6周",advantage:"极简手机端，3分钟上手，按行业预设模板",top10:7},
+  {id:8,name:"微型企业发票+合同+CRM三合一",cat:"小微企业",pain:"1-3人小生意用QuickBooks太重、HoneyBook $39/月太贵",audience:"美国自雇6400万，全球freelancer 15亿+",competition:"mid",monetize:"免费5张发票/月，$9.99/月无限",revenue:"$10K-40K",feasibility:5,timeline:"4-6周",advantage:"CRUD+Stripe，久经验证的模式",top10:10},
+  {id:16,name:"ADHD AI语音助理",cat:"健康医疗",pain:"ADHD人群天生忽略push notification，需要像真人助理一样打电话提醒",audience:"全球ADHD成人3.66亿",competition:"low",monetize:"$9.99/月订阅",revenue:"$5K-30K",feasibility:5,timeline:"2-3周",advantage:"Twilio+LLM，无竞品做电话提醒形态",top10:6},
+  {id:19,name:"医疗账单谈判助手",cat:"健康医疗",pain:"美国医疗账单不透明，80%含错误，同一手术不同医院价差10倍",audience:"美国1亿+收过意外高额账单的人",competition:"low",monetize:"按节省金额收15-25%佣金",revenue:"$10K-50K",feasibility:5,timeline:"4-6周",advantage:"巨大痛点+高付费意愿+AI生成谈判话术",top10:3},
+  {id:23,name:"丧亲心理支持App",cat:"健康医疗",pain:"失去亲人后哀伤持续数年，线下支持不足，10%发展为延长性悲伤障碍",audience:"全球每年影响2亿+人",competition:"low",monetize:"免费社区，$7.99/月AI哀伤教练",revenue:"$3K-15K",feasibility:5,timeline:"4-6周",advantage:"极深情感痛点+几乎无竞争+B2B殡仪馆渠道",top10:0},
+  {id:24,name:"智能饮水提醒",cat:"健康医疗",pain:"现有饮水App都是"每2小时提醒"，不根据运动量/天气/咖啡因动态调整",audience:"数千万用户",competition:"mid",monetize:"$1.99/月",revenue:"$1K-5K",feasibility:5,timeline:"1-2周",advantage:"简单但差异化明确",top10:0},
+  {id:26,name:"AI肤质分析+成分冲突检测",cat:"健康医疗",pain:"护肤品成分复杂（视黄醇+AHA不能混用），r/SkincareAddiction大量求助",audience:"全球护肤品市场$180B",competition:"mid",monetize:"Pro $7.99/月+产品affiliate",revenue:"$5K-30K",feasibility:5,timeline:"3-4周",advantage:"拍照AI技术成熟，affiliate变现天然匹配",top10:8},
+  {id:29,name:"薪资谈判AI模拟器",cat:"金融理财",pain:"58%的人从不谈判薪资，职业生涯少赚$60万+",audience:"美国每年6000万接收新offer的人",competition:"low",monetize:"$19.99单次，$49.99/年",revenue:"$5K-30K",feasibility:5,timeline:"2-3周",advantage:"LLM角色扮演天然适合，ROI对用户极清晰",top10:4},
+  {id:34,name:"过敏原AI扫描器",cat:"饮食食品",pain:"拍菜单/食品标签自动标红过敏原，Reddit用户主动找但找不到好App",audience:"全球2.5亿食物过敏人群",competition:"low",monetize:"免费5次/天，Pro $3.99/月",revenue:"$5K-25K",feasibility:5,timeline:"2-3周",advantage:"OCR+LLM技术门槛低，刚需全球通用",top10:2},
+  {id:36,name:"Meal Prep智能计划器",cat:"饮食食品",pain:"现有app太复杂，用户要简单的批量烹饪时间优化（像甘特图安排步骤）",audience:"TikTok meal prep 400亿+播放",competition:"mid",monetize:"Pro $4.99/月",revenue:"$3K-15K",feasibility:5,timeline:"3-4周",advantage:"纯内容+算法，无需硬件",top10:0},
+  {id:39,name:"情侣共享空间App",cat:"社交关系",pain:"现有couples app功能碎片化，UI老旧，widget难看",audience:"美国6000万+对情侣",competition:"mid",monetize:"$4.99/月×2人",revenue:"$5K-30K",feasibility:5,timeline:"4-6周",advantage:"用精美设计+widget体验碾压",top10:0},
+  {id:40,name:"社交电量管理器",cat:"社交关系",pain:"内向者没有专门App管理社交能量，r/introvert极活跃",audience:"全球30-50%人口自认内向",competition:"low",monetize:"免费+$2.99/月高级",revenue:"$1K-8K",feasibility:5,timeline:"1-2周",advantage:"TikTok病毒传播潜力极高，开发成本极低",top10:0},
+  {id:43,name:"时间胶囊/写给未来的信",cat:"社交关系",pain:"TikTok'letter to future self'视频百万播放，FutureMe网站老旧",audience:"Z世代+千禧一代",competition:"low",monetize:"免费3封，Pro $2.99/月",revenue:"$1K-8K",feasibility:5,timeline:"1-2周",advantage:"病毒传播潜力极高",top10:0},
+  {id:47,name:"AI面试模拟器",cat:"教育学习",pain:"面试准备焦虑普遍，真人模拟$100-300/次",audience:"全球每年约2亿求职者",competition:"mid",monetize:"免费3次/月，$14.99/月",revenue:"$5K-25K",feasibility:5,timeline:"3-4周",advantage:"LLM+语音技术完美匹配，ROI清晰",top10:0},
+  {id:64,name:"婚礼座位AI优化器",cat:"生活消费",pain:"座位安排是婚礼最头疼的环节——前任不能同桌、family drama",audience:"美国年220万场婚礼",competition:"low",monetize:"一次性$9.99-$19.99",revenue:"$3K-12K",feasibility:5,timeline:"2-3周",advantage:"约束优化+好UI，技术不难",top10:0},
+  {id:76,name:"移民签证追踪器",cat:"宗教文化",pain:"签证申请6-24个月，申请者焦虑反复刷USCIS网站",audience:"美国每年数百万移民申请者",competition:"mid",monetize:"Pro $7.99/月",revenue:"$5K-20K",feasibility:5,timeline:"3-4周",advantage:"API可抓USCIS状态，焦虑驱动高付费",top10:9},
+  {id:82,name:"薪资谈判AI模拟器(职场版)",cat:"职场求职",pain:"不知道怎么说、怕被拒，58%的人从不谈判",audience:"美国每年6000万人",competition:"low",monetize:"$19.99单次，$49.99/年",revenue:"$5K-30K",feasibility:5,timeline:"2-3周",advantage:"与#29相同，LLM完美场景",top10:0},
+  {id:84,name:"AI面试模拟器(求职版)",cat:"职场求职",pain:"真人模拟面试$100-300/次，ROI极清晰",audience:"全球每年2亿求职者",competition:"mid",monetize:"$14.99/月",revenue:"$5K-25K",feasibility:5,timeline:"3-4周",advantage:"行为面试+技术面试+案例面试全覆盖",top10:0},
+  {id:87,name:"合同/条款AI阅读器",cat:"职场求职",pain:"没人读合同但里面可能有坑（自动续费、竞业条款等）",audience:"所有签合同的人",competition:"low",monetize:"3次/月免费，Pro $7.99/月",revenue:"$5K-25K",feasibility:5,timeline:"2-3周",advantage:"LLM完美场景，拍照→OCR→AI分析风险",top10:5},
+  {id:2,name:"AI代码审查/PR助手",cat:"开发者工具",pain:"GitHub PR审查耗时，vibe coding时代AI生成代码需要审查",audience:"GitHub 1亿+开发者",competition:"mid",monetize:"个人版$5-10/月",revenue:"$3K-15K",feasibility:4,timeline:"4-6周",advantage:"可做MCP集成形成独特卖点",top10:0},
+  {id:5,name:"小工具集合站（SEO驱动）",cat:"开发者工具",pain:"长尾关键词工具需求大",audience:"海量通用用户",competition:"mid",monetize:"广告+$2.99/月",revenue:"$1K-10K",feasibility:4,timeline:"持续迭代",advantage:"SEO长期流量",top10:0},
+  {id:6,name:"全品类比价助手",cat:"开发者工具",pain:"Honey/Keepa等比价扩展缺好用的移动端",audience:"数亿网购用户",competition:"mid",monetize:"Affiliate佣金",revenue:"$2K-20K",feasibility:4,timeline:"4-6周",advantage:"被动收入模式",top10:0},
+  {id:9,name:"Etsy/手工卖家店铺管理",cat:"小微企业",pain:"Etsy流量暴跌、运费混乱，官方工具极差",audience:"Etsy活跃卖家900万+",competition:"mid",monetize:"Pro $14.99/月",revenue:"$5K-30K",feasibility:4,timeline:"4-6周",advantage:"移动端体验碾压eRank",top10:0},
+  {id:10,name:"零工经济多平台收入追踪",cat:"小微企业",pain:"同时做Uber/DoorDash/Etsy的人报税需汇总多平台收入",audience:"美国零工经济6000万+",competition:"mid",monetize:"$7.99/月Pro",revenue:"$5K-20K",feasibility:4,timeline:"4-6周",advantage:"多平台聚合是杀手级功能",top10:0},
+  {id:11,name:"数字游民多币种记账",cat:"小微企业",pain:"跨国消费汇率坑、183天税务规则追踪",audience:"全球数字游民3500万+",competition:"low",monetize:"$7.99/月Pro",revenue:"$3K-15K",feasibility:4,timeline:"3-4周",advantage:"Trail Wallet停更，市场空白",top10:0},
+  {id:13,name:"跨平台内容回收再利用",cat:"小微企业",pain:"YouTube→TikTok/Instagram多平台裁剪改文案耗时数小时",audience:"全球5000万内容创作者",competition:"mid",monetize:"$14.99/月Pro",revenue:"$5K-25K",feasibility:4,timeline:"6-8周",advantage:"AI视频理解+剪辑技术成熟",top10:0},
+  {id:14,name:"发票/报销AI助手",cat:"小微企业",pain:"自由职业者报税找不到凭证",audience:"美国自由职业者7000万",competition:"mid",monetize:"$5.99/月Pro",revenue:"$3K-12K",feasibility:4,timeline:"3-4周",advantage:"OCR+AI分类技术成熟",top10:0},
+  {id:17,name:"症状日记（AI就诊报告）",cat:"健康医疗",pain:"患者看医生时忘记描述症状细节，问诊仅15分钟",audience:"美国1.29亿慢性病患者",competition:"mid",monetize:"Pro $4.99/月",revenue:"$3K-15K",feasibility:4,timeline:"3-4周",advantage:"LLM可生成结构化报告",top10:0},
+  {id:18,name:"药物交互检查器",cat:"健康医疗",pain:"美国成年人平均服4种药，交互可能致命",audience:"美国1.31亿多药患者",competition:"low",monetize:"Pro $3.99/月",revenue:"$3K-15K",feasibility:4,timeline:"4-6周",advantage:"FDA OpenFDA API免费可用",top10:0},
+  {id:20,name:"AI CBT心理自助工具",cat:"健康医疗",pain:"心理治疗等待6周、每次$150-300",audience:"全球约10亿心理健康问题人群",competition:"mid",monetize:"$9.99/月",revenue:"$5K-30K",feasibility:4,timeline:"4-6周",advantage:"GPT时代CBT体验远超传统",top10:0},
+  {id:21,name:"健康保险比较器",cat:"健康医疗",pain:"Open Enrollment选错计划一年多花$2K-5K",audience:"美国1.56亿+",competition:"mid",monetize:"保险经纪佣金$200-500/份",revenue:"$5K-30K",feasibility:4,timeline:"6-8周",advantage:"类似保险版Credit Karma",top10:0},
+  {id:22,name:"轮班工人睡眠优化器",cat:"健康医疗",pain:"普通睡眠App假设晚上睡觉，对护士/工厂/飞行员无用",audience:"全球5亿+轮班工人",competition:"low",monetize:"$4.99/月+B2B",revenue:"$3K-15K",feasibility:4,timeline:"4-6周",advantage:"NASA已有公开研究可参考",top10:0},
+  {id:25,name:"声音/喉咙健康监测",cat:"健康医疗",pain:"教师、歌手、主播用嗓过度，早期难察觉",audience:"美国教师370万+",competition:"low",monetize:"Pro $6.99/月",revenue:"$2K-8K",feasibility:4,timeline:"4-6周",advantage:"极度小众但痛点尖锐",top10:0},
+  {id:27,name:"婴儿睡眠追踪与训练",cat:"健康医疗",pain:"新手父母最大痛苦，睡眠顾问$300-500/次",audience:"全球每年1.4亿新生儿父母",competition:"mid",monetize:"$4.99/月AI建议",revenue:"$3K-15K",feasibility:4,timeline:"4-6周",advantage:"Huckleberry验证市场，做更便宜版",top10:0},
+  {id:28,name:"Gen Z金钱焦虑管理",cat:"金融理财",pain:"Z世代缺情绪+财务结合的工具",audience:"Gen Z数千万",competition:"low",monetize:"$6.99/月",revenue:"$3K-15K",feasibility:4,timeline:"4-6周",advantage:"无App把心理健康和理财结合",top10:0},
+  {id:30,name:"离婚资产分割助手",cat:"金融理财",pain:"离婚资产分割复杂，律师费$5000+",audience:"美国每年~75万对",competition:"low",monetize:"$9.99/月+律师佣金",revenue:"$5K-20K",feasibility:4,timeline:"4-6周",advantage:"计算器+文档生成，付费意愿极强",top10:0},
+  {id:31,name:"Airbnb收益预测与管理",cat:"金融理财",pain:"AirDNA $20-500/月太贵",audience:"美国Airbnb房东660万+",competition:"mid",monetize:"$9.99/月",revenue:"$5K-25K",feasibility:4,timeline:"4-6周",advantage:"AirDNA高价留出空间",top10:0},
+  {id:35,name:"过敏原追踪+餐厅安全评分",cat:"饮食食品",pain:"严重过敏者外出就餐如履薄冰",audience:"美国3200万食物过敏者",competition:"low",monetize:"Pro $5.99/月",revenue:"$3K-15K",feasibility:4,timeline:"4-6周",advantage:"生死级痛点，家长群体传播强",top10:0},
+  {id:37,name:"食品过期/家庭库存管理",cat:"饮食食品",pain:"冰箱东西过期才发现，全球年浪费13亿吨食物",audience:"数亿家庭用户",competition:"mid",monetize:"Pro $3.99/月",revenue:"$2K-10K",feasibility:4,timeline:"3-4周",advantage:"OCR小票自动录入是杀手级功能",top10:0},
+  {id:41,name:"老年人一键联系App",cat:"社交关系",pain:"60+人群现有App太复杂",audience:"全球数亿60+人群",competition:"low",monetize:"家人端$4.99/月",revenue:"$2K-10K",feasibility:4,timeline:"3-4周",advantage:"子女付费，刚需",top10:0},
+  {id:45,name:"家务公平分配App",cat:"社交关系",pain:"情侣/室友invisible labor争论",audience:"同居情侣/室友",competition:"low",monetize:"$2.99/月Pro",revenue:"$1K-5K",feasibility:4,timeline:"2-3周",advantage:"简单开发，话题性强",top10:0},
+  {id:49,name:"考试焦虑/作业管理",cat:"教育学习",pain:"42%美国青少年持续焦虑",audience:"数千万学生",competition:"low",monetize:"$4.99/月",revenue:"$2K-10K",feasibility:4,timeline:"4-6周",advantage:"缺作业+心理健康交叉产品",top10:0},
+  {id:50,name:"Gen Z电话焦虑助手",cat:"教育学习",pain:"Z世代害怕打电话，需AI脚本+模拟练习",audience:"Gen Z数千万",competition:"low",monetize:"$4.99/月",revenue:"$1K-8K",feasibility:4,timeline:"2-3周",advantage:"LLM生成脚本天然适合",top10:0},
+  {id:51,name:"手写/书法练习+字体生成",cat:"教育学习",pain:"书法爱好者缺AI练习反馈",audience:"书法爱好者+教育市场",competition:"low",monetize:"Pro $6.99/月",revenue:"$2K-8K",feasibility:4,timeline:"4-6周",advantage:"iPad+Apple Pencil生态完美匹配",top10:0},
+  {id:52,name:"AI起名工具",cat:"教育学习",pain:"宝宝起名纠结数月，品牌名+域名+商标耗时",audience:"美国年360万新生儿+创业者",competition:"low",monetize:"Pro $6.99/月",revenue:"$3K-12K",feasibility:4,timeline:"2-3周",advantage:"LLM天然适合，域名API现成",top10:0},
+  {id:53,name:"收藏品管理+AI估价",cat:"生活消费",pain:"球鞋/乐高reseller用Excel管理库存",audience:"全球球鞋转售市场$300亿",competition:"mid",monetize:"Pro $5.99-$14.99/月",revenue:"$3K-15K",feasibility:4,timeline:"4-6周",advantage:"图像识别+价格API",top10:0},
+  {id:54,name:"占星/塔罗AI日运势",cat:"生活消费",pain:"Co-Star内容太generic，缺Widget+AI深度解读",audience:"占星App市场$2.2B",competition:"mid",monetize:"$12.99/月",revenue:"$5K-30K",feasibility:4,timeline:"4-6周",advantage:"天文算法开源，AI生成内容",top10:0},
+  {id:55,name:"衣橱管理+穿搭建议",cat:"生活消费",pain:"TikTok capsule wardrobe内容爆炸，现有App录入太慢",audience:"数千万时尚消费者",competition:"mid",monetize:"$5.99/月+品牌分佣",revenue:"$3K-15K",feasibility:4,timeline:"4-6周",advantage:"AI抠图一秒录入",top10:0},
+  {id:56,name:"天气穿搭建议",cat:"生活消费",pain:"天气预报只给温度不给穿衣建议",audience:"注重穿搭的年轻人",competition:"low",monetize:"Pro $3.99/月+affiliate",revenue:"$2K-8K",feasibility:4,timeline:"2-3周",advantage:"技术简单，affiliate自然",top10:0},
+  {id:57,name:"闲置物品价值估算",cat:"生活消费",pain:"Garage sale定价难，旧物该卖/捐/扔纠结",audience:"搬家者、断舍离人群",competition:"mid",monetize:"Pro $5.99/月",revenue:"$2K-10K",feasibility:4,timeline:"3-4周",advantage:"eBay sold数据可参考",top10:0},
+  {id:58,name:"AI礼物推荐+预算管理",cat:"生活消费",pain:"选礼物是社交焦虑",audience:"美国礼品市场$400B+",competition:"low",monetize:"affiliate 8-15%+$3.99/月",revenue:"$2K-10K",feasibility:4,timeline:"3-4周",advantage:"affiliate模式验证过",top10:0},
+  {id:59,name:"极简RPG习惯养成",cat:"生活消费",pain:"Habitica太复杂，Forest太单一",audience:"数千万习惯养成用户",competition:"mid",monetize:"$2.99/月或$9.99终身",revenue:"$2K-10K",feasibility:4,timeline:"4-6周",advantage:"中间地带有空间",top10:0},
+  {id:60,name:"钓鱼日志+智能预测",cat:"生活消费",pain:"2.5亿全球钓鱼用户，现有App预测不准",audience:"高消费群体",competition:"mid",monetize:"$9.99/月Pro",revenue:"$3K-15K",feasibility:4,timeline:"4-6周",advantage:"垂直社区付费意愿高",top10:0},
+  {id:61,name:"攀岩路线记录+进步追踪",cat:"生活消费",pain:"r/climbing 120万+订阅，缺好用的移动端",audience:"全球攀岩2500万+",competition:"mid",monetize:"$6.99/月Pro",revenue:"$2K-10K",feasibility:4,timeline:"4-6周",advantage:"奥运项目后增长快",top10:0},
+  {id:62,name:"桌游收藏+约局+规则速查",cat:"生活消费",pain:"BGG移动体验极差",audience:"全球数千万桌游玩家",competition:"low",monetize:"$4.99/月Pro",revenue:"$2K-8K",feasibility:4,timeline:"4-6周",advantage:"年均消费$500+",top10:0},
+  {id:63,name:"纹身AR预览+灵感收藏",cat:"生活消费",pain:"$3B市场，单次$200-2000，无法预览效果",audience:"纹身市场增长中",competition:"mid",monetize:"纹身师预约佣金",revenue:"$2K-10K",feasibility:4,timeline:"4-6周",advantage:"AR技术已成熟",top10:0},
+  {id:65,name:"二手车AI检测助手",cat:"房产汽车",pain:"买二手车被坑是全球痛点",audience:"美国年4000万台交易",competition:"low",monetize:"单次$4.99，月$9.99",revenue:"$5K-25K",feasibility:4,timeline:"4-6周",advantage:"OBD开源库+AI解读",top10:0},
+  {id:66,name:"搬家一站式助手",cat:"房产汽车",pain:"搬家是美国人Top 3压力事件",audience:"美国每年2800万人搬家",competition:"mid",monetize:"搬家公司lead gen $30-80/lead",revenue:"$3K-15K",feasibility:4,timeline:"4-6周",advantage:"CPA模型天花板高",top10:0},
+  {id:68,name:"家庭维修DIY指导",cat:"房产汽车",pain:"请工人$100+/小时，YouTube找起来费劲",audience:"美国房主8300万户",competition:"mid",monetize:"Pro $6.99/月+affiliate",revenue:"$3K-12K",feasibility:4,timeline:"4-6周",advantage:"拍照AI诊断+分步指导",top10:0},
+  {id:73,name:"Kosher食品查找器",cat:"宗教文化",pain:"非犹太社区找kosher食品极困难",audience:"全球1500万犹太人",competition:"low",monetize:"$2.99/月+餐厅佣金",revenue:"$2K-8K",feasibility:4,timeline:"4-6周",advantage:"小众但付费意愿极高（宗教刚需）",top10:0},
+  {id:74,name:"印度教节日与仪式日历",cat:"宗教文化",pain:"海外印度裔不知何时过什么节",audience:"3200万海外印度裔",competition:"low",monetize:"$3.99/月",revenue:"$2K-10K",feasibility:4,timeline:"4-6周",advantage:"Diaspora人群付费力强",top10:0},
+  {id:77,name:"无障碍地图",cat:"残障辅助",pain:"7500万轮椅用户不知目的地有没有坡道/电梯",audience:"全球7500万+1.3亿行动不便者",competition:"low",monetize:"商家认证$50-200/年",revenue:"$3K-15K",feasibility:4,timeline:"6-8周",advantage:"社会影响大+ADA合规推动B2B",top10:0},
+  {id:78,name:"色盲辅助工具",cat:"残障辅助",pain:"3亿色盲人群分不清红绿灯、彩色图表",audience:"全球3亿（男性8%）",competition:"low",monetize:"$2.99/月",revenue:"$2K-10K",feasibility:4,timeline:"3-4周",advantage:"AR+颜色识别技术成熟",top10:0},
+  {id:79,name:"听障实时字幕工具",cat:"残障辅助",pain:"Ava $30/月太贵，缺平价面对面对话字幕",audience:"全球4.66亿听力障碍者",competition:"mid",monetize:"$7.99/月",revenue:"$5K-20K",feasibility:4,timeline:"4-6周",advantage:"Whisper ASR成熟，Ava高价留空间",top10:0},
+  {id:80,name:"AAC沟通板（AI预测版）",cat:"残障辅助",pain:"传统AAC设备$5K-15K，Proloquo2Go $250仍贵",audience:"全球需AAC约500万人",competition:"mid",monetize:"$9.99/月+保险报销",revenue:"$3K-15K",feasibility:4,timeline:"6-8周",advantage:"社会价值极高+Medicaid覆盖",top10:0},
+  {id:81,name:"特殊需求儿童进步追踪",cat:"残障辅助",pain:"自闭症等特殊儿童家长用纸质文件夹追踪IEP",audience:"美国700万特殊教育家庭",competition:"low",monetize:"$6.99/月",revenue:"$3K-12K",feasibility:4,timeline:"4-6周",advantage:"极痛+愿付费+竞争空白",top10:0},
+  {id:83,name:"职场霸凌/骚扰记录工具",cat:"职场求职",pain:"律师第一个问'你有记录吗？'，个人C2C工具几乎为零",audience:"美国约4800万人",competition:"low",monetize:"$4.99/月+律师佣金$200-500/案",revenue:"$3K-15K",feasibility:4,timeline:"3-4周",advantage:"痛点真实+法律需求驱动",top10:0},
+  {id:88,name:"植物养护智能助手",cat:"育儿家庭",pain:"Planta $7.99/月验证付费，但识别不准",audience:"PlantTok社区+园艺爱好者",competition:"mid",monetize:"$5.99/月Pro",revenue:"$3K-12K",feasibility:4,timeline:"3-4周",advantage:"图像识别技术成熟",top10:0},
+  {id:89,name:"邻居噪音记录+投诉",cat:"育儿家庭",pain:"噪音投诉需证据，普通人不知如何合法记录",audience:"美国4400万租户",competition:"low",monetize:"Pro $4.99/月",revenue:"$1K-5K",feasibility:4,timeline:"2-3周",advantage:"技术简单，差异化在法律模板",top10:0},
+  {id:90,name:"数字身份全景管理",cat:"育儿家庭",pain:"100+在线账号不知哪些泄露、哪些该删",audience:"注重隐私的用户",competition:"mid",monetize:"Pro $5.99/月",revenue:"$2K-10K",feasibility:4,timeline:"4-6周",advantage:"隐私趋势利好",top10:0},
+  {id:91,name:"植物病害AI诊断",cat:"育儿家庭",pain:"植物生病不知原因，PictureThis偏识别不偏诊疗",audience:"美国8000万园艺家庭",competition:"mid",monetize:"Pro $5.99/月+affiliate",revenue:"$3K-12K",feasibility:4,timeline:"3-4周",advantage:"专注诊疗是差异点",top10:0},
+  {id:92,name:"个人安全伴行App",cat:"育儿家庭",pain:"独居女性/夜跑者安全焦虑",audience:"数千万独居/夜跑用户",competition:"mid",monetize:"Pro $3.99/月+保险合作",revenue:"$3K-12K",feasibility:4,timeline:"4-6周",advantage:"技术成熟，信任是关键",top10:0},
+  {id:93,name:"害虫AI识别与防治",cat:"农业环保",pain:"作物异常不知什么虫/病",audience:"全球5.7亿小农户",competition:"mid",monetize:"$4.99/月+农资affiliate",revenue:"$3K-15K",feasibility:4,timeline:"4-6周",advantage:"训练数据丰富，农业科技热",top10:0},
+  {id:98,name:"罚单/小额索赔AI助手",cat:"法律安全",pain:"DoNotPay被FTC罚了=市场真空",audience:"美国年4100万张罚单",competition:"low",monetize:"单次$2.99，$7.99/月",revenue:"$5K-20K",feasibility:4,timeline:"3-4周",advantage:"需求巨大，定位模板避法律风险",top10:0},
+  {id:99,name:"邮件模板生成器",cat:"法律安全",pain:"不知怎么写正式邮件",audience:"求职者、销售、消费者",competition:"mid",monetize:"Pro $4.99/月",revenue:"$2K-8K",feasibility:4,timeline:"1-2周",advantage:"LLM天然适合",top10:0},
+  {id:4,name:"开发者AI Agent工作台",cat:"开发者工具",pain:"多AI agent缺统一管理、上下文共享、成本追踪",audience:"中等但高价值",competition:"low",monetize:"$19-49/月",revenue:"$5K-30K",feasibility:3,timeline:"6-8周",advantage:"品类刚出现",top10:0},
+  {id:12,name:"YouTuber/播客内容管理",cat:"小微企业",pain:"中小创作者没有一体化工具",audience:"YouTube创作者5000万+",competition:"mid",monetize:"$14.99/月",revenue:"$3K-15K",feasibility:3,timeline:"6-8周",advantage:"需要多平台API",top10:0},
+  {id:15,name:"订阅管理+自动取消",cat:"小微企业",pain:"平均美国人12个订阅，很多忘了在扣费",audience:"数亿用户",competition:"high",monetize:"$4.99/月或分成",revenue:"$2K-10K",feasibility:3,timeline:"4-6周",advantage:"巨头已入场需差异化",top10:0},
+  {id:32,name:"翻修成本估算器",cat:"金融理财",pain:"浴室翻新报价$8K-$30K，无参照系",audience:"美国$4200亿家装市场",competition:"mid",monetize:"$7.99/月+lead gen",revenue:"$3K-15K",feasibility:4,timeline:"6-8周",advantage:"AI拍照估价有挑战但可行",top10:0},
+  {id:33,name:"遗产/数字遗嘱规划",cat:"金融理财",pain:"67%美国成年人无遗嘱",audience:"中年以上有资产者",competition:"mid",monetize:"遗嘱$39.99+$4.99/月",revenue:"$3K-15K",feasibility:4,timeline:"6-8周",advantage:"AI降低遗嘱制作成本",top10:0},
+  {id:38,name:"葡萄酒/威士忌扫描收藏",cat:"饮食食品",pain:"选酒不知好坏，收藏者需管理酒窖",audience:"葡萄酒App市场$1.5B",competition:"high",monetize:"Pro $9.99/月",revenue:"$2K-10K",feasibility:3,timeline:"4-6周",advantage:"威士忌垂直有空间",top10:0},
+  {id:42,name:"50+中老年约会",cat:"社交关系",pain:"主流约会App年轻化，OurTime充斥虚假账号",audience:"美国50+单身3000万",competition:"mid",monetize:"$14.99/月",revenue:"$5K-20K",feasibility:3,timeline:"8-12周",advantage:"视频优先+信任机制",top10:0},
+  {id:44,name:"邻里互助/技能交换",cat:"社交关系",pain:"花钱请人贵但邻居可能正好会",audience:"社区居民",competition:"mid",monetize:"$3.99/月",revenue:"$1K-5K",feasibility:3,timeline:"8-12周",advantage:"冷启动极难",top10:0},
+  {id:46,name:"AI练琴纠错助手",cat:"教育学习",pain:"学琴请不起老师天天盯",audience:"全球学琴3亿+",competition:"mid",monetize:"$6.99/月",revenue:"$3K-15K",feasibility:3,timeline:"6-8周",advantage:"音频分析有难度但有开源方案",top10:0},
+  {id:48,name:"Homeschooling课程管理",cat:"教育学习",pain:"美国340万+家庭需合规记录",audience:"340万+家庭",competition:"low",monetize:"$9.99/月",revenue:"$3K-12K",feasibility:3,timeline:"6-8周",advantage:"50个州法规各不同，维护量大",top10:0},
+  {id:67,name:"Van Life一体化工具",cat:"房产汽车",pain:"r/vandwellers工具碎片化",audience:"Van life社区",competition:"mid",monetize:"$5.99/月",revenue:"$2K-8K",feasibility:3,timeline:"6-8周",advantage:"需要大量POI数据",top10:0},
+  {id:69,name:"闲置车位/储物共享",cat:"房产汽车",pain:"纽约车位月租$300-500，很多闲置",audience:"城市车主/房主",competition:"mid",monetize:"佣金15-20%",revenue:"$2K-10K",feasibility:3,timeline:"8-12周",advantage:"双边市场冷启动难",top10:0},
+  {id:70,name:"排队/预约聚合器",cat:"房产汽车",pain:"热门餐厅等1-2小时",audience:"城市居民",competition:"mid",monetize:"$3.99/月",revenue:"$1K-5K",feasibility:3,timeline:"8-12周",advantage:"需合作",top10:0},
+  {id:71,name:"智能通勤助手",cat:"房产汽车",pain:"通勤1-2小时是死时间",audience:"美国1.5亿通勤者",competition:"mid",monetize:"$4.99/月",revenue:"$1K-5K",feasibility:3,timeline:"6-8周",advantage:"概念好但难独立成App",top10:0},
+  {id:72,name:"穆斯林全功能信仰App",cat:"宗教文化",pain:"Muslim Pro隐私丑闻后信任受损",audience:"全球19亿穆斯林",competition:"high",monetize:"$4.99/月",revenue:"$5K-30K",feasibility:3,timeline:"8-12周",advantage:"市场巨大但Muslim Pro统治力强",top10:0},
+  {id:75,name:"佛教正念冥想",cat:"宗教文化",pain:"Calm/Headspace做世俗冥想，缺正宗佛教传承",audience:"5亿佛教徒+5000万西方人",competition:"mid",monetize:"Dana+$7.99/月",revenue:"$2K-10K",feasibility:3,timeline:"6-8周",advantage:"Dana模式需要足够用户基数",top10:0},
+  {id:85,name:"远程工作时区协调器",cat:"职场求职",pain:"跨5-10时区找会议时间是噩梦",audience:"7000万远程工作者",competition:"mid",monetize:"$3.99/月",revenue:"$1K-5K",feasibility:3,timeline:"3-4周",advantage:"痛点真实但workaround多",top10:0},
+  {id:86,name:"邮件退订+清理助手",cat:"职场求职",pain:"Unroll.me隐私丑闻后市场有空间",audience:"数亿邮箱用户",competition:"mid",monetize:"$1.99/月",revenue:"$2K-8K",feasibility:3,timeline:"4-6周",advantage:"API限制是挑战",top10:0},
+  {id:94,name:"小农场管理工具",cat:"农业环保",pain:"89%小型家庭农场用纸笔管理",audience:"美国178万小农场",competition:"mid",monetize:"$9.99/月",revenue:"$2K-8K",feasibility:3,timeline:"6-8周",advantage:"付费意愿不确定",top10:0},
+  {id:95,name:"产品环保评分扫描",cat:"农业环保",pain:"Z世代关心可持续但不知怎么选",audience:"环保意识消费者",competition:"mid",monetize:"$2.99/月+B2B",revenue:"$2K-8K",feasibility:3,timeline:"6-8周",advantage:"数据收集是最大挑战",top10:0},
+  {id:96,name:"个人碳足迹追踪",cat:"农业环保",pain:"不知自己碳排放多少",audience:"千禧/Z世代",competition:"mid",monetize:"碳抵消佣金$5-15/月",revenue:"$1K-5K",feasibility:3,timeline:"4-6周",advantage:"留存是挑战",top10:0},
+  {id:97,name:"数字遗产+紧急联系人",cat:"农业环保",pain:"人死后密码/加密货币无人管理",audience:"数字资产持有者",competition:"mid",monetize:"$4.99/月",revenue:"$2K-8K",feasibility:3,timeline:"6-8周",advantage:"信任门槛高但壁垒深",top10:0},
+  {id:100,name:"东南亚/中东新兴市场机会",cat:"法律安全",pain:"二手交易信任（印尼）、女性社交（中东）、非正规经济记账（拉美）",audience:"数十亿新兴市场用户",competition:"low",monetize:"因地区而异",revenue:"$3K-20K",feasibility:3,timeline:"因项目而异",advantage:"本地化不足是机会",top10:0}
+];
+
+const catColors = {
+  "开发者工具":"#60a5fa","小微企业":"#34d399","健康医疗":"#f87171","金融理财":"#fbbf24",
+  "饮食食品":"#fb923c","社交关系":"#e879f9","教育学习":"#818cf8","生活消费":"#2dd4bf",
+  "房产汽车":"#94a3b8","宗教文化":"#c084fc","残障辅助":"#4ade80","职场求职":"#38bdf8",
+  "育儿家庭":"#fb7185","农业环保":"#a3e635","法律安全":"#fcd34d"
+};
+
+let currentCat = "all";
+let searchTerm = "";
+
+function renderCards() {
+  const filtered = ideas.filter(i => {
+    const catMatch = currentCat === "all" || i.cat === currentCat;
+    const searchMatch = !searchTerm || 
+      i.name.toLowerCase().includes(searchTerm) || 
+      i.pain.toLowerCase().includes(searchTerm) ||
+      i.cat.toLowerCase().includes(searchTerm) ||
+      (i.advantage && i.advantage.toLowerCase().includes(searchTerm));
+    return catMatch && searchMatch;
+  });
+  
+  document.getElementById("countLabel").textContent = `显示 ${filtered.length} / ${ideas.length}`;
+  
+  const html = filtered.map((i, idx) => {
+    const starClass = i.feasibility >= 5 ? "star5" : i.feasibility >= 4 ? "star4" : "star3";
+    const compClass = i.competition === "low" ? "competition-low" : i.competition === "high" ? "competition-high" : "competition-mid";
+    const compText = i.competition === "low" ? "🟢 低竞争" : i.competition === "high" ? "🔴 高竞争" : "🟡 中等竞争";
+    const stars = "⭐".repeat(i.feasibility);
+    const isTop10 = i.top10 > 0;
+    const highlight = isTop10 ? " highlight" : "";
+    
+    return `<div class="card ${starClass}${highlight}" data-cat="${i.cat}">
+      <div class="card-header">
+        <span class="card-title">#${i.id} ${i.name}</span>
+        ${isTop10 ? `<span class="card-rank top10">🏆 TOP ${i.top10}</span>` : `<span class="card-rank">可行性 ${stars}</span>`}
+      </div>
+      <div class="badge-row">
+        <span class="badge category" style="border-left:3px solid ${catColors[i.cat] || '#60a5fa'}">${i.cat}</span>
+        <span class="badge ${compClass}">${compText}</span>
+        <span class="badge revenue">💰 ${i.revenue}/月</span>
+        <span class="badge timeline">⏱ ${i.timeline}</span>
+      </div>
+      <p class="card-pain">💡 <strong>痛点：</strong>${i.pain}</p>
+      <dl class="card-details">
+        <dt>👥 目标人群</dt><dd>${i.audience}</dd>
+        <dt>💳 变现模型</dt><dd>${i.monetize}</dd>
+        ${i.advantage ? `<dt>🎯 核心优势</dt><dd>${i.advantage}</dd>` : ''}
+      </dl>
+    </div>`;
+  }).join("");
+  
+  document.getElementById("cards").innerHTML = html;
+}
+
+document.getElementById("filters").addEventListener("click", e => {
+  if (!e.target.classList.contains("filter-btn")) return;
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  e.target.classList.add("active");
+  currentCat = e.target.dataset.cat;
+  renderCards();
+});
+
+document.getElementById("searchBox").addEventListener("input", e => {
+  searchTerm = e.target.value.toLowerCase();
+  renderCards();
+});
+
+renderCards();
+</script>
+</body>
+</html>
