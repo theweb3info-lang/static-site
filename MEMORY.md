@@ -10,21 +10,23 @@
 - Static hosting: GitHub Pages (theweb3info-lang.github.io/static-site/)
 
 ## Cron Jobs (错开并发)
-- 06:00 每日热点深度文章（viral-tech skill, job b9ea562a, isolated sub-agent Opus 4.6）
+- 06:00 每日热点深度文章（viral-tech skill, job b9ea562a）
 - 07:00 Elon summary → g-elonmusk
 - 07:30 AI 厂商研究报告
 - 08:00 AI Hot Topics 早报 → g-ideas
-- 08:30 每日3个App创意（job fe3b5e42, isolated, Sonnet）→ 私聊Andy
-- 09:00 OpenClaw Best Practices
-- 09:30 Daily TODO Reminder
-- 10:00 AI Money Stories → g-money
-- 22:00 AI Hot Topics 晚报 → g-ideas
+- 08:30 🇺🇸 每日App创意（job fe3b5e42）→ 私聊Andy
+- 09:00 🇯🇵 日本App创意（job 8924c121）+ OpenClaw Best Practices
+- 09:30 🇰🇷 韩国App创意（job 9ea457f7）+ Daily TODO
+- 10:00 🇩🇪 德语区App创意（job cceef40b）+ AI Money Stories
+- 10:30 🇧🇷 拉美App创意（job 61ea0b4e）
+- 11:00 🇸🇦 中东App创意（job f913b770）
 - 21:00 每日Agent日报（私聊Andy，Sonnet，job 6568ed14）
+- 22:00 AI Hot Topics 晚报 → g-ideas
 - 23:00 Medium AI Top 10 → g-medium
 - 每1.5h 明治人物篇配图
-- 每2h 明治藩篇写作
+- 每2h 明治藩篇写作 + 事件/文化/对比篇
 - 每2h 系统报告（sonnet）
-- 3/8 一次性：女性程序员文章提醒
+- App创意格式：每区域1个/天，含市场验证+乐观/保守收益+Andy优劣势
 
 ## Report Rule
 - 任务完成时，说明用了什么执行：主Agent / Sub-agent / Claude CLI / Qwen / Copilot
@@ -50,6 +52,13 @@
 - Benchmark数据用最新的
 - 论证严谨，分析别人言论时要有来源
 - 不要用 Part 1/Part 2 等标记，直接用标题
+
+## App出海项目（2026-02-16启动）
+- 270个创意（100英语+33日本+35韩国+32德语区+35拉美+35中东）
+- 4个产品方案：AllerScan、MCPHub、SubZap、NudgeMate
+- Flutter项目搭建中：`keigo-master/`（敬语转换）+ `allerscan/`（过敏原扫描）
+- 计划：2周敬語マスター → 2周AllerScan → 第4周上架
+- 目标：Mac Studio ¥15K-30K
 
 ## Lessons
 - Heavy tasks → spawn sub-agent, don't do in main session

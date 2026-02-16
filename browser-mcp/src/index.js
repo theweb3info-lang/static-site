@@ -166,3 +166,7 @@ await server.connect(transport);
 
 process.on('SIGINT', async () => { await closeBrowser(); process.exit(0); });
 process.on('SIGTERM', async () => { await closeBrowser(); process.exit(0); });
+
+// Exit when stdin closes (parent process disconnected) — prevents zombie accumulation
+process.stdin.on('end', async () => { await closeBrowser(); process.exit(0); });
+process.stdin.on('close', async () => { await closeBrowser(); process.exit(0); });
