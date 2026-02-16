@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>明治维新藩国风云录 | Meiji Domain Chronicles</title>
+<style>
+:root {
+  --bg: #faf8f5;
+  --text: #333;
+  --accent: #8B0000;
+  --card-bg: #fff;
+  --border: #e8e0d8;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #1a1a1a; --text: #e0d8d0; --accent: #c0392b; --card-bg: #252525; --border: #3a3a3a; }
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif; background: var(--bg); color: var(--text); }
+.header { text-align: center; padding: 60px 20px 30px; }
+.header h1 { font-size: 2.2em; color: var(--accent); margin-bottom: 8px; }
+.header p { font-size: 1.1em; opacity: 0.7; }
+.nav-links { text-align: center; margin: 20px 0; }
+.nav-links a { color: var(--accent); margin: 0 16px; text-decoration: none; font-weight: bold; }
+.nav-links a:hover { text-decoration: underline; }
+.tier { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+.tier h2 { font-size: 1.3em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 12px; margin-bottom: 16px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px; transition: transform 0.2s; }
+.card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.card .name { font-size: 1.2em; font-weight: bold; margin-bottom: 4px; }
+.card .desc { font-size: 0.9em; opacity: 0.7; margin-bottom: 12px; }
+.card .links a { display: inline-block; margin-right: 12px; font-size: 0.85em; color: var(--accent); text-decoration: none; }
+.card .links a:hover { text-decoration: underline; }
+.card .status { font-size: 0.8em; margin-top: 8px; padding: 3px 8px; border-radius: 3px; display: inline-block; }
+.card .status.done { background: #d4edda; color: #155724; }
+.card .status.pending { background: #fff3cd; color: #856404; }
+.footer { text-align: center; padding: 40px 20px; opacity: 0.5; font-size: 0.85em; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏰 明治维新藩国风云录</h1>
+  <p>Domain Chronicles — 41 Stories of Regional Powers That Changed Japan</p>
+</div>
+
+<div class="nav-links">
+  <a href="index.html">← 人物志</a>
+  <a href="../meiji-figures.html">📊 关系图</a>
+</div>
+
+<div class="tier">
+  <h2>⭐ 第一季：四强争霸 — 萨长土肥</h2>
+  <div class="cards" id="tier1"></div>
+</div>
+
+<div class="tier">
+  <h2>🛡️ 第二季：幕府忠魂</h2>
+  <div class="cards" id="tier2"></div>
+</div>
+
+<div class="tier">
+  <h2>🌊 第三季：边缘力量</h2>
+  <div class="cards" id="tier3"></div>
+</div>
+
+<div class="tier">
+  <h2>🔥 第四季：大势所趋 — 跨藩专题</h2>
+  <div class="cards" id="tier4"></div>
+</div>
+
+<div class="footer">
+  明治维新藏国风云录 · Powered by AI Content Pipeline
+</div>
+
+<script>
+const domains = [
+  // 第一季：四强争霸 — 萨长土肥（17篇）
+  // 萨摩藩（5篇）
+  {tier:1, num:"han-01", zh:"萨摩藩全史", desc:"从岛津家到倒幕先锋", status:"done", zhDone:true, zhAudioDone:true},
+  {tier:1, num:"han-02", zh:"萨英战争", desc:"被英国炮轰后反而成了朋友", status:"done", zhDone:true, zhAudioDone:true},
+  {tier:1, num:"han-03", zh:"萨摩学生留英", desc:"19个偷渡客改变日本", status:"done", zhDone:true, zhAudioDone:true},
+  {tier:1, num:"han-04", zh:"萨摩的军工业", desc:"集成馆事业与近代化", status:"done", zhDone:true, zhAudioDone:true},
+  {tier:1, num:"han-05", zh:"西南战争", desc:"萨摩武士的最后挽歌", status:"done", zhDone:true, zhAudioDone:true},
+  
+  // 长州藩（5篇）
+  {tier:1, num:"han-06", zh:"长州藩全史", desc:"从毛利家到维新引擎", status:"done", zhDone:true, zhAudioDone:true},
+  {tier:1, num:"han-07", zh:"下关战争", desc:"炮轰外国船的代价与觉醒", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:1, num:"han-08", zh:"奇兵队与长州内战", desc:"激进派如何翻盘", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:1, num:"han-09", zh:"两次长州征伐", desc:"幕府的滑铁卢", status:"done", zhDone:true, zhAudioDone:true},
+  {tier:1, num:"han-10", zh:"长州五杰留英", desc:"烧使馆的人去了英国", status:"pending", zhDone:false, zhAudioDone:false},
+  
+  // 土佐藩（4篇）
+  {tier:1, num:"han-11", zh:"土佐藩全史", desc:"上士与下士的阶级裂痕", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:1, num:"han-12", zh:"土佐勤王党", desc:"武市半平太的悲剧理想", status:"done", zhDone:true, zhAudioDone:true},
+  {tier:1, num:"han-13", zh:"海援队", desc:"坂本龙马的商业帝国", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:1, num:"han-14", zh:"自由民权运动的摇篮", desc:"土佐为什么出民主派", status:"pending", zhDone:false, zhAudioDone:false},
+  
+  // 肥前藩（3篇）
+  {tier:1, num:"han-15", zh:"肥前藩全史", desc:"技术立藩的低调强者", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:1, num:"han-16", zh:"锅岛直正的军事改革", desc:"日本最早的反射炉", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:1, num:"han-17", zh:"佐贺之乱", desc:"江藤新平的悲剧", status:"pending", zhDone:false, zhAudioDone:false},
+
+  // 第二季：幕府忠魂（10篇）
+  {tier:2, num:"han-18", zh:"会津藩", desc:"忠义的代价，白虎队悲剧", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:2, num:"han-19", zh:"会津战争", desc:"鹤城攻防战与妇女殉城", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:2, num:"han-20", zh:"桑名藩", desc:"会津的盟友，松平定敬的命运", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:2, num:"han-21", zh:"庄内藩", desc:"戊辰战争中幕府方最强的藩", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:2, num:"han-22", zh:"小仓藩", desc:"第二次征长的前线", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:2, num:"han-23", zh:"越前藩", desc:"松平春嶽的幕政改革", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:2, num:"han-24", zh:"宇和岛藩", desc:"四贤侯中最开明的小藩", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:2, num:"han-25", zh:"水户藩", desc:"尊王攘夷发源地，天狗党之乱", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:2, num:"han-26", zh:"仙台藩", desc:"奥羽越列藩同盟的盟主", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:2, num:"han-27", zh:"米沢藩", desc:"上杉家的摇摆与抉择", status:"pending", zhDone:false, zhAudioDone:false},
+
+  // 第三季：边缘力量（4篇）
+  {tier:3, num:"han-28", zh:"萨摩与琉球", desc:"秘密贸易的财源", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:3, num:"han-29", zh:"对马藩", desc:"日朝关系的桥梁", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:3, num:"han-30", zh:"松前藩", desc:"北海道与虾夷地经营", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:3, num:"han-31", zh:"长冈藩", desc:"河井继之助与加特林机枪", status:"pending", zhDone:false, zhAudioDone:false},
+
+  // 第四季：大势所趋 — 跨藩专题（10篇）
+  {tier:4, num:"han-32", zh:"萨长同盟", desc:"死敌如何变盟友", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:4, num:"han-33", zh:"戊辰战争全景", desc:"藩与藩的全面战争", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:4, num:"han-34", zh:"奥羽越列藩同盟", desc:"东北31藩的抵抗与崩溃", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:4, num:"han-35", zh:"废藩置县", desc:"一夜消灭300藩", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:4, num:"han-36", zh:"版籍奉还", desc:"藩主如何交出领地", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:4, num:"han-37", zh:"藩阀政治", desc:"萨长垄断明治政府的潜规则", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:4, num:"han-38", zh:"四贤侯会议", desc:"四个藩主改革幕政的失败", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:4, num:"han-39", zh:"藩校教育", desc:"各藩人才培养体系对比", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:4, num:"han-40", zh:"各藩洋式军备竞赛", desc:"谁最先买到西洋枪炮", status:"pending", zhDone:false, zhAudioDone:false},
+  {tier:4, num:"han-41", zh:"幕末藩财政", desc:"穷藩与富藩，钱从哪来", status:"pending", zhDone:false, zhAudioDone:false}
+];
+
+function renderCards() {
+  for (let t = 1; t <= 4; t++) {
+    const container = document.getElementById('tier' + t);
+    const items = domains.filter(f => f.tier === t);
+    container.innerHTML = items.map(f => {
+      const zhLink = f.zhDone ? `<a href="han/${f.num}-${f.zh}.html">📖 中文</a>` : '';
+      const zhAudio = f.zhAudioDone ? `<a href="han/${f.num}-${f.zh}.mp3">🎧 音频</a>` : '';
+      const statusBadge = f.zhDone && f.zhAudioDone
+        ? '<span class="status done">✅ 已完成</span>'
+        : f.zhDone
+        ? '<span class="status" style="background:#d1ecf1;color:#0c5460;">🔄 文章完成</span>'
+        : '<span class="status pending">⏳ 待生成</span>';
+      return `<div class="card">
+        <div class="name">${f.num}. ${f.zh}</div>
+        <div class="desc">${f.desc}</div>
+        <div class="links">${zhLink}${zhAudio}</div>
+        ${statusBadge}
+      </div>`;
+    }).join('');
+  }
+}
+renderCards();
+</script>
+</body>
+</html>

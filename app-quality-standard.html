@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>App Quality Standard v1.0</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0b; color: #e2e8f0; line-height: 1.7; }
+.wrap { max-width: 800px; margin: 0 auto; padding: 24px 20px 80px; }
+h1 { font-size: 2em; margin: 40px 0 8px; background: linear-gradient(135deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; }
+h2 { font-size: 1.4em; margin: 48px 0 16px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); color: #f1f5f9; }
+h3 { font-size: 1.1em; margin: 28px 0 12px; color: #94a3b8; }
+p { margin: 8px 0; color: #cbd5e1; }
+p.numbered { padding-left: 16px; margin: 6px 0; }
+blockquote { border-left: 3px solid #3b82f6; padding: 12px 16px; margin: 16px 0; background: rgba(59,130,246,0.08); border-radius: 0 8px 8px 0; color: #94a3b8; font-style: italic; }
+ul { padding-left: 20px; margin: 8px 0; }
+ul.checklist { list-style: none; padding-left: 0; }
+ul.checklist li { padding: 6px 0; display: flex; gap: 8px; align-items: flex-start; }
+.check { color: #3b82f6; font-size: 1.1em; flex-shrink: 0; }
+li { margin: 4px 0; color: #cbd5e1; }
+strong { color: #f1f5f9; }
+code { background: #1e293b; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; color: #60a5fa; }
+pre { background: #111113; border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 16px; margin: 12px 0; overflow-x: auto; }
+pre code { background: none; padding: 0; color: #94a3b8; font-size: 0.85em; }
+hr { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 32px 0; }
+@media (max-width: 600px) {
+  .wrap { padding: 16px 14px 60px; }
+  h1 { font-size: 1.5em; }
+  h2 { font-size: 1.2em; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🏆 Andy's App Quality Standard v1.0</h1>
+<p># 适用于所有App开发，每次启动新项目必须遵守</p>
+<blockquote>这不是建议，是硬性要求。不达标不上线。</blockquote>
+<hr>
+<h2 id="4">一、产品定义标准</h2>
+<h3>1.1 立项前必须回答的5个问题</h3>
+<p class="numbered"><strong>用户是谁？</strong> — 具体到人物画像（年龄、职业、场景），不是"所有人"</p>
+<p class="numbered"><strong>痛到什么程度？</strong> — 用户现在在用什么workaround？愿意花多少钱/时间解决？</p>
+<p class="numbered"><strong>为什么是我？</strong> — 技术壁垒或时机窗口在哪？竞品为什么没做好？</p>
+<p class="numbered"><strong>最小验证是什么？</strong> — 用户用完会说的那句话是什么？（"终于有人做了这个"）</p>
+<p class="numbered"><strong>怎么赚钱？</strong> — 第一天就要想清楚变现路径，不是"先做大再说"</p>
+<h3>1.2 MVP定义原则</h3>
+<ul>
+<li><strong>一个核心动作</strong>：用户打开App只需要做一件事（扫描/输入/拍照/选择）</li>
+<li><strong>10秒出结果</strong>：从打开App到看到价值，不超过10秒</li>
+<li><strong>零学习成本</strong>：不需要教程、引导页可跳过、第一次用就会</li>
+<li><strong>2周必须上线</strong>：超过2周的MVP不是MVP</li>
+</ul>
+<hr>
+<h2 id="19">二、用户体验标准</h2>
+<h3>2.1 第一印象（0-3秒）</h3>
+<ul class="checklist">
+<li><span class="check">☐</span> 打开App 1秒内看到核心界面（不是splash screen等3秒）</li>
+<li><span class="check">☐</span> 视觉第一眼就知道这个App做什么</li>
+<li><span class="check">☐</span> 配色专业、不廉价、有品牌感</li>
+<li><span class="check">☐</span> 无任何"请允许通知/位置/相机"弹窗打断（需要时再问）</li>
+</ul>
+<h3>2.2 核心流程（3-30秒）</h3>
+<ul class="checklist">
+<li><span class="check">☐</span> 核心操作 ≤ 3步完成（不是3个页面，是3次点击/交互）</li>
+<li><span class="check">☐</span> 每一步都有即时反馈（动画/震动/声音/文字变化）</li>
+<li><span class="check">☐</span> 加载状态用skeleton/shimmer，不是转圈</li>
+<li><span class="check">☐</span> 错误提示用人话+给出解决方案，不是error code</li>
+<li><span class="check">☐</span> 结果展示清晰：好=绿色✅ 坏=红色❌ 注意=黄色⚠️</li>
+</ul>
+<h3>2.3 情感设计</h3>
+<ul class="checklist">
+<li><span class="check">☐</span> 完成任务时有微妙的成就感（动画、emoji、congratulations）</li>
+<li><span class="check">☐</span> 空状态不是白屏，有引导和温暖文案</li>
+<li><span class="check">☐</span> 出错时语气友善，不blame用户</li>
+<li><span class="check">☐</span> 关键时刻有surprise & delight（意想不到的小细节）</li>
+</ul>
+<h3>2.4 性能底线</h3>
+<ul class="checklist">
+<li><span class="check">☐</span> 冷启动 < 2秒</li>
+<li><span class="check">☐</span> 核心操作响应 < 200ms</li>
+<li><span class="check">☐</span> 列表滚动 60fps 无卡顿</li>
+<li><span class="check">☐</span> App体积 < 50MB（最好 < 30MB）</li>
+<li><span class="check">☐</span> 离线可用（至少核心功能）</li>
+</ul>
+<h3>2.5 无障碍</h3>
+<ul class="checklist">
+<li><span class="check">☐</span> 最小可点击区域 44×44pt</li>
+<li><span class="check">☐</span> 文字对比度符合WCAG AA（4.5:1）</li>
+<li><span class="check">☐</span> 支持系统深色/浅色模式</li>
+<li><span class="check">☐</span> 支持Dynamic Type（系统字号调节）</li>
+<li><span class="check">☐</span> VoiceOver/TalkBack基本可用</li>
+</ul>
+<hr>
+<h2 id="59">三、视觉设计标准</h2>
+<h3>3.1 设计系统</h3>
+<p>每个App必须定义：</p>
+<pre><code>品牌色（1个主色+1个强调色）
+中性色（5级灰度：bg/surface/border/text-secondary/text-primary）
+功能色（success绿/warning黄/error红/info蓝）
+圆角半径（small: 8px / medium: 12px / large: 16px / full: 9999px）
+阴影层级（subtle / medium / strong）
+间距系统（4px基数：4/8/12/16/24/32/48/64）
+字号系统（caption:12 / body:14-16 / subtitle:18-20 / title:24-32 / hero:40-72）</code></pre>
+<h3>3.2 视觉质量检查</h3>
+<ul class="checklist">
+<li><span class="check">☐</span> 没有对不齐的元素（用8px grid）</li>
+<li><span class="check">☐</span> 没有挤在一起的内容（最小间距16px）</li>
+<li><span class="check">☐</span> 没有孤立的1px边框或粗糙阴影</li>
+<li><span class="check">☐</span> 图标风格统一（全用outline或全用filled，不混搭）</li>
+<li><span class="check">☐</span> 颜色使用克制（单屏不超过3种颜色+中性色）</li>
+<li><span class="check">☐</span> 对标水准：不低于同类App Store前10名的设计</li>
+</ul>
+<h3>3.3 动画标准</h3>
+<ul>
+<li>时长：150-300ms（太快看不见，太慢觉得卡）</li>
+<li>缓动：ease-out进入，ease-in退出，spring弹性（Flutter默认curve好用）</li>
+<li>场景：页面切换、按钮反馈、列表增删、状态变化必须有动画</li>
+<li>底线：宁可没有动画也不要卡顿的动画</li>
+</ul>
+<hr>
+<h2 id="80">四、技术标准</h2>
+<h3>4.1 Flutter项目结构</h3>
+<pre><code>lib/
+  app/          — App入口、路由、主题
+  features/     — 按功能模块分（每个feature独立文件夹）
+    feature_x/
+      view/     — UI页面
+      widgets/  — 该feature专属组件
+      model/    — 数据模型
+      service/  — 业务逻辑/API
+  shared/       — 跨feature共享
+    widgets/    — 通用组件
+    theme/      — 配色/字体/间距
+    utils/      — 工具函数
+    constants/  — 常量
+  l10n/         — 国际化</code></pre>
+<h3>4.2 代码底线</h3>
+<ul class="checklist">
+<li><span class="check">☐</span> 零编译warning</li>
+<li><span class="check">☐</span> 所有公开API有注释</li>
+<li><span class="check">☐</span> 无硬编码字符串（全走l10n或constants）</li>
+<li><span class="check">☐</span> 无硬编码颜色/字号（全走theme）</li>
+<li><span class="check">☐</span> 状态管理统一（Riverpod或Bloc，项目内不混用）</li>
+<li><span class="check">☐</span> 网络请求有loading/error/empty三态处理</li>
+<li><span class="check">☐</span> 敏感数据（API key等）不在代码里</li>
+</ul>
+<h3>4.3 发布前Checklist</h3>
+<ul class="checklist">
+<li><span class="check">☐</span> App图标设计完成（1024×1024，所有圆角尺寸）</li>
+<li><span class="check">☐</span> App Store截图 5-8张（6.7" + 6.5" + 5.5"）</li>
+<li><span class="check">☐</span> App描述写好（关键词前置、features bullet points）</li>
+<li><span class="check">☐</span> 隐私政策页面上线</li>
+<li><span class="check">☐</span> 崩溃监控接入（Firebase Crashlytics或Sentry）</li>
+<li><span class="check">☐</span> 基础数据分析接入（核心事件：打开/核心操作/付费）</li>
+<li><span class="check">☐</span> 深色/浅色模式都测过</li>
+<li><span class="check">☐</span> 小屏(iPhone SE)和大屏(iPad)都测过</li>
+</ul>
+<hr>
+<h2 id="105">五、增长标准</h2>
+<h3>5.1 ASO（App Store Optimization）</h3>
+<ul class="checklist">
+<li><span class="check">☐</span> App名称含核心关键词（30字符内）</li>
+<li><span class="check">☐</span> 副标题含次要关键词（30字符内）</li>
+<li><span class="check">☐</span> 描述前3行是核心卖点（大部分用户不展开看）</li>
+<li><span class="check">☐</span> 关键词字段填满100字符，用竞品名+痛点词+同义词</li>
+<li><span class="check">☐</span> 第一张截图就是核心功能展示（不是logo）</li>
+<li><span class="check">☐</span> 截图有文案overlay（大字说功能，小图展示UI）</li>
+<li><span class="check">☐</span> 有preview video（15-30秒展示核心流程）</li>
+</ul>
+<h3>5.2 内置增长机制</h3>
+<p>每个App必须包含至少3种增长机制：</p>
+<p class="numbered"><strong>分享功能</strong> — 核心结果一键分享（生成精美卡片图，带App水印+下载链接）</p>
+<p class="numbered"><strong>邀请奖励</strong> — Refer a friend得Pro功能/延长试用</p>
+<p class="numbered"><strong>Widget</strong> — iOS/Android桌面Widget，每天被看到=每天被提醒</p>
+<p class="numbered"><strong>Review提示</strong> — 在用户完成核心操作3次后弹出（不是一打开就弹）</p>
+<p class="numbered"><strong>通知策略</strong> — 有价值的通知（提醒/结果/洞察），不是骚扰</p>
+<h3>5.3 病毒传播设计</h3>
+<ul>
+<li>分享出去的内容本身要有价值（不是广告）</li>
+<li>分享卡片要漂亮到接收者想点开</li>
+<li>接收者点开能preview价值，不需要先下载</li>
+<li>从看到→下载→首次使用 的摩擦力最小化</li>
+</ul>
+<h3>5.4 留存设计</h3>
+<ul class="checklist">
+<li><span class="check">☐</span> Day 1有通知/邮件（欢迎+教一个技巧）</li>
+<li><span class="check">☐</span> Day 3有通知（"你知道这个功能吗？"）</li>
+<li><span class="check">☐</span> Day 7有通知（"你的周报/总结"）</li>
+<li><span class="check">☐</span> 有streak/连续使用激励（不一定是gamification，可以是数据积累可视化）</li>
+</ul>
+<hr>
+<h2 id="138">六、变现标准</h2>
+<h3>6.1 定价原则</h3>
+<ul>
+<li><strong>永远有免费版</strong>：让用户先体验价值，再决定付费</li>
+<li><strong>免费版必须有用</strong>：不是阉割到不能用，是"能用但想要更多"</li>
+<li><strong>价格锚定</strong>：月付×12 > 年付价格，让年付显得值</li>
+<li><strong>首次付费门槛低</strong>：周付/月付优先，$3.99-$9.99起步</li>
+<li><strong>一次性购买选项</strong>：反订阅趋势明显，至少提供lifetime选项</li>
+</ul>
+<h3>6.2 付费墙设计</h3>
+<ul class="checklist">
+<li><span class="check">☐</span> 付费墙出现在用户已体验到价值之后（不是注册时）</li>
+<li><span class="check">☐</span> 清晰展示Free vs Pro区别</li>
+<li><span class="check">☐</span> 有免费试用（3-7天）</li>
+<li><span class="check">☐</span> 付费墙本身设计精美（不是系统默认弹窗）</li>
+<li><span class="check">☐</span> 关闭按钮明显可见（不耍手段）</li>
+</ul>
+<h3>6.3 变现多元化</h3>
+<p>除了订阅，至少考虑1-2种：</p>
+<ul>
+<li>Affiliate推荐（推荐相关产品/服务）</li>
+<li>B2B版本（企业/团队付费）</li>
+<li>数据洞察（匿名聚合数据卖报告）</li>
+<li>内容/模板市场（用户贡献+平台分成）</li>
+</ul>
+<hr>
+<h2 id="164">七、合规标准</h2>
+<h3>7.1 每个App必须有</h3>
+<ul class="checklist">
+<li><span class="check">☐</span> 隐私政策（GDPR + CCPA compliant）</li>
+<li><span class="check">☐</span> 使用条款</li>
+<li><span class="check">☐</span> 免责声明（如涉及健康/法律/财务建议）</li>
+<li><span class="check">☐</span> 数据删除功能（GDPR Article 17要求）</li>
+<li><span class="check">☐</span> 未成年人保护（如目标用户含<13岁，需COPPA合规）</li>
+</ul>
+<h3>7.2 数据原则</h3>
+<ul>
+<li>只收集必要数据</li>
+<li>默认不追踪（opt-in不是opt-out）</li>
+<li>数据存储加密</li>
+<li>清晰的数据使用说明</li>
+<li>提供数据导出功能</li>
+</ul>
+<hr>
+<h2 id="182">八、发布后标准</h2>
+<h3>8.1 第一周</h3>
+<ul class="checklist">
+<li><span class="check">☐</span> 每天查看崩溃报告，24小时内修复critical crash</li>
+<li><span class="check">☐</span> 回复所有App Store评价（尤其1-2星）</li>
+<li><span class="check">☐</span> 收集前100个用户的反馈（主动问，不等着）</li>
+<li><span class="check">☐</span> 追踪核心指标：DAU、核心操作完成率、D1/D7留存、付费转化率</li>
+</ul>
+<h3>8.2 迭代节奏</h3>
+<ul>
+<li>第1个月：每周更新（快速修bug+小改进）</li>
+<li>第2-3个月：双周更新（功能迭代）</li>
+<li>之后：月更新（稳定节奏）</li>
+<li>每次更新App Store "What's New"认真写（用户会看）</li>
+</ul>
+<h3>8.3 放弃标准</h3>
+<p>如果满足以下条件，果断放弃转做下一个：</p>
+<ul>
+<li>上线1个月 DAU < 50 且增长趋势平坦</li>
+<li>上线2个月 付费用户 < 10</li>
+<li>用户反馈一致表示"不需要"（不是"还需要改进"）</li>
+</ul>
+<hr>
+<h2 id="205">使用方法</h2>
+<p>每次开始新App项目时：</p>
+<p class="numbered">复制此文档到项目文件夹</p>
+<p class="numbered">在立项阶段回答"5个问题"</p>
+<p class="numbered">开发过程中逐项检查checklist</p>
+<p class="numbered">上线前走一遍"发布前Checklist"</p>
+<p class="numbered">发布后按"发布后标准"执行</p>
+<p><strong>记住：宁可功能少但每个都精致，也不要功能多但粗糙。</strong></p>
+<p><strong>用户记住的是体验，不是feature list。</strong></p>
+<hr>
+<p>*v1.0 — 2026-02-15*</p>
+<p>*Owner: Andy*</p>
+</div>
+</body>
+</html>
