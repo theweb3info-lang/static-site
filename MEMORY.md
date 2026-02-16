@@ -31,6 +31,7 @@
 - 回复要带细节（Andy 是程序员，想了解执行过程）
 
 ## Rules
+- static-site 有新内容时，同步更新 `static-site/all.html` 索引页（加对应链接）
 - 脚本用 Python，不用 bash
 - 轻量搜索用 LiteBrowse（browser-mcp），替代 Brave Search API
 - 深度浏览/复杂操作用 Playwright MCP + Chrome（mcporter call playwright.*）
