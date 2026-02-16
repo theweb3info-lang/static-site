@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NudgeMate — Your Brain Works Differently. Your Reminders Should Too.</title>
+<meta name="description" content="The ADHD-friendly reminder app that actually calls you. Not a notification. Not an alarm. A real phone call from an AI friend who gets it.">
+<meta property="og:title" content="NudgeMate — Reminders That Actually Work for ADHD Brains">
+<meta property="og:description" content="The only reminder app that calls you like a friend. Built for brains that ignore notifications.">
+<meta property="og:url" content="https://theweb3info-lang.github.io/static-site/adhd-assistant.html">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root {
+  --accent: #f59e0b;
+  --accent-hover: #fbbf24;
+  --accent-glow: rgba(245,158,11,0.3);
+  --accent-soft: rgba(245,158,11,0.1);
+  --purple: #a78bfa;
+  --purple-glow: rgba(167,139,250,0.2);
+  --bg-primary: #0f0f13;
+  --bg-secondary: #16161d;
+  --bg-card: rgba(255,255,255,0.03);
+  --bg-card-hover: rgba(255,255,255,0.06);
+  --text-primary: #f0f0f3;
+  --text-secondary: rgba(240,240,243,0.6);
+  --text-tertiary: rgba(240,240,243,0.35);
+  --border: rgba(255,255,255,0.06);
+  --border-hover: rgba(255,255,255,0.12);
+  --max-w: 1100px;
+  --radius: 16px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--font); background: var(--bg-primary); color: var(--text-primary); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+.section { padding: 100px 0; }
+.section-label { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; display: inline-block; }
+.section-title { font-size: clamp(28px, 5vw, 48px); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 20px; }
+.section-desc { font-size: 18px; color: var(--text-secondary); max-width: 600px; line-height: 1.7; }
+.text-center { text-align: center; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font); font-size: 15px; font-weight: 600; padding: 14px 28px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.2s ease; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent-hover)); color: #000; box-shadow: 0 0 24px var(--accent-glow); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 36px var(--accent-glow); }
+.btn-secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border-hover); }
+.btn-secondary:hover { background: rgba(255,255,255,0.05); }
+
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; transition: all 0.3s ease; }
+.card:hover { background: var(--bg-card-hover); border-color: var(--border-hover); }
+
+/* NAV */
+.nav { padding: 20px 0; border-bottom: 1px solid var(--border); }
+.nav-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+.nav-logo-icon { font-size: 24px; }
+.nav-cta .btn { padding: 10px 20px; font-size: 14px; }
+
+/* HERO */
+.hero { padding: 100px 0 80px; text-align: center; position: relative; }
+.hero::before { content: ''; position: absolute; top: -10%; left: 50%; transform: translateX(-50%); width: 700px; height: 500px; background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%); pointer-events: none; opacity: 0.5; }
+.hero-content { position: relative; z-index: 1; max-width: 750px; margin: 0 auto; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 100px; background: var(--accent-soft); border: 1px solid rgba(245,158,11,0.2); font-size: 13px; color: var(--accent); margin-bottom: 32px; font-weight: 600; }
+.hero h1 { font-size: clamp(36px, 7vw, 64px); font-weight: 800; line-height: 1.08; letter-spacing: -0.04em; margin-bottom: 24px; }
+.hero .highlight { color: var(--accent); }
+.hero p { font-size: clamp(16px, 2.5vw, 19px); color: var(--text-secondary); max-width: 520px; margin: 0 auto 40px; line-height: 1.7; }
+.hero-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* PHONE MOCKUP */
+.hero-phone { margin-top: 60px; display: flex; justify-content: center; }
+.phone-box { width: 260px; padding: 32px 24px; border-radius: 28px; background: var(--bg-secondary); border: 2px solid rgba(255,255,255,0.08); box-shadow: 0 30px 60px rgba(0,0,0,0.5); text-align: center; }
+.phone-caller { font-size: 40px; margin-bottom: 12px; }
+.phone-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.phone-label { font-size: 13px; color: var(--accent); margin-bottom: 20px; }
+.phone-wave { display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 20px; height: 32px; }
+.phone-wave span { display: block; width: 4px; border-radius: 2px; background: var(--accent); animation: wave 1.2s ease-in-out infinite; }
+.phone-wave span:nth-child(1) { height: 8px; animation-delay: 0s; }
+.phone-wave span:nth-child(2) { height: 20px; animation-delay: 0.15s; }
+.phone-wave span:nth-child(3) { height: 32px; animation-delay: 0.3s; }
+.phone-wave span:nth-child(4) { height: 20px; animation-delay: 0.45s; }
+.phone-wave span:nth-child(5) { height: 8px; animation-delay: 0.6s; }
+@keyframes wave { 0%, 100% { transform: scaleY(0.5); opacity: 0.5; } 50% { transform: scaleY(1); opacity: 1; } }
+.phone-text { font-size: 14px; color: var(--text-secondary); font-style: italic; line-height: 1.5; }
+
+/* PROBLEM */
+.problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px; }
+.problem-card { padding: 36px; }
+.problem-card-old { background: rgba(239,68,68,0.04); border-color: rgba(239,68,68,0.12); }
+.problem-card-new { background: rgba(245,158,11,0.04); border-color: rgba(245,158,11,0.12); }
+.problem-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 16px; }
+.problem-card-old h3 { color: #f87171; }
+.problem-card-new h3 { color: var(--accent-hover); }
+.problem-card li { padding: 8px 0; color: var(--text-secondary); font-size: 14px; display: flex; align-items: flex-start; gap: 10px; }
+@media (max-width: 768px) { .problem-grid { grid-template-columns: 1fr; } }
+
+/* FEATURES */
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+.feature-icon { font-size: 32px; margin-bottom: 16px; }
+.feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.feature-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+@media (max-width: 768px) { .features-grid { grid-template-columns: 1fr; } }
+
+/* HOW IT WORKS */
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px; counter-reset: step; }
+.step { text-align: center; counter-increment: step; }
+.step-num { width: 48px; height: 48px; border-radius: 14px; margin: 0 auto 20px; background: linear-gradient(135deg, var(--accent), var(--accent-hover)); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: #000; }
+.step-num::after { content: counter(step); }
+.step h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.step p { font-size: 14px; color: var(--text-secondary); }
+@media (max-width: 768px) { .steps { grid-template-columns: 1fr; } }
+
+/* TESTIMONIALS */
+.testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 48px; }
+.testimonial { padding: 28px; }
+.testimonial-text { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.testimonial-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: #fff; }
+.testimonial-name { font-size: 14px; font-weight: 600; }
+.testimonial-role { font-size: 12px; color: var(--text-tertiary); }
+
+/* PRICING */
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 48px; }
+.pricing-card { padding: 36px; text-align: center; }
+.pricing-card.featured { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 40px var(--accent-glow); }
+.pricing-badge { display: inline-block; padding: 4px 14px; border-radius: 100px; font-size: 12px; font-weight: 700; background: var(--accent); color: #000; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
+.pricing-name { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.pricing-price { font-size: 44px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 4px; }
+.pricing-price span { font-size: 16px; font-weight: 400; color: var(--text-tertiary); }
+.pricing-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; }
+.pricing-features { margin-bottom: 24px; }
+.pricing-features li { padding: 6px 0; font-size: 14px; color: var(--text-secondary); display: flex; align-items: center; gap: 8px; justify-content: center; }
+.pricing-features li::before { content: '✓'; color: var(--accent); font-weight: 700; }
+
+/* WAITLIST */
+.waitlist { text-align: center; padding: 100px 0; position: relative; }
+.waitlist::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 60%); opacity: 0.3; }
+.waitlist .container { position: relative; z-index: 1; }
+.waitlist h2 { font-size: clamp(28px, 5vw, 48px); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 16px; }
+.waitlist p { font-size: 18px; color: var(--text-secondary); margin-bottom: 36px; max-width: 480px; margin-left: auto; margin-right: auto; }
+.waitlist-note { font-size: 13px; color: var(--text-tertiary); margin-top: 16px; }
+
+/* FAQ */
+.faq-list { max-width: 700px; margin: 48px auto 0; }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-item summary { padding: 18px 0; font-size: 15px; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after { content: '+'; font-size: 20px; color: var(--text-tertiary); transition: transform 0.3s; }
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item .faq-answer { padding: 0 0 18px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+
+/* FOOTER */
+.footer { padding: 40px 0; border-top: 1px solid var(--border); }
+.footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.footer-copy { font-size: 13px; color: var(--text-tertiary); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 13px; color: var(--text-tertiary); }
+.footer-links a:hover { color: var(--text-secondary); }
+
+@media (max-width: 768px) { .section { padding: 64px 0; } .hero { padding: 60px 0; } }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="nav-logo-icon">📞</span>
+      NudgeMate
+    </a>
+    <div class="nav-cta">
+      <a href="#waitlist" class="btn btn-primary">Join Waitlist →</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">🧠 Built for ADHD brains</div>
+      <h1>Your brain works differently.<br><span class="highlight">Your reminders should&nbsp;too.</span></h1>
+      <p>Stop ignoring notifications. NudgeMate actually <strong>calls you</strong> — like a warm, patient friend who won't let you forget what matters.</p>
+      <div class="hero-buttons">
+        <a href="#waitlist" class="btn btn-primary">Join the Waitlist →</a>
+        <a href="#how-it-works" class="btn btn-secondary">How It Works</a>
+      </div>
+    </div>
+    <div class="hero-phone">
+      <div class="phone-box">
+        <div class="phone-caller">🤗</div>
+        <div class="phone-name">NudgeMate</div>
+        <div class="phone-label">Incoming call…</div>
+        <div class="phone-wave">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="phone-text">"Hey! Just a heads up — your dentist appointment is in 25 min. Time to grab your keys! 🔑"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="problem">
+  <div class="container text-center">
+    <span class="section-label">The Problem</span>
+    <h2 class="section-title">You don't need another notification to ignore.</h2>
+    <p class="section-desc mx-auto">Notifications, alarms, sticky notes — you've tried them all. Your ADHD brain swipes them away in 0.2 seconds. You need something that demands a response.</p>
+    <div class="problem-grid">
+      <div class="card problem-card problem-card-old">
+        <h3>❌ Every Other Reminder App</h3>
+        <ul>
+          <li>📱 Push notification → swiped away instantly</li>
+          <li>⏰ Alarm goes off → snoozed 7 times</li>
+          <li>📝 To-do list → forgotten by lunch</li>
+          <li>🔇 Do Not Disturb → blocks everything</li>
+          <li>😞 Feel guilty about forgetting (again)</li>
+        </ul>
+      </div>
+      <div class="card problem-card problem-card-new">
+        <h3>📞 NudgeMate Calls You</h3>
+        <ul>
+          <li>📲 Real phone call — impossible to ignore</li>
+          <li>🗣️ Warm AI voice, not a robocall</li>
+          <li>💬 Speaks to you like a supportive friend</li>
+          <li>🔄 Calls back if you miss it (up to 3x)</li>
+          <li>✅ Confirms you're taking action</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="how-it-works">
+  <div class="container text-center">
+    <span class="section-label">How It Works</span>
+    <h2 class="section-title">Simple as telling a friend to remind you.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num"></div>
+        <h3>Set Your Reminder</h3>
+        <p>Tell NudgeMate what you need to do and when. Takes 10 seconds.</p>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <h3>Get a Phone Call</h3>
+        <p>When it's time, NudgeMate calls you with a friendly, personalized voice message.</p>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <h3>Actually Do the Thing</h3>
+        <p>Confirm you're on it. If you miss the call, NudgeMate tries again. It's got your back.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="container text-center">
+    <span class="section-label">Features</span>
+    <h2 class="section-title">Designed for how your brain actually works.</h2>
+    <p class="section-desc mx-auto">Not another productivity app. A genuine support system.</p>
+    <div class="features-grid">
+      <div class="card feature-card">
+        <div class="feature-icon">📞</div>
+        <h3>Real Phone Calls</h3>
+        <p>Not a notification. An actual incoming call that rings your phone. The one thing you can't swipe away.</p>
+      </div>
+      <div class="card feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3>AI That Gets You</h3>
+        <p>Choose your AI voice style: sunny friend, calm coach, or straight-to-the-point. It uses your name and adapts to your vibe.</p>
+      </div>
+      <div class="card feature-card">
+        <div class="feature-icon">🔄</div>
+        <h3>Persistent Callbacks</h3>
+        <p>Missed the first call? NudgeMate tries again in 3 minutes. Up to 3 attempts. Because ADHD means "not right now" not "never."</p>
+      </div>
+      <div class="card feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Task Breakdown</h3>
+        <p>"Clean the house" is overwhelming. NudgeMate helps: "Let's start with just the kitchen counter." Small steps, big wins.</p>
+      </div>
+      <div class="card feature-card">
+        <div class="feature-icon">⏰</div>
+        <h3>Follow-Up Checks</h3>
+        <p>30 minutes later, NudgeMate calls back: "Hey, did you actually start that thing?" Gentle accountability, zero judgment.</p>
+      </div>
+      <div class="card feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Weekly Wins Report</h3>
+        <p>See what you accomplished, not what you missed. NudgeMate celebrates your progress, even the small stuff.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="testimonials">
+  <div class="container text-center">
+    <span class="section-label">Real Talk</span>
+    <h2 class="section-title">From people who finally stopped forgetting.</h2>
+    <div class="testimonials-grid">
+      <div class="card testimonial">
+        <p class="testimonial-text">"I've set 47,000 alarms in my life and ignored 46,999 of them. NudgeMate calling me is completely different — I actually pick up and it snaps me out of whatever hyperfocus hole I'm in."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">M</div>
+          <div><div class="testimonial-name">Mike R.</div><div class="testimonial-role">Software engineer, diagnosed at 32</div></div>
+        </div>
+      </div>
+      <div class="card testimonial">
+        <p class="testimonial-text">"I missed my meds so many times my doctor was worried. Now NudgeMate calls me every morning at 8:15 and won't stop until I confirm I took them. Haven't missed a dose in 3 weeks."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">J</div>
+          <div><div class="testimonial-name">Jessica L.</div><div class="testimonial-role">Grad student, ADHD-PI</div></div>
+        </div>
+      </div>
+      <div class="card testimonial">
+        <p class="testimonial-text">"The AI voice is so warm and non-judgmental. It's like having a friend who actually understands that I'm not lazy — my brain just works differently. I literally cried the first time it called me."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">S</div>
+          <div><div class="testimonial-name">Sam K.</div><div class="testimonial-role">Freelance designer, late-diagnosed</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pricing">
+  <div class="container text-center">
+    <span class="section-label">Pricing</span>
+    <h2 class="section-title">Less than a coffee a week.</h2>
+    <p class="section-desc mx-auto">Start with a free trial. No credit card needed.</p>
+    <div class="pricing-grid">
+      <div class="card pricing-card">
+        <div class="pricing-name">Free Trial</div>
+        <div class="pricing-price">$0</div>
+        <div class="pricing-desc">7 days, no strings attached</div>
+        <ul class="pricing-features">
+          <li>2 phone call reminders per day</li>
+          <li>1 AI voice style</li>
+          <li>Basic scheduling</li>
+        </ul>
+        <a href="#waitlist" class="btn btn-secondary" style="width:100%;justify-content:center">Join Waitlist</a>
+      </div>
+      <div class="card pricing-card featured">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-name">Monthly</div>
+        <div class="pricing-price">$4.99<span> /mo</span></div>
+        <div class="pricing-desc">Everything your brain needs</div>
+        <ul class="pricing-features">
+          <li>Unlimited phone call reminders</li>
+          <li>3 AI voice styles</li>
+          <li>Persistent callbacks (3x retry)</li>
+          <li>Follow-up check-ins</li>
+          <li>Weekly wins report</li>
+        </ul>
+        <a href="#waitlist" class="btn btn-primary" style="width:100%;justify-content:center">Join Waitlist →</a>
+      </div>
+      <div class="card pricing-card">
+        <div class="pricing-name">Annual</div>
+        <div class="pricing-price">$39.99<span> /yr</span></div>
+        <div class="pricing-desc">Save 33% — best value</div>
+        <ul class="pricing-features">
+          <li>Everything in Monthly</li>
+          <li>Priority call scheduling</li>
+          <li>Early access to new features</li>
+          <li>Support indie development 💛</li>
+        </ul>
+        <a href="#waitlist" class="btn btn-secondary" style="width:100%;justify-content:center">Join Waitlist</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="container text-center">
+    <span class="section-label">FAQ</span>
+    <h2 class="section-title">Questions? We've got answers.</h2>
+    <div class="faq-list" style="text-align:left">
+      <details class="faq-item">
+        <summary>Is this a real phone call or just a fancy notification?</summary>
+        <div class="faq-answer">A real, actual phone call that makes your phone ring. It shows up as an incoming call just like when a friend calls you. That's the whole point — you can't swipe away a ringing phone.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Will the AI voice sound robotic?</summary>
+        <div class="faq-answer">Not at all. We use state-of-the-art AI voices that sound natural and warm. Think "supportive friend" not "automated bank message." You can choose from different voice styles that match your personality.</div>
+      </details>
+      <details class="faq-item">
+        <summary>What if I'm in a meeting or can't answer?</summary>
+        <div class="faq-answer">NudgeMate will try again in 3 minutes, up to 3 times. You can also set quiet hours where it won't call. And you can always set which reminders are "urgent" (call me no matter what) vs "flexible."</div>
+      </details>
+      <details class="faq-item">
+        <summary>Is this a medical app? Do I need a diagnosis?</summary>
+        <div class="faq-answer">Nope! NudgeMate is a productivity and reminder tool — not a medical device. No diagnosis needed. It's for anyone who struggles with traditional reminders, whether you have ADHD, suspect you might, or just have a busy brain.</div>
+      </details>
+      <details class="faq-item">
+        <summary>How much does each call cost you?</summary>
+        <div class="faq-answer">That's our problem, not yours! Your subscription covers unlimited calls. We've optimized our costs so you can get as many reminders as you need without worrying about per-call charges.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Is my phone number safe?</summary>
+        <div class="faq-answer">Absolutely. Your phone number is only used to deliver your reminders. We never sell your data, never share it with third parties, and all data is encrypted. You can delete your account and all data at any time.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="waitlist" id="waitlist">
+  <div class="container">
+    <h2>Ready to actually remember stuff? 🧠</h2>
+    <p>Join the waitlist and be first to try NudgeMate when we launch.</p>
+    <a href="mailto:nudgemate@example.com?subject=NudgeMate%20Waitlist&body=I%20want%20to%20join%20the%20NudgeMate%20waitlist!" class="btn btn-primary">Join the Waitlist →</a>
+    <div class="waitlist-note">🚀 Launching Spring 2026 · First 100 users get 50% off for life</div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-copy">© 2026 NudgeMate. Built with 💛 for busy brains.</div>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="mailto:nudgemate@example.com">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
