@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏆 TOP 30 App创意精选榜</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d1117;color:#c9d1d9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;line-height:1.6;padding:12px;max-width:800px;margin:0 auto}
+h1{text-align:center;font-size:1.5em;margin:16px 0 8px;color:#f0f6fc}
+.subtitle{text-align:center;color:#8b949e;font-size:0.85em;margin-bottom:20px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:8px;margin-bottom:10px;overflow:hidden}
+.card-header{padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.card-header:hover{background:#1c2128}
+.rank{font-weight:700;font-size:1.1em;min-width:32px;color:#f0f6fc}
+.rank-gold{color:#ffd700}
+.rank-silver{color:#c0c0c0}
+.rank-bronze{color:#cd7f32}
+.name{font-weight:600;color:#58a6ff;flex:1;min-width:120px}
+.tags{display:flex;gap:4px;flex-wrap:wrap}
+.tag{font-size:0.7em;padding:2px 6px;border-radius:10px;white-space:nowrap}
+.tag-en{background:#1f3a5f;color:#79c0ff}
+.tag-jp{background:#3d1f1f;color:#ff7b72}
+.tag-kr{background:#1f3d2a;color:#7ee787}
+.tag-dach{background:#3d3a1f;color:#e3b341}
+.tag-me{background:#2d1f3d;color:#d2a8ff}
+.tag-latam{background:#1f3d3d;color:#56d4dd}
+.tag-food{background:#3d2e1f;color:#f0b27a}
+.tag-legal{background:#1f2d3d;color:#85c1e9}
+.tag-work{background:#2a1f3d;color:#bb8fce}
+.tag-health{background:#1f3d2a;color:#82e0aa}
+.tag-beauty{background:#3d1f35;color:#f1948a}
+.tag-life{background:#2d3d1f;color:#abebc6}
+.tag-shop{background:#3d2a1f;color:#f0b27a}
+.tag-gov{background:#1f2a3d;color:#aed6f1}
+.tag-edu{background:#3d3d1f;color:#f9e79f}
+.tag-dev{background:#1f3d1f;color:#82e0aa}
+.tag-tool{background:#2d2d1f;color:#d5d8dc}
+.score{font-size:0.8em;color:#8b949e;margin-left:auto;white-space:nowrap}
+.score strong{color:#f0f6fc}
+.details{display:none;padding:0 14px 14px;border-top:1px solid #30363d}
+.details.open{display:block}
+.details p{margin:6px 0;font-size:0.85em}
+.details strong{color:#f0f6fc}
+.meta-row{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0}
+.meta-item{background:#0d1117;padding:4px 8px;border-radius:4px;font-size:0.8em}
+.meta-item span{color:#58a6ff}
+.gold-border{border-color:#ffd700;border-width:2px}
+.silver-border{border-color:#c0c0c0;border-width:2px}
+.bronze-border{border-color:#cd7f32;border-width:2px}
+.section-title{color:#f0f6fc;font-size:1.1em;margin:24px 0 12px;padding-bottom:6px;border-bottom:1px solid #30363d}
+.path-card{background:#0d2137;border:1px solid #1f6feb;border-radius:8px;padding:14px;margin-bottom:10px}
+.path-card h3{color:#58a6ff;font-size:1em;margin-bottom:6px}
+.path-card p{font-size:0.85em;color:#8b949e}
+.timeline{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px;margin:12px 0}
+.timeline code{background:#0d1117;padding:2px 6px;border-radius:3px;color:#7ee787;font-size:0.85em}
+.arrow{color:#8b949e;font-size:0.8em;margin-left:auto}
+.toggle-hint{text-align:center;color:#484f58;font-size:0.75em;margin-bottom:16px}
+</style>
+</head>
+<body>
+
+<h1>🏆 TOP 30 App创意精选榜</h1>
+<p class="subtitle">从270个创意中按 可行性×赚钱速度×天花板×壁垒×MVP速度 综合筛选<br>Andy's Flutter + AI/LLM 技术栈 | 2026-02-17</p>
+<p class="toggle-hint">👆 点击卡片展开详情</p>
+
+<!-- #1 -->
+<details class="card gold-border">
+<summary class="card-header">
+<span class="rank rank-gold">🥇 1</span>
+<span class="name">过敏原AI扫描器</span>
+<span class="tags"><span class="tag tag-en">🇺🇸英语</span><span class="tag tag-food">🍽️食品</span></span>
+<span class="score"><strong>94</strong>/100 · $5-25K/月 · 2-3周</span>
+</summary>
+<div class="details open" style="display:block">
+<p><strong>一句话：</strong>拍菜单/食品标签，AI即时标红过敏原，全球2.5亿食物过敏人群的救命工具</p>
+<p><strong>来源：</strong>英语市场#34</p>
+<div class="meta-row">
+<span class="meta-item">🎯 市场：<span>2.5亿过敏人群</span></span>
+<span class="meta-item">💰 乐观：<span>$15-25K/月</span></span>
+<span class="meta-item">📉 保守：<span>$3-8K/月</span></span>
+</div>
+<p><strong>为什么能做：</strong>Reddit用户主动找"allergy scanner app"但无满意产品。OCR+LLM技术成熟，父母为过敏儿童安全付费意愿极高。</p>
+<p><strong>Andy优势：</strong>Flutter+AI/OCR完美匹配，全球市场无需本地化，代码可复用到清真食品扫描</p>
+<p><strong>风险：</strong>需构建过敏原数据库，医疗免责声明</p>
+</div>
+</details>
+
+<!-- #2 -->
+<details class="card silver-border">
+<summary class="card-header">
+<span class="rank rank-silver">🥈 2</span>
+<span class="name">合同/条款AI阅读器</span>
+<span class="tags"><span class="tag tag-en">🇺🇸英语</span><span class="tag tag-legal">⚖️法律</span></span>
+<span class="score"><strong>92</strong>/100 · $5-25K/月 · 2-3周</span>
+</summary>
+<div class="details">
+<p><strong>一句话：</strong>拍照/上传合同，AI标记风险条款（自动续费、竞业、隐藏费用），普通人的法律盾牌</p>
+<p><strong>来源：</strong>英语市场#87</p>
+<div class="meta-row">
+<span class="meta-item">🎯 97%的人不读ToS</span>
+<span class="meta-item">💰 乐观：<span>$15-25K</span></span>
+<span class="meta-item">📉 保守：<span>$5-10K</span></span>
+</div>
+<p><strong>为什么能做：</strong>DoNotPay被FTC罚款后市场真空。LLM理解法律文本能力大幅提升。</p>
+<p><strong>Andy优势：</strong>OCR→AI分析链路成熟，可扩展B2B</p>
+</div>
+</details>
+
+<!-- #3 -->
+<details class="card bronze-border">
+<summary class="card-header">
+<span class="rank rank-bronze">🥉 3</span>
+<span class="name">薪资谈判AI模拟器</span>
+<span class="tags"><span class="tag tag-en">🇺🇸英语</span><span class="tag tag-work">💼职场</span></span>
+<span class="score"><strong>91</strong>/100 · $5-30K/月 · 2-3周</span>
+</summary>
+<div class="details">
+<p><strong>一句话：</strong>AI扮演HR/老板模拟薪资谈判，ROI极清晰——多谈$5K vs App $50</p>
+<p><strong>来源：</strong>英语市场#29/#82</p>
+<div class="meta-row">
+<span class="meta-item">🎯 58%从不谈判薪资</span>
+<span class="meta-item">💰 乐观：<span>$20-30K</span></span>
+<span class="meta-item">📉 保守：<span>$5-10K</span></span>
+</div>
+<p><strong>为什么能做：</strong>LLM角色扮演最天然场景，真人教练$300/次→App $50/年</p>
+</div>
+</details>
+
+<!-- #4-30 -->
+<details class="card"><summary class="card-header"><span class="rank">4</span><span class="name">MCP Server管理器</span><span class="tags"><span class="tag tag-en">🇺🇸英语</span><span class="tag tag-dev">🛠️开发者</span></span><span class="score"><strong>90</strong>/100 · $5-20K · 2-3周</span></summary><div class="details"><p><strong>一句话：</strong>MCP生态的App Store——发现/安装/配置/管理AI Agent工具连接</p><p><strong>来源：</strong>英语市场#1</p><p><strong>核心：</strong>时机窗口6-12个月，Andy深度理解MCP协议。mcp.so只是目录，缺管理功能。</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">5</span><span class="name">医疗账单谈判助手</span><span class="tags"><span class="tag tag-en">🇺🇸英语</span><span class="tag tag-health">🏥健康</span></span><span class="score"><strong>89</strong>/100 · $10-50K · 4-6周</span></summary><div class="details"><p><strong>一句话：</strong>AI分析医疗账单找多收费，生成谈判话术，按节省金额收佣金（用户零风险）</p><p><strong>来源：</strong>英语市场#19</p><p><strong>核心：</strong>美国医疗账单80%含错误，医疗债务$880亿。按效果收费=极高付费意愿。</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">6</span><span class="name">BriefAI 德语官方信件解读</span><span class="tags"><span class="tag tag-dach">🇩🇪DACH</span><span class="tag tag-legal">⚖️法律</span></span><span class="score"><strong>88</strong>/100 · €10-30K · 2-3周</span></summary><div class="details"><p><strong>一句话：</strong>拍照德国官方信件，AI用简单语言解释含义+你该做什么+截止日期</p><p><strong>来源：</strong>DACH#3</p><p><strong>核心：</strong>Amtsdeutsch连德国人都看不懂，1300万外籍居民更是噩梦。离线AI=DACH隐私卖点。无竞品。</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">7</span><span class="name">ADHD AI语音助理</span><span class="tags"><span class="tag tag-en">🇺🇸英语</span><span class="tag tag-health">🏥健康</span></span><span class="score"><strong>87</strong>/100 · $5-30K · 2-3周</span></summary><div class="details"><p><strong>一句话：</strong>不是推送通知——是真的打电话给你提醒，因为ADHD大脑忽略所有通知</p><p><strong>来源：</strong>英语市场#16</p><p><strong>核心：</strong>全球ADHD成人3.66亿。"电话提醒"无竞品独创品类。Twilio+LLM成本可控。</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">8</span><span class="name">AI肤质+成分冲突检测</span><span class="tags"><span class="tag tag-en">🇺🇸英语</span><span class="tag tag-beauty">💄美妆</span></span><span class="score"><strong>86</strong>/100 · $5-30K · 3-4周</span></summary><div class="details"><p><strong>一句话：</strong>拍脸分析肤质，扫护肤品检查成分冲突，推荐产品赚affiliate佣金</p><p><strong>来源：</strong>英语市场#26</p><p><strong>核心：</strong>$180B护肤市场+affiliate被动收入引擎。r/SkincareAddiction 200万订阅。</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">9</span><span class="name">日報ジェネレーター</span><span class="tags"><span class="tag tag-jp">🇯🇵日本</span><span class="tag tag-work">💼职场</span></span><span class="score"><strong>85</strong>/100 · $5-15K · 2周</span></summary><div class="details"><p><strong>一句话：</strong>输入要点→AI生成日本职场格式日报/週報，含敬語+報連相格式</p><p><strong>来源：</strong>日本#6</p><p><strong>核心：</strong>3400万上班族每天30分钟写日報的痛苦。竞争极低。日本付费意愿高。</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">10</span><span class="name">자소서AI 求职信助手</span><span class="tags"><span class="tag tag-kr">🇰🇷韩国</span><span class="tag tag-work">💼职场</span></span><span class="score"><strong>84</strong>/100 · $5-20K · 3-4周</span></summary><div class="details"><p><strong>一句话：</strong>AI生成韩国企业特定格式的자기소개서，STAR方法论+존댓말</p><p><strong>来源：</strong>韩国#1</p><p><strong>核心：</strong>每年50万취준생平均投50-100家。就业培训$2B市场。ChatGPT不懂韩国자소서格式。</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">11</span><span class="name">KatibAI 阿拉伯语写作</span><span class="tags"><span class="tag tag-me">🇸🇦中东</span><span class="tag tag-tool">📝工具</span></span><span class="score"><strong>83</strong>/100 · $8-20K · 5-7周</span></summary><div class="details"><p><strong>一句话：</strong>阿拉伯语Grammarly——语法纠错/方言转标准语/商务模板，RTL+AI技术壁垒高</p><p><strong>来源：</strong>中东#3</p><p><strong>核心：</strong>4.2亿阿语使用者。Grammarly对阿语支持极差。RTL+AI组合=天然护城河。</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">12</span><span class="name">蓝领小生意管理</span><span class="tags"><span class="tag tag-en">🇺🇸英语</span><span class="tag tag-work">💼SMB</span></span><span class="score"><strong>83</strong>/100 · $10-50K · 4-6周</span></summary><div class="details"><p><strong>一句话：</strong>Jobber的1/5价格——$9.99/月管理清洁/草坪/家教的排程、开票、收款</p><p><strong>来源：</strong>英语市场#7</p><p><strong>核心：</strong>3000万个体经营者。Jobber $50-200太贵。boring but profitable。</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">13</span><span class="name">ZeugnisAI 工作证明解码</span><span class="tags"><span class="tag tag-dach">🇩🇪DACH</span><span class="tag tag-work">💼职场</span></span><span class="score"><strong>82</strong>/100 · €8-25K · 3-4周</span></summary><div class="details"><p><strong>一句话：</strong>扫描Arbeitszeugnis，AI逐句解码隐藏含义——"stets bemüht"=太烂了</p><p><strong>来源：</strong>DACH#1</p><p><strong>核心：</strong>每年1100万人换工作。隐藏密码语言是德国独有。离线AI=隐私卖点。</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">14</span><span class="name">MEI微企智能助手</span><span class="tags"><span class="tag tag-latam">🇧🇷拉美</span><span class="tag tag-work">💼SMB</span></span><span class="score"><strong>82</strong>/100 · $3-8K · 4周</span></summary><div class="details"><p><strong>一句话：</strong>巴西1500万MEI微企的AI会计——缴费提醒、收入限额追踪、年度申报</p><p><strong>来源：</strong>拉美#1</p><p><strong>核心：</strong>MEI每年新增200万+。大部分不懂财务。R$19.90/月定价可接受。</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">15</span><span class="name">移民签证追踪器</span><span class="tags"><span class="tag tag-en">🇺🇸英语</span><span class="tag tag-gov">🏛️政务</span></span><span class="score"><strong>81</strong>/100 · $5-20K · 3-4周</span></summary><div class="details"><p><strong>一句话：</strong>签证申请6-24个月焦虑期——实时状态追踪+审批预测+文件提醒</p><p><strong>来源：</strong>英语市场#76</p><p><strong>核心：</strong>焦虑驱动=高付费+高频打开。Lawfully口碑差=机会。</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">16</span><span class="name">GulfPrice 海湾比价</span><span class="tags"><span class="tag tag-me">🇸🇦中东</span><span class="tag tag-shop">🛒电商</span></span><span class="score"><strong>80</strong>/100 · $5-15K · 4-6周</span></summary><div class="details"><p><strong>一句话：</strong>Noon/Amazon.sa/Jarir跨平台比价+降价提醒，联盟佣金自动赚</p><p><strong>来源：</strong>中东#2</p><p><strong>核心：</strong>$30B+电商市场无本地化比价工具。affiliate被动收入。</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">17</span><span class="name">微型企业三合一</span><span class="tags"><span class="tag tag-en">🇺🇸英语</span><span class="tag tag-work">💼SMB</span></span><span class="score"><strong>80</strong>/100 · $10-40K · 4-6周</span></summary><div class="details"><p><strong>一句话：</strong>发票+合同+CRM，$9.99/月（HoneyBook的1/4），全球15亿freelancer</p><p><strong>来源：</strong>英语市场#8</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">18</span><span class="name">ゴミ分別ナビ</span><span class="tags"><span class="tag tag-jp">🇯🇵日本</span><span class="tag tag-life">🏠生活</span></span><span class="score"><strong>79</strong>/100 · $3-10K · 2-3周</span></summary><div class="details"><p><strong>一句话：</strong>拍照识别物品→告诉你该扔哪个桶，支持日本1741个市区町村不同规则</p><p><strong>来源：</strong>日本#3</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">19</span><span class="name">전세계산기 全租计算器</span><span class="tags"><span class="tag tag-kr">🇰🇷韩国</span><span class="tag tag-life">🏠房产</span></span><span class="score"><strong>79</strong>/100 · $3-15K · 2-3周</span></summary><div class="details"><p><strong>一句话：</strong>韩国전세制度财务规划——贷款比较+전세사기诈骗风险预警</p><p><strong>来源：</strong>韩国#2</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">20</span><span class="name">AI面试模拟器</span><span class="tags"><span class="tag tag-en">🇺🇸英语</span><span class="tag tag-work">💼职场</span></span><span class="score"><strong>78</strong>/100 · $5-25K · 3-4周</span></summary><div class="details"><p><strong>一句话：</strong>AI面试官模拟行为/技术/压力面试，真人$300→App $14.99/月</p><p><strong>来源：</strong>英语市场#47/#84</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">21</span><span class="name">MüllGuide 德国垃圾分类</span><span class="tags"><span class="tag tag-dach">🇩🇪DACH</span><span class="tag tag-life">🏠生活</span></span><span class="score"><strong>78</strong>/100 · €5-15K · 3-4周</span></summary><div class="details"><p><strong>一句话：</strong>德国版垃圾分类AI——拍照识别，分错罚款€50-200</p><p><strong>来源：</strong>DACH#2</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">22</span><span class="name">罚单AI助手</span><span class="tags"><span class="tag tag-en">🇺🇸英语</span><span class="tag tag-legal">⚖️法律</span></span><span class="score"><strong>77</strong>/100 · $5-20K · 3-4周</span></summary><div class="details"><p><strong>一句话：</strong>DoNotPay倒了后的市场真空——AI生成交通罚单申诉信</p><p><strong>来源：</strong>英语市场#98</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">23</span><span class="name">物价比较雷达</span><span class="tags"><span class="tag tag-latam">🇧🇷拉美</span><span class="tag tag-shop">🛒消费</span></span><span class="score"><strong>77</strong>/100 · $2-5K · 3周</span></summary><div class="details"><p><strong>一句话：</strong>巴西超市生鲜比价——OCR小票众包，同品差价30-50%</p><p><strong>来源：</strong>拉美#2</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">24</span><span class="name">HalalLens 清真食品扫描</span><span class="tags"><span class="tag tag-me">🇸🇦中东</span><span class="tag tag-food">🍽️食品</span></span><span class="score"><strong>76</strong>/100 · $5-15K · 6-8周</span></summary><div class="details"><p><strong>一句话：</strong>扫成分表判断是否清真——明胶/酒精衍生物/E编号一键识别</p><p><strong>来源：</strong>中东#7</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">25</span><span class="name">ビジネスメール作成</span><span class="tags"><span class="tag tag-jp">🇯🇵日本</span><span class="tag tag-work">💼职场</span></span><span class="score"><strong>76</strong>/100 · $5-12K · 2-3周</span></summary><div class="details"><p><strong>一句话：</strong>输入场景→AI生成完美日本商务邮件（季節問候+敬語）</p><p><strong>来源：</strong>日本#4</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">26</span><span class="name">K-뷰티 AI护肤</span><span class="tags"><span class="tag tag-kr">🇰🇷韩国</span><span class="tag tag-beauty">💄美妆</span></span><span class="score"><strong>75</strong>/100 · $5-20K · 4-5周</span></summary><div class="details"><p><strong>一句话：</strong>AI肤质分析+K-beauty 10步护肤+成分冲突检测+产品替代</p><p><strong>来源：</strong>韩国#21</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">27</span><span class="name">AI起名工具</span><span class="tags"><span class="tag tag-en">🇺🇸英语</span><span class="tag tag-edu">🎓教育</span></span><span class="score"><strong>75</strong>/100 · $3-12K · 2-3周</span></summary><div class="details"><p><strong>一句话：</strong>宝宝名+品牌名+域名+商标冲突一站式AI命名</p><p><strong>来源：</strong>英语市场#52</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">28</span><span class="name">MietrechtAI 租房法律</span><span class="tags"><span class="tag tag-dach">🇩🇪DACH</span><span class="tag tag-legal">⚖️法律</span></span><span class="score"><strong>74</strong>/100 · €5-15K · 4-5周</span></summary><div class="details"><p><strong>一句话：</strong>扫描租房合同/Nebenkosten账单，AI找出多收费用+生成异议信</p><p><strong>来源：</strong>DACH#14</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">29</span><span class="name">IqamaHub 签证管家</span><span class="tags"><span class="tag tag-me">🇸🇦中东</span><span class="tag tag-gov">🏛️政务</span></span><span class="score"><strong>74</strong>/100 · $8-20K · 6-8周</span></summary><div class="details"><p><strong>一句话：</strong>海湾3000万外籍人员签证到期提醒+文件清单+表格填写</p><p><strong>来源：</strong>中东#8</p></div></details>
+
+<details class="card"><summary class="card-header"><span class="rank">30</span><span class="name">敬語マスター</span><span class="tags"><span class="tag tag-jp">🇯🇵日本</span><span class="tag tag-edu">🎓教育</span></span><span class="score"><strong>73</strong>/100 · $5-15K · 3-4周</span></summary><div class="details"><p><strong>一句话：</strong>普通日語→AI即時轉換為正確敬語，場景化練習</p><p><strong>来源：</strong>日本#1</p></div></details>
+
+<!-- Launch Path -->
+<h2 class="section-title">🚀 Andy的最佳启动路径</h2>
+
+<div class="path-card">
+<h3>Week 1-3：过敏原AI扫描器</h3>
+<p>技术最简单，全球市场无需本地化，代码可复用到HalalLens。最快见到第一笔钱。</p>
+</div>
+
+<div class="path-card">
+<h3>Week 4-5：合同/条款AI阅读器</h3>
+<p>OCR+LLM链路90%复用。DoNotPay倒了=市场真空。可扩展B2B天花板极高。</p>
+</div>
+
+<div class="path-card">
+<h3>Week 6-7：薪资谈判AI模拟器</h3>
+<p>纯LLM对话，开发最快。与前两个形成"AI法律+AI职场"产品矩阵。</p>
+</div>
+
+<div class="timeline">
+<p><strong>核心逻辑：</strong>7周内3个产品上架 → Week 8根据数据All-in赢家</p>
+<p><code>Week 1-3</code> 扫描器 → <code>Week 4-5</code> 合同AI → <code>Week 6-7</code> 谈判AI → <code>Week 8+</code> 数据驱动决策</p>
+</div>
+
+<p style="text-align:center;color:#484f58;font-size:0.75em;margin-top:24px">Generated 2026-02-17 | 数据源：270个创意库</p>
+</body>
+</html>
