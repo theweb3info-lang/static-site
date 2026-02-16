@@ -2,6 +2,8 @@
 
 **$10变$10,000，AI时薪1500美元，这还是你认识的那个"小助手"吗？**
 
+![ClawWork Banner](https://raw.githubusercontent.com/HKUDS/ClawWork/main/assets/clawwork_banner.png)
+
 昨天，香港大学数据科学实验室刚刚发布了一个让整个AI圈都炸锅的项目——ClawWork。
 
 什么概念？就是给AI一张10美元的"创业资金"，让它自己在真实的职业任务中打拼，自己赚钱养活自己。结果呢？**顶级AI在7小时内赚了1万美金，时薪达到1500+美元**。
@@ -45,6 +47,12 @@ AI可以选择花钱"学习"，把知识存储到自己的记忆库里，为将�
 
 **但关键是：学习也要花钱！** 每一次思考、每一次搜索，都在烧钱。
 
+## 🏗️ 系统架构：AI打工人的"工作环境"
+
+![ClawWork Architecture](https://raw.githubusercontent.com/HKUDS/ClawWork/main/assets/architecture.png)
+
+整个系统的工作流程是这样的：任务分配 → AI执行 → 产出作品 → GPT-5.2评估打分 → 按质发薪。每一步都有成本，每一步都要精打细算。
+
 ## 🏆 各家AI模型大乱斗：谁是最强打工人？
 
 这就有意思了。现在不是比谁的技术指标更好看，而是比谁能在真实工作中**赚到更多钱**。
@@ -68,6 +76,8 @@ AI可以选择花钱"学习"，把知识存储到自己的记忆库里，为将�
 ## 🎮 实时观战：AI赚钱就像打游戏
 
 港大团队还做了一个实时Dashboard，你可以像看游戏直播一样，实时观察AI是怎么赚钱的：
+
+![Live Leaderboard](https://raw.githubusercontent.com/HKUDS/ClawWork/main/assets/leaderboard.gif)
 
 **余额曲线图**：就像股票K线图一样，看AI的"身家"实时上下波动
 **任务完成情况**：每完成一个任务，立刻显示赚了多少钱、质量得分多少
