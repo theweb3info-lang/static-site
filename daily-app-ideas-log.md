@@ -13,3 +13,8 @@
 - 创意105 | FlexSpace - 远程工作空间AI优化器
 - 创意106 | MicroInvest - 零钱AI投资教练
 - 创意107 | RentGuard - 租房数字证据保险库
+- 创意108 | 敬語マスター [🇯🇵🎓] [📦 存量精选]
+- 创意109 | 자소서AI [🇰🇷💼] [📦 存量精选]
+- 创意110 | ConversationGhost [🇺🇸💻] [✨ 新发现]
+- 创意111 | HireTransparency [🇺🇸💼] [✨ 新发现]
+- 创意112 | MedSideTracker [🇺🇸🏥] [✨ 新发现]
