@@ -6,8 +6,8 @@ import '../features/settings/settings_screen.dart';
 final router = GoRouter(
   initialLocation: '/',
   routes: [
-    GoRoute(path: '/', builder: (_, __) => const ConvertScreen()),
-    GoRoute(path: '/history', builder: (_, __) => const HistoryScreen()),
-    GoRoute(path: '/settings', builder: (_, __) => const SettingsScreen()),
+    GoRoute(path: '/', builder: (context, state) => const ConvertScreen()),
+    GoRoute(path: '/history', builder: (context, state) => const HistoryScreen()),
+    GoRoute(path: '/settings', builder: (context, state) => const SettingsScreen()),
   ],
 );

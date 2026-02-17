@@ -59,7 +59,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     icon: const Icon(Icons.save),
                     onPressed: () async {
                       await storage.setApiKey(_apiKeyController.text.trim());
-                      if (mounted) {
+                      if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('APIキーを保存しました')),
                         );
