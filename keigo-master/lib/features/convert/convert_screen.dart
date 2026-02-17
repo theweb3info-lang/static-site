@@ -52,7 +52,7 @@ class _ConvertScreenState extends ConsumerState<ConvertScreen> {
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: KeigoLevel.values.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 8),
+                separatorBuilder: (context, index) => const SizedBox(width: 8),
                 itemBuilder: (context, index) {
                   final level = KeigoLevel.values[index];
                   final selected = state.selectedLevel == level;
